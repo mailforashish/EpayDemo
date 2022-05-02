@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorAccent">#1C208F</color>
+    <color name="colorPrimary">#1C208F</color>
+    <color name="colorPrimaryDark">#1C208F</color>
+    <color name="colorTransparent">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="textBlack">#1E3058</color>
+    <color name="grey200">#eeeeee</color>
+    <color name="white">#FFFFFF</color>
+    <color name="text_color">#B520D1</color>
+    <color name="titlebar">#38aeff</color>
+    <color name="white_100">#fafafa</color>
+    <color name="color_complete">#999999</color>
+    <color name="transparent_grey200">#80eeeeee</color>
+    <color name="gray_alpha">#65232323</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="transparent_new">#00000000</color>
+    <color name="transparent_new1">#33BBFFFF</color>
+    <color name="transparent50">#8C000000</color>
+    <color name="textGrey">#757575</color>
+    <color name="grey500">#9e9e9e</color>
+    <color name="colorGreen">#8AE6C5</color>
+    <color name="colorRed">#ED8993</color>
+    <color name="onCamShadowColor">#E22194</color>
+    <color name="color_yellow">#ffcb2d</color>
+
+
+
+    <color name="black_new">#1D252D</color>
+    <color name="grey900">#dfdde9</color>
+    <color name="line_pop_color">#f1efff</color>
+    <color name="gray_6">#666666</color>
+    <color name="white80">#cdffffff</color>
+    <color name="color_header_text">#4f585e</color>
+
+</resources>

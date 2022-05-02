@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="clickListener"
+            type="com.zeeplivework.app.dialog.DiamondDialog.EventHandler" />
+
+    </data>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_page"
+    android:padding="20dp"
+    app:cardBackgroundColor="@color/transparent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_centerInParent="true"
+        android:background="@null"
+        android:elevation="1dp">
+
+        <ImageView
+            android:id="@+id/img_gift"
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:layout_marginTop="2dp"
+            android:elevation="5dp"
+            android:padding="20dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_star_with_diamond"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/over_box"
+            app:strokeWidth="1dp" />
+
+        <LinearLayout
+            android:id="@+id/linear_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:elevation="0dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.49"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_gift"
+            app:layout_constraintTop_toTopOf="@id/over_box">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/dialog_bg"
+                android:gravity="center|center_horizontal"
+                android:paddingBottom="25dp">
+
+                <TextView
+                    android:id="@+id/tv_insufficient"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="65dp"
+                    android:layout_marginEnd="30dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:text="Insufficient Balance"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_call_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_insufficient"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="30dp"
+                    android:fontFamily="@font/lato_medium"
+                    android:gravity="center"
+                    android:text="Her video call price: 3000/min"
+                    android:textColor="#B5AEC0"
+                    android:textSize="14sp" />
+
+
+                <LinearLayout
+                    android:id="@+id/btn_top_pop"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_below="@id/tv_call_price"
+                    android:layout_marginStart="60dp"
+                    android:onClick="@{() -> clickListener.topUp()}"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="60dp"
+                    android:background="@drawable/btn_select"
+                    android:gravity="center_vertical|center|center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:padding="2dp"
+                        android:src="@drawable/ic_top_up_diamond" />
+
+                    <TextView
+                        android:id="@+id/tv_top_up"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="Top Up"
+                        android:fontFamily="@font/lato_semibold"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/btn_get_free"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_below="@id/btn_top_pop"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="10dp"
+                    android:onClick="@{() -> clickListener.getFree()}"
+                    android:layout_marginEnd="60dp"
+                    android:background="@drawable/btn_unselect"
+                    android:gravity="center_vertical|center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginRight="5dp"
+                        android:padding="2dp"
+                        android:src="@drawable/ic_gift" />
+
+                    <TextView
+                        android:id="@+id/tv_get_free"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="Get Free Diamonds"
+                        android:fontFamily="@font/lato_semibold"
+                        android:textColor="@color/text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/over_box"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
+
+</layout>

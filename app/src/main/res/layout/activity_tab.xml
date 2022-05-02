@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="clickListener"
+            type="com.zeeplivework.app.activity.TabActivity.EventHandler" />
+
+    </data>
+
+
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activity.TabActivity">
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tabbar"/>
+
+    <LinearLayout
+        android:id="@+id/tabbar"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/background_pic"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rl_tab_discover"
+            android:layout_width="0dp"
+            android:onClick="@{() -> clickListener.tabDiscover()}"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:tag="binding_1">
+
+            <ImageView
+                android:id="@+id/image_discover"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/selector_tab_two_bg" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_tab_live_list"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="@{() -> clickListener.tabLive()}"
+            android:tag="binding_2">
+
+            <ImageView
+                android:id="@+id/image_live_list"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/selector_tab_two_bg_b" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_tab_party"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="@{() -> clickListener.tabParty()}"
+            android:tag="binding_3">
+
+            <ImageView
+                android:id="@+id/image_party"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/selector_tab_zero_bg" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_tab_group"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="@{() -> clickListener.tabGroup()}"
+            android:tag="binding_4">
+
+            <ImageView
+                android:id="@+id/image_group"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/selector_tab_live_bg" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_tab_mine"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="@{() -> clickListener.tabMine()}"
+            android:tag="binding_5">
+
+            <ImageView
+                android:id="@+id/image_mine"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/selector_tab_three_bg" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <android.opengl.GLSurfaceView
+        android:id="@+id/glSurfaceView"
+        android:layout_width="1dp"
+        android:layout_height="1dp" />
+</RelativeLayout>
+</layout>
