@@ -7,6 +7,8 @@ public class Constant {
     public static int LOGIN = 2;
     public static int CURRENCY_LIST = 3;
     public static int BANK_LIST = 4;
+    public static int REQUIRED_FIELD = 5;
+
 
 
 }

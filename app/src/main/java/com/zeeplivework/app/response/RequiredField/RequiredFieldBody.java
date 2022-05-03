@@ -1,24 +1,27 @@
-package com.zeeplivework.app.response.EpayRequest;
+package com.zeeplivework.app.response.RequiredField;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class EpayRequestBody {
+public class RequiredFieldBody {
     @SerializedName("epayAccount")
     @Expose
     private String epayAccount;
     @SerializedName("category")
     @Expose
     private String category;
-    @SerializedName("currency")
+    @SerializedName("receiveCurrency")
     @Expose
-    private String currency;
-    @SerializedName("version")
+    private String receiveCurrency;
+    @SerializedName("countryCode")
     @Expose
-    private String version;
+    private String countryCode;
     @SerializedName("transactionType")
     @Expose
     private String transactionType;
+    @SerializedName("version")
+    @Expose
+    private String version;
 
     public String getEpayAccount() {
         return epayAccount;
@@ -36,20 +39,20 @@ public class EpayRequestBody {
         this.category = category;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getReceiveCurrency() {
+        return receiveCurrency;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setReceiveCurrency(String receiveCurrency) {
+        this.receiveCurrency = receiveCurrency;
     }
 
-    public String getVersion() {
-        return version;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public String getTransactionType() {
@@ -58,6 +61,14 @@ public class EpayRequestBody {
 
     public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
 }

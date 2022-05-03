@@ -1,4 +1,4 @@
-package com.zeeplivework.app.response.EpayBankList;
+package com.zeeplivework.app.response.BankList;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

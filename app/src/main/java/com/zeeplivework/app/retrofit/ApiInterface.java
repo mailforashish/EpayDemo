@@ -3,15 +3,13 @@ package com.zeeplivework.app.retrofit;
 
 import com.zeeplivework.app.response.BankList.BankListResponse;
 import com.zeeplivework.app.response.CurrencyList.CurrenciesResponse;
-import com.zeeplivework.app.response.EpayBankList.BankRequest;
-import com.zeeplivework.app.response.EpayRequest.EpayRequest;
-import com.zeeplivework.app.response.login.LoginResponse;
+import com.zeeplivework.app.response.BankList.BankRequest;
+import com.zeeplivework.app.response.CurrencyList.CountryRequest;
+import com.zeeplivework.app.response.RequiredField.RequiredFieldRequest;
+import com.zeeplivework.app.response.RequiredField.RequiredFieldResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
@@ -20,14 +18,16 @@ public interface ApiInterface {
     //@FormUrlEncoded
     @POST("getReceiveCurrencyList")
     Call<CurrenciesResponse> getCurrencyList(@Header("Accept") String accept,
-                                             @Body EpayRequest epayRequest);
+                                             @Body CountryRequest countryRequest);
 
+
+    @POST("getRequiredField")
+    Call<RequiredFieldResponse> getRequiredField(@Header("Accept") String accept,
+                                                 @Body RequiredFieldRequest requiredFieldRequest);
 
     @POST("getBankList")
     Call<BankListResponse> getBankList(@Header("Accept") String accept,
                                        @Body BankRequest bankRequest);
-
-
 
     /*@FormUrlEncoded
     @POST("getBankList")

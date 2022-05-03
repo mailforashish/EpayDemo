@@ -2,18 +2,15 @@ package com.zeeplivework.app.retrofit;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.zeeplivework.app.dialog.MyProgressDialog;
 import com.zeeplivework.app.response.BankList.BankListResponse;
 import com.zeeplivework.app.response.CurrencyList.CurrenciesResponse;
-import com.zeeplivework.app.response.EpayBankList.BankRequest;
-import com.zeeplivework.app.response.EpayRequest.EpayRequest;
-import com.zeeplivework.app.response.login.LoginResponse;
+import com.zeeplivework.app.response.BankList.BankRequest;
+import com.zeeplivework.app.response.CurrencyList.CountryRequest;
+import com.zeeplivework.app.response.RequiredField.RequiredFieldRequest;
+import com.zeeplivework.app.response.RequiredField.RequiredFieldResponse;
 import com.zeeplivework.app.utils.Constant;
 import com.zeeplivework.app.utils.SessionManager;
 
@@ -28,21 +25,19 @@ public class ApiManager {
     private MyProgressDialog dialog;
     private ApiResponseInterface mApiResponseInterface;
     private ApiInterface apiService;
-    String authToken;
 
     public ApiManager(Context context, ApiResponseInterface apiResponseInterface) {
         this.mContext = context;
         this.mApiResponseInterface = apiResponseInterface;
         apiService = ApiClient.getRetrofitInstance().create(ApiInterface.class);
         dialog = new MyProgressDialog(mContext);
-        authToken = Constant.BEARER + new SessionManager(context).getUserToken();
-        Log.e("authToken", authToken);
+
     }
 
 
-    public void getCurrencyListDetails(EpayRequest epayRequest) {
-        Call<CurrenciesResponse> call = apiService.getCurrencyList("application/json",epayRequest);
-        Log.e("PayRequestLog",""+ new Gson().toJson(call.request().toString()));
+    public void getCurrencyListDetails(CountryRequest countryRequest) {
+        Call<CurrenciesResponse> call = apiService.getCurrencyList("application/json", countryRequest);
+        Log.e("CountryRequestLog",""+ new Gson().toJson(call.request().toString()));
         call.enqueue(new Callback<CurrenciesResponse>() {
             @Override
             public void onResponse(Call<CurrenciesResponse> call, Response<CurrenciesResponse> response) {
@@ -59,6 +54,28 @@ public class ApiManager {
         });
     }
 
+
+
+
+    public void getRequiredField(RequiredFieldRequest requiredFieldRequest) {
+        Call<RequiredFieldResponse> call = apiService.getRequiredField("application/json", requiredFieldRequest);
+        Log.e("FieldRequestLog",""+ new Gson().toJson(call.request().toString()));
+        Log.e("FieldRequestLog1",""+ new Gson().toJson(requiredFieldRequest));
+        call.enqueue(new Callback<RequiredFieldResponse>() {
+            @Override
+            public void onResponse(Call<RequiredFieldResponse> call, Response<RequiredFieldResponse> response) {
+                Log.e("getFieldListDetail", new Gson().toJson(response.body()));
+                if (response.isSuccessful() && response.body() != null) {
+                    mApiResponseInterface.isSuccess(response.body(), Constant.REQUIRED_FIELD);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RequiredFieldResponse> call, Throwable t) {
+                Log.e("getFieldDataError", "getFieldListError=> " + t);
+            }
+        });
+    }
 
     public void getBankListDetails(BankRequest bankRequest) {
         Call<BankListResponse> call = apiService.getBankList("application/json", bankRequest);
@@ -78,6 +95,7 @@ public class ApiManager {
             }
         });
     }
+
 
      /*public void getCurrencyListDetails(String epayAccount, String category, String currency, String version, String transactionType, String sign) {
         Call<CurrenciesResponse> call = apiService.getCurrencyList("application/json", epayAccount, category, "", version, "", "");

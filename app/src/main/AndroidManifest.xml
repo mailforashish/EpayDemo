@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.AddBankActivity"></activity>
+        <activity
+            android:name=".activity.AddBankActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.HomeActivity" />
         <activity
