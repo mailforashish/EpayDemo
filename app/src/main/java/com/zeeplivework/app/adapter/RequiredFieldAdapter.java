@@ -1,6 +1,9 @@
 package com.zeeplivework.app.adapter;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,11 +54,13 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
             holder.et_name_input1.setCompoundDrawablesWithIntrinsicBounds( 0, 0, R.drawable.ic_next_acc, 0);
         }
         holder.tv_Name.setText(getCapsSentences(arrayList.get(position).getValue()));
-        holder.et_name_input.setActivated(true);
-        holder.et_name_input.onActionViewExpanded();
+        //holder.et_name_input.setActivated(true);
+       // holder.et_name_input.onActionViewExpanded();
         holder.et_name_input.setIconified(false);
         holder.et_name_input.clearFocus();
         holder.et_name_input.setQueryHint(arrayList.get(position).getValue());
+
+
     }
 
 
@@ -92,8 +97,36 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
                 }
             });
 
+            et_name_input.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    et_name_input.setIconified(true);
+                    et_name_input.clearFocus();
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    if (TextUtils.isEmpty(newText)) {
+
+                        tv_name_error.setVisibility(View.VISIBLE);
+                        //isAllEditTextsFilled(newText);
+                    }else {
+                        tv_name_error.setVisibility(View.INVISIBLE);
+                    }
+                    return true;
+                }
+            });
+
 
         }
+
+
+
+
+
+
+
 
         @Override
         public void getBank(boolean select, String bank) {
