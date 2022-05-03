@@ -24,10 +24,11 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.MyViewHolder> 
     Context context;
     BankSelected bankSelected;
 
-    public BankAdapter(Context context, List<Bank> arrayList, BankSelected bankSelected) {
+    public BankAdapter(Context context, List<Bank> arrayList ,BankSelected bankSelected) {
         this.arrayList = arrayList;
         this.context = context;
         this.bankSelected = bankSelected;
+
 
     }
 
@@ -43,16 +44,13 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.MyViewHolder> 
 
         holder.bankName.setText(arrayList.get(position).getBankName());
         holder.bankId.setText(arrayList.get(position).getBankId());
-        holder.constraint_main.setOnClickListener(new View.OnClickListener() {
+        holder.constraint_main_bank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 bankSelected.getBank(true, arrayList.get(position).getBankName());
             }
         });
 
-        try {
-        } catch (Exception e) {
-        }
     }
 
     @Override
@@ -68,15 +66,20 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.MyViewHolder> 
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        ConstraintLayout constraint_main;
+        ConstraintLayout constraint_main_bank;
         TextView bankName, bankId;
 
         public MyViewHolder(View view) {
             super(view);
-            constraint_main = view.findViewById(R.id.constraint_main);
+            constraint_main_bank = view.findViewById(R.id.constraint_main_bank);
             bankName = view.findViewById(R.id.bankName);
             bankId = view.findViewById(R.id.bankId);
 
         }
     }
+
+
+   /* public interface BankSelected {
+        public void getBank(boolean select, String bank);
+    }*/
 }

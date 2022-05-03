@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.zeeplivework.app.R;
 import com.zeeplivework.app.activity.AddBankActivity;
 import com.zeeplivework.app.adapter.BankAdapter;
+import com.zeeplivework.app.adapter.RequiredFieldAdapter;
 import com.zeeplivework.app.databinding.BankDialogBinding;
 import com.zeeplivework.app.response.BankList.Bank;
 import com.zeeplivework.app.response.BankList.BankListResponse;
@@ -31,7 +32,7 @@ import com.zeeplivework.app.utils.SignUtil;
 import java.util.ArrayList;
 
 
-public class BankDialog extends Dialog implements ApiResponseInterface, BankSelected {
+public class BankDialog extends Dialog implements ApiResponseInterface {
     BankDialogBinding binding;
 
     ArrayList<Bank> bankArrayList = new ArrayList<>();
@@ -48,10 +49,12 @@ public class BankDialog extends Dialog implements ApiResponseInterface, BankSele
     String pageNum = "1";
     String pageSize = "10";
     JSONObject parameters = new JSONObject();
+    BankSelected bankSelected;
 
-    public BankDialog(@NonNull Context context) {
+    public BankDialog(@NonNull Context context, BankSelected bankSelected) {
         super(context);
         this.context = context;
+        this.bankSelected = bankSelected;
         init();
     }
 
@@ -108,27 +111,10 @@ public class BankDialog extends Dialog implements ApiResponseInterface, BankSele
             Log.e("BankDialog", "BankList=> " + new Gson().toJson(rsp.getData()));
             bankArrayList.addAll(rsp.getData().getBankList());
 
-            adapter = new BankAdapter(context, bankArrayList, this);
+            adapter = new BankAdapter(context, bankArrayList, bankSelected);
             binding.rvBank.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-            try {
-            } catch (Exception e) {
-
-
-            }
         }
-
-
-    }
-
-
-    @Override
-    public void getBank(boolean select, String bank) {
-        if (select) {
-           // ((AddBankActivity) context).setBankName(bank);
-            dismiss();
-        }
-
 
     }
 

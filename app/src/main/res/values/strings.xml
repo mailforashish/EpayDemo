@@ -25,4 +25,6 @@
     <string name="BtnShowPaymentWindow">Create dummy payment</string>
     <string name="BtnGoToPayment">Go to payment</string>
     <string name="TestPaymentLabel">Select your test values below</string>
+
+
 </resources>
