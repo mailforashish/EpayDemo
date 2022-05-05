@@ -1,6 +1,7 @@
 package com.zeeplivework.app.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,18 +11,20 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.zeeplivework.app.R;
 import com.zeeplivework.app.response.CurrencyList.Country;
+import com.zeeplivework.app.response.CurrencyList.CurrenciesResult;
 import com.zeeplivework.app.utils.CountrySelect;
 
 import java.util.List;
 
 public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.MyViewHolder> {
-    List<Country> arrayList;
+    List<CurrenciesResult> arrayList;
     Context context;
     CountrySelect countrySelect;
 
-    public CountryAdapter(Context context, List<Country> arrayList, CountrySelect countrySelect) {
+    public CountryAdapter(Context context, List<CurrenciesResult> arrayList, CountrySelect countrySelect) {
         this.arrayList = arrayList;
         this.context = context;
         this.countrySelect = countrySelect;
@@ -37,20 +40,26 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+       /* for (int i = 0; i < arrayList.get(position).getCountryList().size(); i++) {
+            holder.countryName.setText(arrayList.get(position).getCountryList().get(i).getEnName());
+            holder.countryCode.setText(arrayList.get(position).getCountryList().get(i).getCountryCode());
+            holder.currencyCode.setText(arrayList.get(position).getCurrency());
+        }*/
+        holder.countryName.setText(arrayList.get(position).getCountryList().get(0).getEnName());
+        holder.countryCode.setText(arrayList.get(position).getCountryList().get(0).getCountryCode());
+        holder.currencyCode.setText(arrayList.get(position).getCurrency());
 
-            holder.countryName.setText(arrayList.get(position).getEnName());
-            holder.countryCode.setText(arrayList.get(position).getCountryCode());
-           // holder.currencyCode.setText(arrayList.get(position));
-            holder.constraint_main.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    countrySelect.getCountry(true, arrayList.get(position).getEnName(),arrayList.get(position).getCountryCode());
-                }
-            });
+        holder.constraint_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                countrySelect.getCountry(true, arrayList.get(position).getCountryList().get(0).getEnName(),
+                        arrayList.get(position).getCountryList().get(0).getCountryCode(),
+                        arrayList.get(position).getCurrency(),
+                        arrayList.get(position).getTransactionType());
+            }
+        });
 
-        try {
-        } catch (Exception e) {
-        }
+
     }
 
     @Override

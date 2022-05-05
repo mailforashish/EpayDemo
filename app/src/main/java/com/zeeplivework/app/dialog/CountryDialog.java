@@ -38,18 +38,10 @@ import java.util.TreeMap;
 
 public class CountryDialog extends Dialog implements ApiResponseInterface, CountrySelect {
     CountryDialogBinding binding;
-    ArrayList<CurrenciesResult> currencyList = new ArrayList<>();
-    ArrayList<Country> currencyListNew = new ArrayList<>();
+    ArrayList<CurrenciesResult> currenciesResultArrayList = new ArrayList<>();
     CountryAdapter adapter;
     ApiManager apiManager;
     Context context;
-
-    /* String epayAccount = "zeeplive09@gmail.com";
-     String category = "BANK";
-     String currency = "USD";
-     String version = "V2.0.0";
-     String transactionType = "";
-     String sign = "F30704052D1F4FD558D610BC29667DC147B097AE137D09B11C562AEF89ADCBEA";*/
 
     String epayAccount = "test2020@epay.com";
     String category = "BANK";
@@ -100,6 +92,7 @@ public class CountryDialog extends Dialog implements ApiResponseInterface, Count
         countryRequestBody.setTransactionType(transactionType);
         countryRequest.setParam(countryRequestBody);
         apiManager.getCurrencyListDetails(countryRequest);
+
         show();
     }
 
@@ -110,47 +103,31 @@ public class CountryDialog extends Dialog implements ApiResponseInterface, Count
 
     @Override
     public void isSuccess(Object response, int ServiceCode) {
+        currenciesResultArrayList.clear();
         if (ServiceCode == Constant.CURRENCY_LIST) {
             CurrenciesResponse rsp = (CurrenciesResponse) response;
-            Log.e("EPAYLOG", "CurrencyListP1=> " + new Gson().toJson(rsp.getData()));
+            currenciesResultArrayList.addAll(rsp.getData());
+            Log.e("EPAYLOG", "CurrencyListP2=> " + new Gson().toJson(currenciesResultArrayList));
+            Log.e("currencyLog", "CurrencyData=> " + currenciesResultArrayList.get(0).getCurrency());
 
-            currencyList.addAll(rsp.getData());
-            Log.e("EPAYLOG", "CurrencyListP2=> " + new Gson().toJson(currencyList));
-
-            for (int i = 0; i < currencyList.size(); i++) {
-                currencyListNew.addAll(rsp.getData().get(i).getCountryList());
-
-                //Log.e("EPAYLOG", "CurrencyListP2=> " + rsp.getData().get(i).getCurrency());
-                // Log.e("EPAYLOG", "CurrencyListP3=> " + rsp.getData().get(i).getTransactionType());
-            }
-
-            adapter = new CountryAdapter(context, currencyListNew, this);
+            adapter = new CountryAdapter(context, currenciesResultArrayList, this);
             binding.rvCountry.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-
-            try {
-            } catch (Exception e) {
-
-
-            }
 
 
         }
     }
 
     @Override
-    public void getCountry(boolean selected, String country, String country_code) {
-        Log.e("Epay", "SelectedValue=> " + country);
-        if (selected) {
-            ((WalletActivity) context).setCountry(country);
-            sessionManager.setCountryName(country);
-            sessionManager.setCountryCode(country_code);
-
-
+    public void getCountry(boolean select, String country_name, String country_code, String currency_code, String tran_type) {
+        Log.e("Epay", "SelectedValue=> " + country_name + "\n" + country_code + "\n" + currency_code + "\n" + tran_type);
+        if (select) {
+            ((WalletActivity) context).setCountry(country_name);
+            sessionManager.createCountrySession(country_name, country_code, currency_code, tran_type);
             dismiss();
         }
-
     }
+
 
     public class EventHandler {
         Context mContext;

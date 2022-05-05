@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -27,29 +28,45 @@ import com.zeeplivework.app.retrofit.ApiManager;
 import com.zeeplivework.app.retrofit.ApiResponseInterface;
 import com.zeeplivework.app.utils.BankSelected;
 import com.zeeplivework.app.utils.Constant;
+import com.zeeplivework.app.utils.PaginationAdapterCallback;
+import com.zeeplivework.app.utils.PaginationScrollListener;
+import com.zeeplivework.app.utils.SessionManager;
 import com.zeeplivework.app.utils.SignUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import static com.zeeplivework.app.utils.SessionManager.COUNTRY_CODE;
+import static com.zeeplivework.app.utils.SessionManager.CURRENCY_CODE;
+import static com.zeeplivework.app.utils.SessionManager.TRANSACTION_TYPE;
 
 
-public class BankDialog extends Dialog implements ApiResponseInterface {
+public class BankDialog extends Dialog implements ApiResponseInterface, PaginationAdapterCallback {
     BankDialogBinding binding;
 
-    ArrayList<Bank> bankArrayList = new ArrayList<>();
+    List<Bank> bankArrayList = new ArrayList<>();
     BankAdapter adapter;
     ApiManager apiManager;
     Context context;
     String sKeyBank = "";
     String epayAccount = "test2020@epay.com";
     String category = "BANK";
-    String currency = "INR";
+    String currency = "COP";
     String version = "V2.0.0";
     String transactionType = "C2C";
-    String countryCode = "IN";
-    String pageNum = "1";
+    String countryCode = "CO";
+    //String pageNum = "1";
     String pageSize = "10";
     JSONObject parameters = new JSONObject();
     BankSelected bankSelected;
+    LinearLayoutManager linearLayoutManager;
+
+    private static final int PAGE_START = 1;
+    private boolean isLastPage = false;
+    private boolean isLoading = false;
+    private int TOTAL_PAGES;
+    private int pageNum = PAGE_START;
 
     public BankDialog(@NonNull Context context, BankSelected bankSelected) {
         super(context);
@@ -67,7 +84,13 @@ public class BankDialog extends Dialog implements ApiResponseInterface {
 
         binding.setClickListener(new EventHandler(getContext()));
         apiManager = new ApiManager(getContext(), this);
-        binding.rvBank.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        binding.rvBank.setLayoutManager(linearLayoutManager);
+
+        HashMap<String, String> data = new SessionManager(getContext()).getCountryDetails();
+        transactionType = data.get(TRANSACTION_TYPE);
+        currency = data.get(CURRENCY_CODE);
+        countryCode =  data.get(COUNTRY_CODE);
 
         // for get All bank list according to this api
         parameters.put("epayAccount", epayAccount);
@@ -78,8 +101,9 @@ public class BankDialog extends Dialog implements ApiResponseInterface {
         parameters.put("pageNum", pageNum);
         parameters.put("pageSize", pageSize);
         parameters.put("version", version);
-        sKeyBank = SignUtil.createSign(parameters, "2d00b386231806ec7e18e2d96dc043aa");
+        Log.e("AddBank", "MapBankDialog=> " + parameters);
 
+        sKeyBank = SignUtil.createSign(parameters, "2d00b386231806ec7e18e2d96dc043aa");
         Log.e("BankDialog", "BankListKey=> " + sKeyBank);
 
         BankRequest bankRequest = new BankRequest();
@@ -90,11 +114,60 @@ public class BankDialog extends Dialog implements ApiResponseInterface {
         bankRequestBody.setTransactionType(transactionType);
         bankRequestBody.setCurrency(currency);
         bankRequestBody.setCountryCode(countryCode);
-        bankRequestBody.setPageNum(pageNum);
+        bankRequestBody.setPageNum(String.valueOf(pageNum));
         bankRequestBody.setPageSize(pageSize);
         bankRequestBody.setVersion(version);
         bankRequest.setParam(bankRequestBody);
         apiManager.getBankListDetails(bankRequest);
+
+        binding.rvBank.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                isLoading = true;
+                pageNum += 1;
+                //showProgress();
+                // mocking network delay for API call
+
+                parameters.put("epayAccount", epayAccount);
+                parameters.put("category", category);
+                parameters.put("transactionType", transactionType);
+                parameters.put("currency", currency);
+                parameters.put("countryCode", countryCode);
+                parameters.put("pageNum", pageNum);
+                parameters.put("pageSize", pageSize);
+                parameters.put("version", version);
+                sKeyBank = SignUtil.createSign(parameters, "2d00b386231806ec7e18e2d96dc043aa");
+                BankRequest bankRequest = new BankRequest();
+                bankRequest.setSign(sKeyBank);
+                BankRequestBody bankRequestBody = new BankRequestBody();
+                bankRequestBody.setEpayAccount(epayAccount);
+                bankRequestBody.setCategory(category);
+                bankRequestBody.setTransactionType(transactionType);
+                bankRequestBody.setCurrency(currency);
+                bankRequestBody.setCountryCode(countryCode);
+                bankRequestBody.setPageNum(String.valueOf(pageNum));
+                bankRequestBody.setPageSize(pageSize);
+                bankRequestBody.setVersion(version);
+                bankRequest.setParam(bankRequestBody);
+
+                new Handler().postDelayed(() -> apiManager.getBankListNextPage(bankRequest), 500);
+            }
+
+            @Override
+            public int getTotalPageCount() {
+                return TOTAL_PAGES;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+        });
 
         show();
     }
@@ -109,12 +182,37 @@ public class BankDialog extends Dialog implements ApiResponseInterface {
         if (ServiceCode == Constant.BANK_LIST) {
             BankListResponse rsp = (BankListResponse) response;
             Log.e("BankDialog", "BankList=> " + new Gson().toJson(rsp.getData()));
-            bankArrayList.addAll(rsp.getData().getBankList());
-
-            adapter = new BankAdapter(context, bankArrayList, bankSelected);
-            binding.rvBank.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            TOTAL_PAGES = rsp.getData().getPage().getTotal();
+            bankArrayList = rsp.getData().getBankList();
+            if (bankArrayList.size() > 0) {
+                adapter = new BankAdapter(getContext(), bankSelected,this);
+                binding.rvBank.setAdapter(adapter);
+                adapter.addAll(bankArrayList);
+                Log.e("HistListDataList", new Gson().toJson(bankArrayList));
+                if (pageNum < TOTAL_PAGES) {
+                    adapter.addLoadingFooter();
+                } else {
+                    isLastPage = true;
+                }
+                adapter.notifyDataSetChanged();
+            }
         }
+        if (ServiceCode == Constant.BANK_LIST_NEXT_PAGE) {
+            BankListResponse rsp = (BankListResponse) response;
+            adapter.removeLoadingFooter();
+            isLoading = false;
+            List<Bank> results = rsp.getData().getBankList();
+            bankArrayList.addAll(results);
+            adapter.addAll(results);
+            adapter.notifyDataSetChanged();
+            if (pageNum != TOTAL_PAGES) adapter.addLoadingFooter();
+            else isLastPage = true;
+        }
+
+    }
+
+    @Override
+    public void retryPageLoad() {
 
     }
 

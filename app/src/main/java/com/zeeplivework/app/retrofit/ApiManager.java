@@ -97,6 +97,26 @@ public class ApiManager {
     }
 
 
+    public void getBankListNextPage(BankRequest bankRequest) {
+        Call<BankListResponse> call = apiService.getBankList("application/json", bankRequest);
+        Log.e("BankRequestLog",""+ new Gson().toJson(call.request().toString()));
+        call.enqueue(new Callback<BankListResponse>() {
+            @Override
+            public void onResponse(Call<BankListResponse> call, Response<BankListResponse> response) {
+                Log.e("getBankListDetail", new Gson().toJson(response.body()));
+                if (response.isSuccessful() && response.body() != null) {
+                    mApiResponseInterface.isSuccess(response.body(), Constant.BANK_LIST_NEXT_PAGE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BankListResponse> call, Throwable t) {
+                Log.e("getBankListError", "getBankListError=> " + t);
+            }
+        });
+    }
+
+
      /*public void getCurrencyListDetails(String epayAccount, String category, String currency, String version, String transactionType, String sign) {
         Call<CurrenciesResponse> call = apiService.getCurrencyList("application/json", epayAccount, category, "", version, "", "");
         Log.e("PayRequestLog",call.request().toString());

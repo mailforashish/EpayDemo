@@ -27,7 +27,7 @@ public class SessionManager {
     public static final String COUNTRY_NAME = "country_name";
     public static final String COUNTRY_CODE = "country_code";
     public static final String CURRENCY_CODE = "currency_code";
-    public static final String NAME = "name";
+    public static final String TRANSACTION_TYPE = "transaction_type";
     public static final String GENDER = "gender";
 
     // Constructor
@@ -40,39 +40,59 @@ public class SessionManager {
         }
     }
 
+    /**
+     * Create country session
+     */
+    public void createCountrySession(String countryName, String countryCode, String currencyCode, String transactionType) {
+        editor.putString(COUNTRY_NAME, countryName);
+        editor.putString(COUNTRY_CODE, countryCode);
+        editor.putString(CURRENCY_CODE, currencyCode);
+        editor.putString(TRANSACTION_TYPE, transactionType);
+        // commit changes
+        editor.commit();
+    }
 
 
-    public void setCountryName(String countryName) {
+    /**
+     * Get stored session data
+     */
+    public HashMap<String, String> getCountryDetails() {
+        HashMap<String, String> user = new HashMap<String, String>();
+        user.put(COUNTRY_NAME, pref.getString(COUNTRY_NAME, null));
+        user.put(COUNTRY_CODE, pref.getString(COUNTRY_CODE, null));
+        user.put(CURRENCY_CODE, pref.getString(CURRENCY_CODE, null));
+        user.put(TRANSACTION_TYPE, pref.getString(TRANSACTION_TYPE, null));
+        return user;
+    }
+
+   /* public void setCountryName(String countryName) {
         editor.putString(COUNTRY_NAME, countryName);
         editor.apply();
     }
-
     public String getCountryName() {
         return pref.getString(COUNTRY_NAME, "null");
     }
-
-
     public void setCountryCode(String countryCode) {
         editor.putString(COUNTRY_CODE, countryCode);
         editor.apply();
     }
-
     public String getCountryCode() {
         return pref.getString(COUNTRY_CODE, "null");
     }
-
     public void setCurrencyCode(String currencyCode) {
         editor.putString(CURRENCY_CODE, currencyCode);
         editor.apply();
     }
-
-
     public String getCurrencyCode() {
         return pref.getString(CURRENCY_CODE, "null");
     }
-
-
-
+    public void setTransactionType(String transactionType) {
+        editor.putString(TRANSACTION_TYPE, transactionType);
+        editor.apply();
+    }
+    public String getTransactionType() {
+        return pref.getString(TRANSACTION_TYPE, "null");
+    }*/
 
 
 }

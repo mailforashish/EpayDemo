@@ -14,10 +14,6 @@ public class Country {
     @Expose
     private String cnName;
 
-    @SerializedName("currencyName")
-    @Expose
-    private String currencyCode;
-
     public String getCountryCode() {
         return countryCode;
     }
@@ -42,13 +38,6 @@ public class Country {
         this.cnName = cnName;
     }
 
-    public String getCurrencyCode() {
-        return currencyCode;
-    }
-
-    public void setCurrencyCode(String currencyCode) {
-        this.currencyCode = currencyCode;
-    }
 }
 
 
