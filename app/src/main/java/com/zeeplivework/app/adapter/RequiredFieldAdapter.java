@@ -31,9 +31,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
     Context context;
     BankDialog bankDialog;
     public static SortedMap<String, Object> fillForm = new TreeMap<>();
-    public static boolean flag = false;
-    private int indexValue = 1;
-
     public RequiredFieldAdapter(Context context, List<RequiredFieldResult> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
@@ -58,7 +55,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
         holder.tv_Name.setText(capitalize(arrayList.get(position).getValue()));
         holder.et_name_input.setHint(arrayList.get(position).getValue());
 
-
     }
 
 
@@ -71,7 +67,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
     public int getItemCount() {
         return arrayList.size();
     }
-
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements BankSelected {
         public ConstraintLayout cl_form;
@@ -104,11 +99,9 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
         public class MyTextWatcher implements TextWatcher {
             private AppCompatEditText editText;
             int position;
-
             public MyTextWatcher(AppCompatEditText editText) {
                 this.editText = editText;
             }
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -117,14 +110,18 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 position = (int) editText.getTag();
                 isAllEditTextsFilled(position, editText);
-                arrayList.get(position).setValue(s.toString());
                 // Do whatever you want with position
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                fillForm.put(arrayList.get(position).getValue(), s);
+                if (TextUtils.isEmpty(s)){
+                    fillForm.remove(arrayList.get(position).getValue(), s);
+                }else {
+                    fillForm.put(arrayList.get(position).getValue(), s);
+                }
                 Log.e("currentIndex", "formevalue" + fillForm);
+               // arrayList.get(getAdapterPosition()).setValue(s.toString());
             }
         }
 
@@ -138,7 +135,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
                 } else {
                     tv_name_error.setVisibility(View.VISIBLE);
                 }
-
             }
 
             /*else if (currentIndex == currentIndex) {
@@ -269,7 +265,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
             return true;
         }
 
-
         @Override
         public void getBank(boolean select, String bank) {
             Log.e("valigysgy", "" + bank);
@@ -280,11 +275,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
             }
         }
     }
-
-    public List<RequiredFieldResult> getArrayList() {
-        return arrayList;
-    }
-
 
     public static String capitalize(String str) {
         if (str == null || str.isEmpty()) {

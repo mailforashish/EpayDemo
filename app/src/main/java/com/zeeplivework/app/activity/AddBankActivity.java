@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -139,31 +140,15 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         }
 
         public void saveContinue() {
-            boolean flag = true;
-            List<RequiredFieldResult> ValidationList = requiredFieldAdapter.getArrayList();
-            for (int i = 0; i < ValidationList.size(); i++) {
-                if (ValidationList.get(i).getValue().isEmpty()) {
-                    flag = false;
-                } else {
-                }
-            }
-            if (flag) {
+            Log.e("TestingDaat", "mapsize" + RequiredFieldAdapter.fillForm.size());
+            Log.e("TestingDaat", "mapsize" + listnew.size());
+
+            RequiredFieldAdapter.fillForm.values().removeIf(Objects::isNull);
+
+            if (listnew.size() == RequiredFieldAdapter.fillForm.size()) {
                 Toast.makeText(AddBankActivity.this, "Success", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(AddBankActivity.this, "Some Field Empty", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-
-
-
-
-            /*if (TextUtils.isEmpty(RequiredFieldAdapter.fillForm.values().toString())) {
-                Toast.makeText(AddBankActivity.this, "Fill Required Fielld", Toast.LENGTH_SHORT).show();
-               // Log.e("Fiil_value ", "empty");
-            } else {
-                Toast.makeText(AddBankActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                //Log.e("Fiil_value ", "" + RequiredFieldAdapter.fillForm);
+                Toast.makeText(AddBankActivity.this, "Fill Required Field", Toast.LENGTH_SHORT).show();
             }
             int i = 0;
             for (Map.Entry<String, Object> es : RequiredFieldAdapter.fillForm.entrySet()) {
@@ -176,8 +161,8 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
                     Log.e("This does work: ", "seconds" + es.getKey() + ":" + es.getValue());
                 }
                 i++;
-            }*/
-
+            }
+        }
     }
 }
 
