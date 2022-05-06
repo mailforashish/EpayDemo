@@ -18,6 +18,7 @@ import com.zeeplivework.app.response.BankList.BankRequestBody;
 import com.zeeplivework.app.response.CreateTransaction.CreateTransactionBody;
 import com.zeeplivework.app.response.CreateTransaction.CreateTransactionRequest;
 import com.zeeplivework.app.response.CreateTransaction.CreateTransactionResponse;
+import com.zeeplivework.app.response.CreateTransaction.ReceiverInfo;
 import com.zeeplivework.app.response.CreateTransaction.SenderInfo;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldBody;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldRequest;
@@ -38,8 +39,12 @@ import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import static com.zeeplivework.app.utils.SessionManager.BANK_ID;
+import static com.zeeplivework.app.utils.SessionManager.BANK_NAME;
+import static com.zeeplivework.app.utils.SessionManager.CITY;
 import static com.zeeplivework.app.utils.SessionManager.COUNTRY_CODE;
 import static com.zeeplivework.app.utils.SessionManager.CURRENCY_CODE;
+import static com.zeeplivework.app.utils.SessionManager.LOCATION_ID;
 import static com.zeeplivework.app.utils.SessionManager.TRANSACTION_TYPE;
 
 public class AddBankActivity extends AppCompatActivity implements ApiResponseInterface {
@@ -194,7 +199,14 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
 
     public class EventHandler {
         Context mContext;
-
+        String SurName = "";
+        String GivName = "";
+        String Country = "";
+        String Phone = "";
+        String LocationId = "";
+        String BankName = "";
+        String Email = "";
+        String Area = "";
         public EventHandler(Context mContext) {
             this.mContext = mContext;
         }
@@ -204,17 +216,6 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         }
 
         public void saveContinue() {
-            Log.e("TestingDaat", "mapsize" + RequiredFieldAdapter.fillForm.size());
-            Log.e("TestingDaat", "mapsize" + listnew.size());
-            HashMap<String, String> data = new SessionManager(getApplicationContext()).getFormDetails();
-            Log.e("TestingDaat", "SaveFormData" + data);
-
-            if (listnew.size() == RequiredFieldAdapter.fillForm.size()) {
-                TransferTransaction();
-                Toast.makeText(AddBankActivity.this, "Success", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(AddBankActivity.this, "Fill Required Field", Toast.LENGTH_SHORT).show();
-            }
             int i = 0;
             for (Map.Entry<String, Object> es : RequiredFieldAdapter.fillForm.entrySet()) {
                 if (i >= listnew.size()) {
@@ -227,12 +228,33 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
                 }
                 i++;
             }
+            HashMap<String, String> data = new SessionManager(getApplicationContext()).getFormDetails();
+            Country = data.get(CITY);
+            LocationId = data.get(LOCATION_ID);
+            BankName = data.get(BANK_NAME);
+            Area = data.get(BANK_ID);
+
+            Log.e("TestingDaat", "mapsize" + RequiredFieldAdapter.fillForm.size());
+            Log.e("TestingDaat", "mapsize" + listnew.size());
+            // Log.e("TestingDaat", "SaveFormData" + data);
+            if (listnew.size() == RequiredFieldAdapter.fillForm.size()) {
+                TransferTransaction();
+                Toast.makeText(AddBankActivity.this, "Success", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(AddBankActivity.this, "Fill Required Field", Toast.LENGTH_SHORT).show();
+            }
+
+
+
+
         }
 
 
     }
 
     public void TransferTransaction() {
+
+
         SortedMap<String, Object> transMap = new TreeMap<>();
         String epayAccount = "test2020@epay.com";
         String category = "BANK";
@@ -271,6 +293,16 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         senderInfo.setAddress("shenzhen");
         senderInfo.setPurposeOfRemittance("20");
 
+        ReceiverInfo receiverInfo = new ReceiverInfo();
+        receiverInfo.setSurName("");
+        receiverInfo.setGivName("");
+        receiverInfo.setCountry("");
+        receiverInfo.setPhone("");
+        receiverInfo.setLocationId("");
+        receiverInfo.setBankName("");
+        receiverInfo.setEmail("");
+        receiverInfo.setArea("");
+
         CreateTransactionBody createTransactionBody = new CreateTransactionBody();
         createTransactionBody.setEpayAccount(epayAccount);
         createTransactionBody.setCategory(category);
@@ -282,6 +314,9 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         createTransactionBody.setReceiveCurrency(receiveCurrency);
         createTransactionBody.setTransactionType(transactionType);
         createTransactionBody.setVersion(version);
+        createTransactionRequest.setParam(createTransactionBody);
+
+        apiManager.createTransaction(createTransactionRequest);
 
         /*BankRequest bankRequest = new BankRequest();
         bankRequest.setSign(sKeyBank);

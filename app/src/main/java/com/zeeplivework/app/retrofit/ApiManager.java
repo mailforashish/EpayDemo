@@ -9,6 +9,8 @@ import com.zeeplivework.app.response.BankList.BankListResponse;
 import com.zeeplivework.app.response.CountryList.CountryResponse;
 import com.zeeplivework.app.response.BankList.BankRequest;
 import com.zeeplivework.app.response.CountryList.CountryRequest;
+import com.zeeplivework.app.response.CreateTransaction.CreateTransactionRequest;
+import com.zeeplivework.app.response.CreateTransaction.CreateTransactionResponse;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldRequest;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResponse;
 import com.zeeplivework.app.utils.Constant;
@@ -114,6 +116,28 @@ public class ApiManager {
             }
         });
     }
+
+    public void createTransaction(CreateTransactionRequest createTransactionRequest) {
+        Call<CreateTransactionResponse> call = apiService.createTransaction("application/json", createTransactionRequest);
+        Log.e("TransactionRequestLog",""+ new Gson().toJson(call.request().toString()));
+        call.enqueue(new Callback<CreateTransactionResponse>() {
+            @Override
+            public void onResponse(Call<CreateTransactionResponse> call, Response<CreateTransactionResponse> response) {
+                Log.e("TransactionDetail", new Gson().toJson(response.body()));
+                if (response.isSuccessful() && response.body() != null) {
+                    mApiResponseInterface.isSuccess(response.body(), Constant.BANK_LIST_NEXT_PAGE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateTransactionResponse> call, Throwable t) {
+                Log.e("TransactionError", "TransactionError=> " + t);
+            }
+        });
+    }
+
+
+
 
 
      /*public void getCurrencyListDetails(String epayAccount, String category, String currency, String version, String transactionType, String sign) {

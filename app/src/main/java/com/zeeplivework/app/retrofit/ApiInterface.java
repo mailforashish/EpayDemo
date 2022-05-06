@@ -5,6 +5,8 @@ import com.zeeplivework.app.response.BankList.BankListResponse;
 import com.zeeplivework.app.response.CountryList.CountryResponse;
 import com.zeeplivework.app.response.BankList.BankRequest;
 import com.zeeplivework.app.response.CountryList.CountryRequest;
+import com.zeeplivework.app.response.CreateTransaction.CreateTransactionRequest;
+import com.zeeplivework.app.response.CreateTransaction.CreateTransactionResponse;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldRequest;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResponse;
 
@@ -28,6 +30,10 @@ public interface ApiInterface {
     @POST("getBankList")
     Call<BankListResponse> getBankList(@Header("Accept") String accept,
                                        @Body BankRequest bankRequest);
+
+    @POST("getBankList")
+    Call<CreateTransactionResponse> createTransaction(@Header("Accept") String accept,
+                                                @Body CreateTransactionRequest createTransactionRequest);
 
     /*@FormUrlEncoded
     @POST("getBankList")
