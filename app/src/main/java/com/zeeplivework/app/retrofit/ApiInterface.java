@@ -2,9 +2,9 @@ package com.zeeplivework.app.retrofit;
 
 
 import com.zeeplivework.app.response.BankList.BankListResponse;
-import com.zeeplivework.app.response.CurrencyList.CurrenciesResponse;
+import com.zeeplivework.app.response.CountryList.CountryResponse;
 import com.zeeplivework.app.response.BankList.BankRequest;
-import com.zeeplivework.app.response.CurrencyList.CountryRequest;
+import com.zeeplivework.app.response.CountryList.CountryRequest;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldRequest;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResponse;
 
@@ -17,8 +17,8 @@ public interface ApiInterface {
 
     //@FormUrlEncoded
     @POST("getReceiveCurrencyList")
-    Call<CurrenciesResponse> getCurrencyList(@Header("Accept") String accept,
-                                             @Body CountryRequest countryRequest);
+    Call<CountryResponse> getCurrencyList(@Header("Accept") String accept,
+                                          @Body CountryRequest countryRequest);
 
 
     @POST("getRequiredField")

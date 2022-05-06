@@ -1,11 +1,11 @@
-package com.zeeplivework.app.response.CurrencyList;
+package com.zeeplivework.app.response.CountryList;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CurrenciesResponse {
+public class CountryResponse {
     @SerializedName("sign")
     @Expose
     private String sign;
@@ -23,7 +23,7 @@ public class CurrenciesResponse {
     private String message;
     @SerializedName("data")
     @Expose
-    private List<CurrenciesResult> data = null;
+    private List<CountryResult> data = null;
 
     public String getSign() {
         return sign;
@@ -65,11 +65,11 @@ public class CurrenciesResponse {
         this.message = message;
     }
 
-    public List<CurrenciesResult> getData() {
+    public List<CountryResult> getData() {
         return data;
     }
 
-    public void setData(List<CurrenciesResult> data) {
+    public void setData(List<CountryResult> data) {
         this.data = data;
     }
 

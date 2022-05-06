@@ -28,8 +28,13 @@ public class SessionManager {
     public static final String COUNTRY_CODE = "country_code";
     public static final String CURRENCY_CODE = "currency_code";
     public static final String TRANSACTION_TYPE = "transaction_type";
-    public static final String GENDER = "gender";
-
+    public static final String ADDRESS = "address";
+    public static final String BANK_ID = "bank_Id";
+    public static final String BANK_NAME = "bank_name";
+    public static final String CITY = "city";
+    public static final String BANK_BRANCH = "bank_branch";
+    public static final String LOCATION_ID = "location_id";
+//String address, String bankId, String bankName, String city, String bankBranch, String locationId)
     // Constructor
     public SessionManager(Context context) {
         try {
@@ -51,7 +56,16 @@ public class SessionManager {
         // commit changes
         editor.commit();
     }
-
+    public void createFormSession(String address, String bankId, String bankName, String city, String bankBranch, String locationId) {
+        editor.putString(ADDRESS, address);
+        editor.putString(BANK_ID, bankId);
+        editor.putString(BANK_NAME, bankName);
+        editor.putString(CITY, city);
+        editor.putString(BANK_BRANCH, bankBranch);
+        editor.putString(LOCATION_ID, locationId);
+        // commit changes
+        editor.commit();
+    }
 
     /**
      * Get stored session data
@@ -64,6 +78,23 @@ public class SessionManager {
         user.put(TRANSACTION_TYPE, pref.getString(TRANSACTION_TYPE, null));
         return user;
     }
+
+    public HashMap<String, String> getFormDetails() {
+        HashMap<String, String> userForm = new HashMap<String, String>();
+        userForm.put(ADDRESS, pref.getString(ADDRESS, null));
+        userForm.put(BANK_ID, pref.getString(BANK_ID, null));
+        userForm.put(BANK_NAME, pref.getString(BANK_NAME, null));
+        userForm.put(CITY, pref.getString(CITY, null));
+        userForm.put(BANK_BRANCH, pref.getString(BANK_BRANCH, null));
+        userForm.put(LOCATION_ID, pref.getString(LOCATION_ID, null));
+        return userForm;
+    }
+    //editor.putString(ADDRESS, address);
+    //        editor.putString(BANK_ID, bankId);
+    //        editor.putString(BANK_NAME, bankName);
+    //        editor.putString(CITY, city);
+    //        editor.putString(BANK_BRANCH, bankBranch);
+    //        editor.putString(LOCATION_ID, locationId);
 
    /* public void setCountryName(String countryName) {
         editor.putString(COUNTRY_NAME, countryName);

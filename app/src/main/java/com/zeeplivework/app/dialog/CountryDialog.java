@@ -19,11 +19,10 @@ import com.zeeplivework.app.R;
 import com.zeeplivework.app.activity.WalletActivity;
 import com.zeeplivework.app.adapter.CountryAdapter;
 import com.zeeplivework.app.databinding.CountryDialogBinding;
-import com.zeeplivework.app.response.CurrencyList.Country;
-import com.zeeplivework.app.response.CurrencyList.CurrenciesResponse;
-import com.zeeplivework.app.response.CurrencyList.CurrenciesResult;
-import com.zeeplivework.app.response.CurrencyList.CountryRequest;
-import com.zeeplivework.app.response.CurrencyList.CountryRequestBody;
+import com.zeeplivework.app.response.CountryList.CountryResponse;
+import com.zeeplivework.app.response.CountryList.CountryResult;
+import com.zeeplivework.app.response.CountryList.CountryRequest;
+import com.zeeplivework.app.response.CountryList.CountryRequestBody;
 import com.zeeplivework.app.retrofit.ApiManager;
 import com.zeeplivework.app.retrofit.ApiResponseInterface;
 import com.zeeplivework.app.utils.Constant;
@@ -38,7 +37,7 @@ import java.util.TreeMap;
 
 public class CountryDialog extends Dialog implements ApiResponseInterface, CountrySelect {
     CountryDialogBinding binding;
-    ArrayList<CurrenciesResult> currenciesResultArrayList = new ArrayList<>();
+    ArrayList<CountryResult> countryResultArrayList = new ArrayList<>();
     CountryAdapter adapter;
     ApiManager apiManager;
     Context context;
@@ -103,14 +102,14 @@ public class CountryDialog extends Dialog implements ApiResponseInterface, Count
 
     @Override
     public void isSuccess(Object response, int ServiceCode) {
-        currenciesResultArrayList.clear();
+        countryResultArrayList.clear();
         if (ServiceCode == Constant.CURRENCY_LIST) {
-            CurrenciesResponse rsp = (CurrenciesResponse) response;
-            currenciesResultArrayList.addAll(rsp.getData());
-            Log.e("EPAYLOG", "CurrencyListP2=> " + new Gson().toJson(currenciesResultArrayList));
-            Log.e("currencyLog", "CurrencyData=> " + currenciesResultArrayList.get(0).getCurrency());
+            CountryResponse rsp = (CountryResponse) response;
+            countryResultArrayList.addAll(rsp.getData());
+            Log.e("EPAYLOG", "CurrencyListP2=> " + new Gson().toJson(countryResultArrayList));
+            Log.e("currencyLog", "CurrencyData=> " + countryResultArrayList.get(0).getCurrency());
 
-            adapter = new CountryAdapter(context, currenciesResultArrayList, this);
+            adapter = new CountryAdapter(context, countryResultArrayList, this);
             binding.rvCountry.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 

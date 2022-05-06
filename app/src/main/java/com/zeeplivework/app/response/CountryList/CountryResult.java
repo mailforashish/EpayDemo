@@ -1,11 +1,11 @@
-package com.zeeplivework.app.response.CurrencyList;
+package com.zeeplivework.app.response.CountryList;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CurrenciesResult {
+public class CountryResult {
     @SerializedName("countryList")
     @Expose
     private List<Country> countryList = null;

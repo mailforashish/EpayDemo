@@ -6,13 +6,12 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.zeeplivework.app.dialog.MyProgressDialog;
 import com.zeeplivework.app.response.BankList.BankListResponse;
-import com.zeeplivework.app.response.CurrencyList.CurrenciesResponse;
+import com.zeeplivework.app.response.CountryList.CountryResponse;
 import com.zeeplivework.app.response.BankList.BankRequest;
-import com.zeeplivework.app.response.CurrencyList.CountryRequest;
+import com.zeeplivework.app.response.CountryList.CountryRequest;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldRequest;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResponse;
 import com.zeeplivework.app.utils.Constant;
-import com.zeeplivework.app.utils.SessionManager;
 
 
 import retrofit2.Call;
@@ -36,11 +35,11 @@ public class ApiManager {
 
 
     public void getCurrencyListDetails(CountryRequest countryRequest) {
-        Call<CurrenciesResponse> call = apiService.getCurrencyList("application/json", countryRequest);
+        Call<CountryResponse> call = apiService.getCurrencyList("application/json", countryRequest);
         Log.e("CountryRequestLog",""+ new Gson().toJson(call.request().toString()));
-        call.enqueue(new Callback<CurrenciesResponse>() {
+        call.enqueue(new Callback<CountryResponse>() {
             @Override
-            public void onResponse(Call<CurrenciesResponse> call, Response<CurrenciesResponse> response) {
+            public void onResponse(Call<CountryResponse> call, Response<CountryResponse> response) {
                 Log.e("EPAYLOG", "getCurrencyListDetail=> " + new Gson().toJson(response.body()));
                 if (response.isSuccessful() && response.body() != null) {
                     mApiResponseInterface.isSuccess(response.body(), Constant.CURRENCY_LIST);
@@ -48,7 +47,7 @@ public class ApiManager {
             }
 
             @Override
-            public void onFailure(Call<CurrenciesResponse> call, Throwable t) {
+            public void onFailure(Call<CountryResponse> call, Throwable t) {
                 Log.e("EPAYLOG", "getCurrencyError=> " + t);
             }
         });

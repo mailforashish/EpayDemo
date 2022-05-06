@@ -1,7 +1,6 @@
 package com.zeeplivework.app.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,20 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 import com.zeeplivework.app.R;
-import com.zeeplivework.app.response.CurrencyList.Country;
-import com.zeeplivework.app.response.CurrencyList.CurrenciesResult;
+import com.zeeplivework.app.response.CountryList.CountryResult;
 import com.zeeplivework.app.utils.CountrySelect;
 
 import java.util.List;
 
 public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.MyViewHolder> {
-    List<CurrenciesResult> arrayList;
+    List<CountryResult> arrayList;
     Context context;
     CountrySelect countrySelect;
 
-    public CountryAdapter(Context context, List<CurrenciesResult> arrayList, CountrySelect countrySelect) {
+    public CountryAdapter(Context context, List<CountryResult> arrayList, CountrySelect countrySelect) {
         this.arrayList = arrayList;
         this.context = context;
         this.countrySelect = countrySelect;

@@ -1,13 +1,10 @@
 package com.zeeplivework.app.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,9 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.zeeplivework.app.R;
 import com.zeeplivework.app.response.BankList.Bank;
-import com.zeeplivework.app.response.CurrencyList.Country;
 import com.zeeplivework.app.utils.BankSelected;
-import com.zeeplivework.app.utils.CountrySelect;
 import com.zeeplivework.app.utils.PaginationAdapterCallback;
 
 import java.util.ArrayList;
@@ -76,7 +71,9 @@ public class BankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     holder.constraint_main_bank.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            bankSelected.getBank(true, list.get(position).getBankName());
+                            bankSelected.getBank(true, list.get(position).getAddress(), list.get(position).getBankId(),
+                                    list.get(position).getBankName(), list.get(position).getCity(),
+                                    list.get(position).getBankBranch(), list.get(position).getLocationId());
                         }
                     });
                     break;

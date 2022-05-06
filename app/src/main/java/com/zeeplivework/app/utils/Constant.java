@@ -9,6 +9,7 @@ public class Constant {
     public static int BANK_LIST = 4;
     public static int REQUIRED_FIELD = 5;
     public static int BANK_LIST_NEXT_PAGE = 6;
+    public static int CREATE_TRANSACTION = 7;
 
 
 

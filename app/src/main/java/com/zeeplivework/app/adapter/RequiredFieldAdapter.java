@@ -20,6 +20,7 @@ import com.zeeplivework.app.R;
 import com.zeeplivework.app.dialog.BankDialog;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResult;
 import com.zeeplivework.app.utils.BankSelected;
+import com.zeeplivework.app.utils.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +32,12 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
     Context context;
     BankDialog bankDialog;
     public static SortedMap<String, Object> fillForm = new TreeMap<>();
+    SessionManager sessionManager;
+
     public RequiredFieldAdapter(Context context, List<RequiredFieldResult> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
+        sessionManager = new SessionManager(context);
     }
 
     @NonNull
@@ -47,13 +51,13 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.et_name_input.setTag(position);
         holder.et_name_input.setFocusable(true);
-
         if (arrayList.get(position).getValue().equals("bankName")) {
             holder.et_name_input1.setVisibility(View.VISIBLE);
             holder.et_name_input1.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_next_acc, 0);
         }
         holder.tv_Name.setText(capitalize(arrayList.get(position).getValue()));
         holder.et_name_input.setHint(arrayList.get(position).getValue());
+
 
     }
 
@@ -67,7 +71,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
     public int getItemCount() {
         return arrayList.size();
     }
-
     public class MyViewHolder extends RecyclerView.ViewHolder implements BankSelected {
         public ConstraintLayout cl_form;
         public TextView tv_Name, tv_name_error;
@@ -99,9 +102,11 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
         public class MyTextWatcher implements TextWatcher {
             private AppCompatEditText editText;
             int position;
+
             public MyTextWatcher(AppCompatEditText editText) {
                 this.editText = editText;
             }
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -115,13 +120,12 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(s)){
+                if (TextUtils.isEmpty(s)) {
                     fillForm.remove(arrayList.get(position).getValue(), s);
-                }else {
+                } else {
                     fillForm.put(arrayList.get(position).getValue(), s);
                 }
                 Log.e("currentIndex", "formevalue" + fillForm);
-               // arrayList.get(getAdapterPosition()).setValue(s.toString());
             }
         }
 
@@ -136,141 +140,16 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
                     tv_name_error.setVisibility(View.VISIBLE);
                 }
             }
-
-            /*else if (currentIndex == currentIndex) {
-                if (editText.length() >= 10) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            } else if (currentIndex == 2) {
-                if (editText.length() >= 6) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            } else if (currentIndex == 3) {
-                if (editText.length() >= 4) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            } else if (currentIndex == 4) {
-                if (editText.length() >= 4) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            }
-            else if (currentIndex == 5) {
-                if (editText.length() >= 4) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            }
-            else if (currentIndex == 6) {
-                if (editText.length() >= 4) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            }
-            else if (currentIndex == 7) {
-                if (editText.length() >= 4) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            }
-            else if (currentIndex == 8) {
-                if (editText.length() >= 4) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            }
-            else if (currentIndex == 9) {
-                if (editText.length() >= 4) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            }
-            else if (currentIndex == 10) {
-                if (editText.length() >= 4) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            }
-            else if (currentIndex == 11) {
-                if (editText.length() >= 4) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            }
-            else if (currentIndex == 12) {
-                if (editText.length() >= 4) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            }
-            else if (currentIndex == 13) {
-                if (editText.length() >= 4) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            }
-            else if (currentIndex == 14) {
-                if (editText.length() >= 4) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            }
-            else if (currentIndex == 15) {
-                if (editText.length() >= 4) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            }
-            else if (currentIndex == 16) {
-                if (editText.length() >= 4) {
-                    tv_name_error.setVisibility(View.INVISIBLE);
-                } else {
-                    tv_name_error.setVisibility(View.VISIBLE);
-                }
-
-            }*/
             return true;
         }
 
         @Override
-        public void getBank(boolean select, String bank) {
-            Log.e("valigysgy", "" + bank);
+        public void getBank(boolean select, String address, String bankId, String bankName, String city, String bankBranch, String locationId) {
+            Log.e("valigysgy", "" + bankName);
             if (select) {
-                et_name_input1.setText(bank);
-                fillForm.put(arrayList.get(getAdapterPosition()).getValue(), bank);
+                et_name_input1.setText(bankName);
+                sessionManager.createFormSession(address, bankId, bankName, city, bankBranch, locationId);
+                fillForm.put(arrayList.get(getAdapterPosition()).getValue(), bankName);
                 bankDialog.dismiss();
             }
         }
