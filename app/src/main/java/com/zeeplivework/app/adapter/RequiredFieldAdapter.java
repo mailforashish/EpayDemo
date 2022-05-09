@@ -17,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zeeplivework.app.R;
+import com.zeeplivework.app.activity.AddBankActivity;
 import com.zeeplivework.app.dialog.BankDialog;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResult;
 import com.zeeplivework.app.utils.BankSelected;
@@ -31,7 +32,7 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
     public List<RequiredFieldResult> arrayList;
     Context context;
     BankDialog bankDialog;
-    public static SortedMap<String, Object> fillForm = new TreeMap<>();
+    public static SortedMap<String, String> fillForm = new TreeMap<>();
     SessionManager sessionManager;
 
     public RequiredFieldAdapter(Context context, List<RequiredFieldResult> arrayList) {
@@ -121,9 +122,12 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
             @Override
             public void afterTextChanged(Editable s) {
                 if (TextUtils.isEmpty(s)) {
-                    fillForm.remove(arrayList.get(position).getValue(), s);
+                    fillForm.remove(arrayList.get(position).getValue(),  String.valueOf(s));
+                    ((AddBankActivity)context).getValueFromAdapter(arrayList.get(position).getValue(),String.valueOf(s));
                 } else {
-                    fillForm.put(arrayList.get(position).getValue(), s);
+                    Log.e("inAdapterLog","editTxtName = "+arrayList.get(position).getValue()+" value = "+ s);
+                   fillForm.put(arrayList.get(position).getValue(), String.valueOf(s));
+                   ((AddBankActivity)context).getValueFromAdapter(arrayList.get(position).getValue(),String.valueOf(s));
                 }
                 Log.e("currentIndex", "formevalue" + fillForm);
             }

@@ -105,13 +105,17 @@ public class CountryDialog extends Dialog implements ApiResponseInterface, Count
         countryResultArrayList.clear();
         if (ServiceCode == Constant.CURRENCY_LIST) {
             CountryResponse rsp = (CountryResponse) response;
-            countryResultArrayList.addAll(rsp.getData());
-            Log.e("EPAYLOG", "CurrencyListP2=> " + new Gson().toJson(countryResultArrayList));
-            Log.e("currencyLog", "CurrencyData=> " + countryResultArrayList.get(0).getCurrency());
+            try {
+                countryResultArrayList.addAll(rsp.getData());
+                Log.e("EPAYLOG", "CurrencyListP2=> " + new Gson().toJson(countryResultArrayList));
+                Log.e("currencyLog", "CurrencyData=> " + countryResultArrayList.get(0).getCurrency());
 
-            adapter = new CountryAdapter(context, countryResultArrayList, this);
-            binding.rvCountry.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+                adapter = new CountryAdapter(context, countryResultArrayList, this);
+                binding.rvCountry.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            } catch (Exception e) {
+
+            }
 
 
         }

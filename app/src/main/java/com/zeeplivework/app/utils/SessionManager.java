@@ -89,12 +89,7 @@ public class SessionManager {
         userForm.put(LOCATION_ID, pref.getString(LOCATION_ID, null));
         return userForm;
     }
-    //editor.putString(ADDRESS, address);
-    //        editor.putString(BANK_ID, bankId);
-    //        editor.putString(BANK_NAME, bankName);
-    //        editor.putString(CITY, city);
-    //        editor.putString(BANK_BRANCH, bankBranch);
-    //        editor.putString(LOCATION_ID, locationId);
+
 
    /* public void setCountryName(String countryName) {
         editor.putString(COUNTRY_NAME, countryName);

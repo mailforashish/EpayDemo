@@ -31,7 +31,7 @@ public interface ApiInterface {
     Call<BankListResponse> getBankList(@Header("Accept") String accept,
                                        @Body BankRequest bankRequest);
 
-    @POST("getBankList")
+    @POST("createTransaction")
     Call<CreateTransactionResponse> createTransaction(@Header("Accept") String accept,
                                                 @Body CreateTransactionRequest createTransactionRequest);
 

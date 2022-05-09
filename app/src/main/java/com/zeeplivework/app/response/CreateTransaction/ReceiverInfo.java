@@ -4,30 +4,69 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ReceiverInfo {
+    @SerializedName("idNumber")
+    @Expose
+    private String idNumber;
     @SerializedName("surName")
     @Expose
     private String surName;
     @SerializedName("givName")
     @Expose
     private String givName;
-    @SerializedName("country")
+    @SerializedName("idType")
     @Expose
-    private String country;
-    @SerializedName("phone")
+    private String idType;
+    @SerializedName("occupation")
     @Expose
-    private String phone;
-    @SerializedName("locationId")
+    private String occupation;
+    @SerializedName("address")
     @Expose
-    private String locationId;
-    @SerializedName("bankName")
+    private String address;
+    @SerializedName("issueDate")
     @Expose
-    private String bankName;
-    @SerializedName("email")
+    private String issueDate;
+    @SerializedName("expireDate")
     @Expose
-    private String email;
+    private String expireDate;
+    @SerializedName("licIssuAutho")
+    @Expose
+    private String licIssuAutho;
     @SerializedName("area")
     @Expose
     private String area;
+    @SerializedName("phone")
+    @Expose
+    private String phone;
+    @SerializedName("accountNo")
+    @Expose
+    private String accountNo;
+    @SerializedName("bankMobile")
+    @Expose
+    private String bankMobile;
+    @SerializedName("country")
+    @Expose
+    private String country;
+    @SerializedName("nationality")
+    @Expose
+    private String nationality;
+
+    @SerializedName("bankName")
+    @Expose
+    private String bankName;
+    @SerializedName("bankBranchName")
+    @Expose
+    private String bankBranchName;
+    @SerializedName("bankBranchCode")
+    @Expose
+    private String bankBranchCode;
+
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
+    }
 
     public String getSurName() {
         return surName;
@@ -45,12 +84,60 @@ public class ReceiverInfo {
         this.givName = givName;
     }
 
-    public String getCountry() {
-        return country;
+    public String getIdType() {
+        return idType;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setIdType(String idType) {
+        this.idType = idType;
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(String issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    public String getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(String expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public String getLicIssuAutho() {
+        return licIssuAutho;
+    }
+
+    public void setLicIssuAutho(String licIssuAutho) {
+        this.licIssuAutho = licIssuAutho;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public String getPhone() {
@@ -61,36 +148,38 @@ public class ReceiverInfo {
         this.phone = phone;
     }
 
-    public String getLocationId() {
-        return locationId;
+    public String getAccountNo() {
+        return accountNo;
     }
 
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
     }
 
-    public String getBankName() {
-        return bankName;
+    public String getBankMobile() {
+        return bankMobile;
     }
 
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
+    public void setBankMobile(String bankMobile) {
+        this.bankMobile = bankMobile;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCountry() {
+        return country;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    public String getArea() {
-        return area;
+    public String getNationality() {
+        return nationality;
     }
 
-    public void setArea(String area) {
-        this.area = area;
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
+
+
 
 }
