@@ -720,7 +720,6 @@
                                     app:text_size="10sp" />
                             </FrameLayout>
 
-
                             <FrameLayout
                                 android:id="@+id/fl_top3"
                                 android:layout_width="0dp"
