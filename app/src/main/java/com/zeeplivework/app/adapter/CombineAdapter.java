@@ -34,13 +34,8 @@ public class CombineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     Context context;
     List<DailyList> list;
     String type;
-
-
     private static final int ITEM = 0;
-    private static final int LOADING = 1;
-    private boolean isLoadingAdded = false;
-    private boolean retryPageLoad = false;
-    private String errorMsg;
+    private static final int TYPE_HEADER = 0;
 
     public CombineAdapter(Context context, List<DailyList> list, String type) {
         this.context = context;
@@ -57,16 +52,16 @@ public class CombineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (viewType) {
             case ITEM:
                 View v1 = null;
-                if (type.equals("dashboard")) {
+                if (type.equals("header")) {
                     v1 = inflater.inflate(R.layout.daily_layout, parent, false);
-                } else if (type.equals("search")) {
+                } else if (type.equals("bottom")) {
                     v1 = inflater.inflate(R.layout.weekly_layout, parent, false);
                 }
-
                 viewHolder = new myViewHolder(v1);
                 break;
         }
         return viewHolder;
+
     }
 
     @Override
@@ -77,15 +72,13 @@ public class CombineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 try {
                     final myViewHolder holder = (myViewHolder) hld;
 
-                    if (type.equals("Daily")) {
+                    if (type.equals("header")) {
                         holder.user_image.setImageResource(list.get(position).getImage());
                         holder.user_name.setText(list.get(position).getUser_Name());
                         holder.tv_total_coin.setText(list.get(position).getCoins());
                         // holder.iv_positions.setImageResource();
                     } else {
-
-
-
+                        holder.user_image_1.setImageResource(list.get(position).getImage());
                     }
 
                 } catch (Exception e) {
@@ -100,14 +93,19 @@ public class CombineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return list == null ? 0 : list.size();
     }
 
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     public class myViewHolder extends RecyclerView.ViewHolder {
         AppCompatImageView iv_positions;
         CircleImageView user_image;
-        TextView  user_name, tv_total_coin;
+        TextView user_name, tv_total_coin;
 
-        AppCompatImageView tv_coins_user_1,tv_coins_user_2,tv_coins_user_3;
+        AppCompatImageView tv_coins_user_1, tv_coins_user_2, tv_coins_user_3;
         CircleImageView user_image_1;
-
 
 
         public myViewHolder(View itemView) {

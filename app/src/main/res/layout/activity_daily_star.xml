@@ -10,7 +10,7 @@
             type="com.zeeplivework.app.activity.DailyStarActivity.EventHandler" />
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -251,7 +251,7 @@
                     android:layout_width="235dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="55dp"
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/ic_dual_reward"
                     android:foreground="?attr/selectableItemBackground"
@@ -385,7 +385,6 @@
 
                     </LinearLayout>
 
-
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_top_bar"
                         android:layout_width="62dp"
@@ -405,7 +404,6 @@
                         app:layout_constraintBottom_toTopOf="@+id/layout_views"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent" />
-
 
                     <LinearLayout
                         android:id="@+id/layout_required"
@@ -533,7 +531,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/constraint_reward">
 
-
                     <LinearLayout
                         android:id="@+id/linear_level"
                         android:layout_width="match_parent"
@@ -635,7 +632,6 @@
                             android:textStyle="bold" />
 
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:id="@+id/linear_top_fans"
@@ -745,7 +741,6 @@
                         </FrameLayout>
 
                     </LinearLayout>
-
 
                     <RelativeLayout
                         android:id="@+id/rl_description"
@@ -865,12 +860,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_rank">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView_top"
+                        android:id="@+id/recyclerView_today"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/tv_more"
@@ -889,9 +885,9 @@
                         android:textSize="14sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/recyclerView_top"
+                        app:layout_constraintStart_toEndOf="@+id/recyclerView_today"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recyclerView_top" />
+                        app:layout_constraintTop_toBottomOf="@+id/recyclerView_today" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -920,9 +916,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:nestedScrollingEnabled="true"
+                    android:scrollbars="vertical"
                     android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/constraint_rank"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/constraint_rank" />
@@ -931,7 +926,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
-
+    </androidx.core.widget.NestedScrollView>
 
 </layout>

@@ -20,7 +20,6 @@ public class DailyStarActivity extends BaseActivity {
     ActivityDailyStarBinding binding;
     DailyAdapter dailyAdapter;
     WeeklyAdapter weeklyAdapter;
-
     List<DailyList> list = new ArrayList<>();
 
     @Override
@@ -30,13 +29,17 @@ public class DailyStarActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_daily_star);
         binding.setClickListener(new EventHandler(this));
 
-        binding.recyclerViewTop.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        binding.recyclerViewToday.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         dailyAdapter = new DailyAdapter(this, list);
-        binding.recyclerViewTop.setAdapter(dailyAdapter);
+        binding.recyclerViewToday.setHasFixedSize(true);
+        binding.recyclerViewToday.setAdapter(dailyAdapter);
+        binding.recyclerViewToday.setNestedScrollingEnabled(false);
 
         binding.recyclerViewTopDate.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         weeklyAdapter = new WeeklyAdapter(this, list);
+        binding.recyclerViewTopDate.setHasFixedSize(true);
         binding.recyclerViewTopDate.setAdapter(weeklyAdapter);
+        binding.recyclerViewTopDate.setNestedScrollingEnabled(false);
         setData();
     }
 
@@ -114,6 +117,7 @@ public class DailyStarActivity extends BaseActivity {
         list1 = new DailyList(R.drawable.female, "Priya Singh", "Won 1,119,107");
         list.add(list1);
         dailyAdapter.notifyDataSetChanged();
+        weeklyAdapter.notifyDataSetChanged();
     }
 
 }
