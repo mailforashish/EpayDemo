@@ -67,7 +67,7 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
     List<RequiredFieldResult> listnew = new ArrayList<>();
     RequiredFieldAdapter requiredFieldAdapter;
     private List<String> searchWordList;
-
+    //parameter for Create transaction
     String SurName = "";
     String GivName = "";
     String middleName = "";
@@ -115,7 +115,7 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
 
         sKey = SignUtil.createSign(map, "2d00b386231806ec7e18e2d96dc043aa");
         Log.e("AddBank", "RequiredKey=> " + sKey);
-        // for get required field data according to this api
+        //for get required field data according to this api
         RequiredFieldRequest requiredFieldRequest = new RequiredFieldRequest();
         requiredFieldRequest.setSign(sKey);
 
@@ -139,7 +139,6 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
     @Override
     public void isError(String errorCode) {
         Log.e("AddBank", "BankListError=> " + errorCode);
-
     }
 
     @Override
@@ -155,67 +154,11 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
                     listnew.add(list.get(i));
                 }
             }
-
             for (int i = 0; i < listnew.size(); i++) {
                 for (String search : searchWordList) {
                     listnew.removeIf(item -> item.getValue().equals(search));
                 }
             }
-
-           /* for (int i = listnew.size() - 1; i >= 0; i--) {
-                if (listnew.get(i).getValue().contains("address")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("bankId")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("city")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("bankBranch")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("locationId")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("bankBranchCode")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("accountType")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("country")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("taxId")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("area")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("idType")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("idNumber")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("otherName")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("nationality")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("accountCountry")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("bankBranchName")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("tradingName")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("zipCode")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("states")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("msisdn")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("missdn")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("email")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("registrationNumber")) {
-                    listnew.remove(i);
-                } else if (listnew.get(i).getValue().contains("dateOfIncorporation")) {
-                    listnew.remove(i);
-                } else {
-                }
-
-            }*/
-
             requiredFieldAdapter = new RequiredFieldAdapter(AddBankActivity.this, listnew);
             binding.rvAddBank.setAdapter(requiredFieldAdapter);
             requiredFieldAdapter.notifyDataSetChanged();
@@ -240,6 +183,7 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         }
 
         public void saveContinue() {
+
            /* for (int i = 0; i < listnew.size(); i++) {
                 for (Map.Entry<String, String> entry : RequiredFieldAdapter.fillForm.entrySet()) {
                     Log.e("FormValue", "AllValue=> " + entry.getKey() + ":" + RequiredFieldAdapter.fillForm.get(entry.getKey()));
@@ -253,7 +197,7 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
                         Phone = String.valueOf(entry.getValue());
                         Log.e("PhonelOG", "Phone=> " + entry.getKey() + ":" + RequiredFieldAdapter.fillForm.get(entry.getKey()));
                     } else if (listnew.get(i).getValue().equals(entry.getKey())) {
-                        Account = String.valueOf(entry.getValue());
+                        accountNo = String.valueOf(entry.getValue());
                         Log.e("AccountlOG", "Account=> " + entry.getKey() + ":" + RequiredFieldAdapter.fillForm.get(entry.getKey()));
                     }
                 }
@@ -291,7 +235,6 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
             } else {
                 Toast.makeText(AddBankActivity.this, "Fill Required Field", Toast.LENGTH_SHORT).show();
             }
-
         }
     }
 
@@ -312,7 +255,6 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
             case "phone":
                 Phone = value;
                 break;
-
         }
     }
 
@@ -329,7 +271,7 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         String category = "BANK";
         String notifyUrl = "http://localhost/paymentApi/channel/send.do";
         String merchantOrderNo = "IN09160020";
-        String amount = "1";
+        String amount = "";
         String receiveAmount = "1";
         String settlementCurrency = "USD";
         //String receiveCurrency = "";

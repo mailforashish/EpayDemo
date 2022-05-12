@@ -1,17 +1,8 @@
 <resources>
     <string name="app_name">EPAY</string>
     <string name="admob_app_id">ca-app-pub-1567293172560219~1074425246</string>
-    <string name="admob_rewarded_id">ca-app-pub-1567293172560219/5742645603</string>
-
     <string name="action_settings">Settings</string>
-    <string name="impossible_game">Impossible Game</string>
-    <string name="retry_button_text">Retry</string>
-    <string name="watch_video_button_text">Watch Video for 10 additional coins</string>
-    <string name="default_coin_text">Coins: 0</string>
-
     <string name="about_desc"> Please fill in the correct account information, or your withdrawal will be affected.</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_payment">PaymentActivity</string>
     <string name="BtnPaymentText">Test payment</string>
     <string name="ImageDescription">Epay logo</string>
@@ -51,8 +42,6 @@
         <item>registrationNumber</item>
         <item>dateOfIncorporation</item>
     </string-array>
-
-
 
 
 </resources>
