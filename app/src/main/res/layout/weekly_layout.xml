@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_rank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="-30dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/ic_toady_reward_bg"
+        android:paddingLeft="10dp"
+        android:paddingTop="30dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rank">
+
+
+        <LinearLayout
+            android:id="@+id/linear_weekly"
+            android:layout_width="match_parent"
+            android:layout_height="108dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginTop="120dp"
+            android:background="@drawable/ic_c"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/linear_top_fans">
+
+            <RelativeLayout
+                android:id="@+id/rl_2"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:tag="binding_1">
+
+                <TextView
+                    android:id="@+id/tv_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/lato_bold"
+                    android:gravity="center_horizontal"
+                    android:text="2"
+                    android:shadowColor="@color/text_shadow"
+                    android:shadowDx="-2"
+                    android:shadowDy="-2"
+                    android:shadowRadius="2"
+                    android:textColor="@color/white"
+                    android:textSize="26sp" />
+
+                <TextView
+                    android:layout_width="58dp"
+                    android:layout_height="22dp"
+                    android:layout_below="@+id/tv_two"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/ic_weekly_coin_two"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="11,500K"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_1"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:tag="binding_1">
+
+                <TextView
+                    android:id="@+id/tv_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:fontFamily="@font/lato_bold"
+                    android:gravity="center_horizontal"
+                    android:text="1"
+                    android:shadowColor="@color/text_shadow"
+                    android:shadowDx="-2"
+                    android:shadowDy="-2"
+                    android:shadowRadius="2"
+                    android:textColor="#DEB510"
+                    android:textSize="26sp" />
+
+                <TextView
+                    android:layout_width="58dp"
+                    android:layout_height="22dp"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/ic_weekly_coin_two"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="11,500K"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_3"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:tag="binding_1">
+
+                <TextView
+                    android:id="@+id/tv_three"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/lato_bold"
+                    android:gravity="center_horizontal"
+                    android:text="3"
+                    android:shadowColor="@color/text_shadow"
+                    android:shadowDx="-2"
+                    android:shadowDy="-2"
+                    android:shadowRadius="2"
+                    android:textColor="#F27D46"
+                    android:textSize="26sp" />
+
+                <TextView
+                    android:layout_width="58dp"
+                    android:layout_height="22dp"
+                    android:layout_below="@+id/tv_three"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/ic_weekly_coin_two"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="11,500K"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_top_fans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <FrameLayout
+                android:id="@+id/fl_top2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_image_2"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/female"
+                    app:civ_border_color="#eeeef6"
+                    app:civ_border_width="1dp" />
+
+                <ImageView
+                    android:id="@+id/iv_farme_2"
+                    android:layout_width="108dp"
+                    android:layout_height="98dp"
+                    android:layout_gravity="center"
+                    android:paddingTop="20dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/frame_new_2" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_coins_user_2"
+                    android:layout_width="80dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="98dp"
+                    android:background="@drawable/ic_coin_bg"
+                    android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="1000"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:drawableRightCompat="@drawable/ic_diamond_view" />
+
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_top1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_image_1"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/female"
+                    app:civ_border_color="#eeeef6"
+                    app:civ_border_width="1dp" />
+
+                <ImageView
+                    android:id="@+id/iv_frame_1"
+                    android:layout_width="112dp"
+                    android:layout_height="98dp"
+                    android:layout_gravity="center"
+                    android:paddingTop="15dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/frame_new_1" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_coins_user_1"
+                    android:layout_width="85dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="105dp"
+                    android:background="@drawable/ic_coin_bg"
+                    android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="1000"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:drawableRightCompat="@drawable/ic_diamond_view" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_top3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_image_3"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/female"
+                    app:civ_border_color="#eeeef6"
+                    app:civ_border_width="1dp" />
+
+                <ImageView
+                    android:id="@+id/iv_frame_3"
+                    android:layout_width="108dp"
+                    android:layout_height="98dp"
+                    android:layout_gravity="center"
+                    android:paddingTop="20dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/frame_new_3" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_coins_user_3"
+                    android:layout_width="80dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="98dp"
+                    android:background="@drawable/ic_coin_bg"
+                    android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="1000"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:drawableRightCompat="@drawable/ic_diamond_view" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_rank"
+        android:layout_width="170dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_rank_bg"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:shadowColor="@color/text_shadow"
+        android:shadowDx="-2"
+        android:shadowDy="-2"
+        android:shadowRadius="2"
+        android:text="2022.05.02"
+        android:textColor="@color/light_font"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:drawableBottomCompat="@drawable/ic_down_arrow_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
