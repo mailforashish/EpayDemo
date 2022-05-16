@@ -24,5 +24,10 @@
         <attr name="font_family" format="reference" />
         <attr name="text" format="string" />
     </declare-styleable>
+    <color name="view1">#FFF256EC</color>
+    <color name="view2">#FFF56CCE</color>
+    <color name="view3">#FFF682B0</color>
+    <color name="view4">#FFFEAA76</color>
+    <color name="view0">#d6d6d6</color>
 
 </resources>

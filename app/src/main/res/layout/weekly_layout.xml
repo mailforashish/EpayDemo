@@ -14,7 +14,7 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/ic_toady_reward_bg"
         android:paddingLeft="10dp"
-        android:paddingTop="30dp"
+        android:paddingTop="20dp"
         android:paddingRight="10dp"
         android:paddingBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="108dp"
             android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="130dp"
             android:background="@drawable/ic_c"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -164,9 +164,8 @@
             <FrameLayout
                 android:id="@+id/fl_top2"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="5dp"
+                android:layout_height="140dp"
+                android:layout_marginTop="30dp"
                 android:layout_weight="1">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -174,7 +173,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/female"
                     app:civ_border_color="#eeeef6"
@@ -182,8 +181,8 @@
 
                 <ImageView
                     android:id="@+id/iv_farme_2"
-                    android:layout_width="108dp"
-                    android:layout_height="98dp"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:paddingTop="20dp"
                     android:scaleType="centerCrop"
@@ -194,10 +193,9 @@
                     android:id="@+id/tv_coins_user_2"
                     android:layout_width="80dp"
                     android:layout_height="22dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="98dp"
+                    android:layout_gravity="bottom|center_horizontal|center_vertical"
                     android:background="@drawable/ic_coin_bg"
-                    android:gravity="center"
+                    android:gravity="center_horizontal|center_vertical"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:text="1000"
@@ -212,9 +210,8 @@
             <FrameLayout
                 android:id="@+id/fl_top1"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"
+                android:layout_height="150dp"
+                android:layout_marginBottom="40dp"
                 android:layout_weight="1">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -231,8 +228,8 @@
                 <ImageView
                     android:id="@+id/iv_frame_1"
                     android:layout_width="112dp"
-                    android:layout_height="98dp"
-                    android:layout_gravity="center"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
                     android:paddingTop="15dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/frame_new_1" />
@@ -241,10 +238,10 @@
                     android:id="@+id/tv_coins_user_1"
                     android:layout_width="85dp"
                     android:layout_height="22dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="105dp"
+                    android:layout_marginTop="118dp"
+                    android:layout_gravity="bottom|center_horizontal|center_vertical"
                     android:background="@drawable/ic_coin_bg"
-                    android:gravity="center"
+                    android:gravity="center_horizontal|center_vertical"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:text="1000"
@@ -257,9 +254,8 @@
             <FrameLayout
                 android:id="@+id/fl_top3"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="5dp"
+                android:layout_height="140dp"
+                android:layout_marginTop="30dp"
                 android:layout_weight="1">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -267,7 +263,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/female"
                     app:civ_border_color="#eeeef6"
@@ -275,8 +271,8 @@
 
                 <ImageView
                     android:id="@+id/iv_frame_3"
-                    android:layout_width="108dp"
-                    android:layout_height="98dp"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:paddingTop="20dp"
                     android:scaleType="centerCrop"
@@ -286,10 +282,9 @@
                     android:id="@+id/tv_coins_user_3"
                     android:layout_width="80dp"
                     android:layout_height="22dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="98dp"
+                    android:layout_gravity="bottom|center_horizontal|center_vertical"
                     android:background="@drawable/ic_coin_bg"
-                    android:gravity="center"
+                    android:gravity="center_horizontal|center_vertical"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:text="1000"

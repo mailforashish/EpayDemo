@@ -1,17 +1,33 @@
 package com.zeeplivework.app.activity;
 
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.widget.ProgressBar;
 
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.zeeplivework.app.R;
 import com.zeeplivework.app.adapter.DailyAdapter;
 import com.zeeplivework.app.adapter.WeeklyAdapter;
 import com.zeeplivework.app.databinding.ActivityDailyStarBinding;
+import com.zeeplivework.app.progress.ProgressBarDrawable;
 import com.zeeplivework.app.response.DailyList;
 import com.zeeplivework.app.utils.BaseActivity;
+import com.zeeplivework.app.utils.ProgressDrawable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +37,12 @@ public class DailyStarActivity extends BaseActivity {
     DailyAdapter dailyAdapter;
     WeeklyAdapter weeklyAdapter;
     List<DailyList> list = new ArrayList<>();
+    ProgressBar horizontalProgressBar;
+
+    private int progressStatus = 0;
+    private int currentStatus = 50;
+    private Handler handler = new Handler();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,6 +50,13 @@ public class DailyStarActivity extends BaseActivity {
         hideStatusBar(getWindow(), true);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_daily_star);
         binding.setClickListener(new EventHandler(this));
+
+        horizontalProgressBar = findViewById(R.id.horizontalProgressBar);
+        ProgressBarDrawable progressBar = new ProgressBarDrawable();
+
+        //horizontalProgressBar = findViewById(R.id.horizontalProgressBar);
+        //Drawable d = new ProgressDrawable(0xFFFEAA76, 0xd6d6d6);
+        //horizontalProgressBar.setProgressDrawable(d);
 
         binding.recyclerViewToday.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         dailyAdapter = new DailyAdapter(this, list);
@@ -41,6 +70,43 @@ public class DailyStarActivity extends BaseActivity {
         binding.recyclerViewTopDate.setAdapter(weeklyAdapter);
         binding.recyclerViewTopDate.setNestedScrollingEnabled(false);
         setData();
+        //setProgressData();
+
+    }
+
+    private void setProgressData() {
+        Point maxSizePoint = new Point();
+        getWindowManager().getDefaultDisplay().getSize(maxSizePoint);
+        final int maxX = maxSizePoint.x;
+        new Thread(new Runnable() {
+            public void run() {
+                while (progressStatus < currentStatus) {
+                    progressStatus += 1;
+                    handler.post(new Runnable() {
+                        public void run() {
+                            horizontalProgressBar.setProgress(progressStatus);
+                            int val = (progressStatus * (horizontalProgressBar.getWidth() - 2)) / horizontalProgressBar.getMax();
+                            Log.e("valueofProgress", "" + String.valueOf(val));
+                            int textViewX = val - (binding.tvTopBar.getWidth() / 2);
+                            int textViewX1 = val - (binding.tvBottomBar.getWidth() / 2);
+                            int finalX = binding.tvTopBar.getWidth() + textViewX > maxX ? (maxX - binding.tvTopBar.getWidth() - 16) : textViewX + 16 - 56 /*your margin*/;
+                            int finalX1 = binding.tvBottomBar.getWidth() + textViewX1 > maxX ? (maxX - binding.tvBottomBar.getWidth() - 46) : textViewX1 + 16 - 56 /*your margin*/;
+                            binding.tvTopBar.setX(finalX < 0 ? 16/*your margin*/ : finalX);
+                            binding.tvBottomBar.setX(finalX1 < 0 ? 16  /*your margin*/ : finalX1);
+                            //binding.tvTopBar.setText(String.valueOf(progressStatus));
+                        }
+                    });
+                    try {
+                        //Sleep for 200 milliseconds.
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
+
     }
 
     public class EventHandler {
@@ -118,6 +184,8 @@ public class DailyStarActivity extends BaseActivity {
         list.add(list1);
         dailyAdapter.notifyDataSetChanged();
         weeklyAdapter.notifyDataSetChanged();
+
     }
+
 
 }
