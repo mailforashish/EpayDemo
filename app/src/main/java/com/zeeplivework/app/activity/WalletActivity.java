@@ -2,63 +2,66 @@ package com.zeeplivework.app.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.zeeplivework.app.R;
+import com.zeeplivework.app.adapter.CountryAdapter;
 import com.zeeplivework.app.databinding.ActivityWalletBinding;
 import com.zeeplivework.app.dialog.CountryDialog;
+import com.zeeplivework.app.response.CountryList.CountryRequest;
+import com.zeeplivework.app.response.CountryList.CountryRequestBody;
+import com.zeeplivework.app.response.CountryList.CountryResponse;
+import com.zeeplivework.app.response.CountryList.CountryResult;
+import com.zeeplivework.app.retrofit.ApiManager;
+import com.zeeplivework.app.retrofit.ApiResponseInterface;
+import com.zeeplivework.app.utils.Constant;
 import com.zeeplivework.app.utils.SessionManager;
 import com.zeeplivework.app.utils.SignUtil;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class WalletActivity extends AppCompatActivity {
+import static com.zeeplivework.app.utils.SessionManager.COUNTRY_CODE;
+import static com.zeeplivework.app.utils.SessionManager.CURRENCY_CODE;
+import static com.zeeplivework.app.utils.SessionManager.TRANSACTION_TYPE;
+
+public class WalletActivity extends AppCompatActivity implements ApiResponseInterface {
     ActivityWalletBinding binding;
     SessionManager sessionManager;
-
-    String epayAccount = "zeeplive09@gmail.com";
+    ApiManager apiManager;
+    String epayAccount = "test2020@epay.com";
+    String category = "BANK";
+    String currency = "";
     String version = "V2.0.0";
-    String merchantName = "Zeeplive";
-    String notifyUrl = "http://localhost/paymentApi/channel/send.do";
-    String successUrl = "";
-    String failUrl = "";
-    String merchantOrderNo = "765432456";
-    String receiveEpayAccount = "shahovevgen4@gmail.com";
-    String amount = "1";
-    String currency = "USD";
-    String extendFields = "test : test";
+    String transactionType = "";
     String sKey = "";
     SortedMap<String, Object> map = new TreeMap<>();
+    List<String> transaction_type_list = new ArrayList<>();
+    ArrayList<CountryResult> countryList = new ArrayList<>();
+    String trType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_wallet);
         binding.setClickListener(new EventHandler(this));
         sessionManager = new SessionManager(this);
-
-        /*map.put("epayAccount", epayAccount);
-        map.put("version", version);
-        map.put("merchantName", merchantName);
-        map.put("notifyUrl", notifyUrl);
-        map.put("successUrl", successUrl);
-        map.put("failUrl", failUrl);
-        map.put("merchantOrderNo", merchantOrderNo);
-        map.put("receiveEpayAccount", receiveEpayAccount);
-        map.put("amount", amount);
-        map.put("currency", currency);
-        map.put("extendFields", extendFields);
-        Log.e("AddBank", "MapValueRAjeshSir=> " + map);
-        sKey = SignUtil.createSign(map, "e09de196ce7abf131659655a605c1864");
-        Log.e("AddBank", "RequiredKeyNew=> " + sKey);*/
+        apiManager = new ApiManager(this, this);
 
     }
 
@@ -79,18 +82,81 @@ public class WalletActivity extends AppCompatActivity {
         }
 
         public void addBankDetails() {
-            if (TextUtils.isEmpty(binding.tvCountryNameInput.getText().toString())) {
+            if (TextUtils.isEmpty(binding.tvCountryNameInput.getText().toString()) && TextUtils.isEmpty(trType)) {
                 Toast.makeText(WalletActivity.this, "Please Select Country", Toast.LENGTH_SHORT).show();
             } else {
                 startActivity(new Intent(WalletActivity.this, AddBankActivity.class));
+            }
+
+        }
+    }
+
+    @Override
+    public void isError(String errorCode) {
+        Log.e("EPAYLOG", "CurrencyListError=> " + errorCode);
+    }
+
+    @Override
+    public void isSuccess(Object response, int ServiceCode) {
+        if (ServiceCode == Constant.CURRENCY_LIST) {
+            CountryResponse rsp = (CountryResponse) response;
+            countryList.clear();
+            transaction_type_list.clear();
+            try {
+                countryList.addAll(rsp.getData());
+                Log.e("EPAYLOG", "CurrencyListP2=> " + new Gson().toJson(rsp));
+                for (int i = 0; i < countryList.size(); i++) {
+                    transaction_type_list.add(countryList.get(i).getTransactionType());
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_transaction, transaction_type_list);
+                binding.spinnerTransactionType.setAdapter(adapter);
+                binding.spinnerTransactionType.setDropDownVerticalOffset(22);
+
+                binding.spinnerTransactionType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Object item = parent.getItemAtPosition(position);
+                        String text = binding.spinnerTransactionType.getSelectedItem().toString();
+                        transactionType = String.valueOf(text);
+                        sessionManager.setTransactionType(text);
+                        Log.e("EPAYLOG", "transactionTypenew=> " + transactionType);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+
+            } catch (Exception e) {
+
             }
 
 
         }
     }
 
-    public void setCountry(String country) {
+    public void setCountry(String country, String currency_code) {
         binding.tvCountryNameInput.setText(country);
+        currency = currency_code;
+
+        map.put("epayAccount", epayAccount);
+        map.put("category", category);
+        map.put("currency", currency);
+        map.put("version", version);
+        map.put("transactionType", "");
+        sKey = SignUtil.createSign(map, "2d00b386231806ec7e18e2d96dc043aa");// for Testing
+        Log.e("EPAYLOG", "DialogsSignKey=> " + sKey);
+        CountryRequest countryRequest = new CountryRequest();
+        countryRequest.setSign(sKey);
+
+        CountryRequestBody countryRequestBody = new CountryRequestBody();
+        countryRequestBody.setEpayAccount(epayAccount);
+        countryRequestBody.setCategory(category);
+        countryRequestBody.setCurrency(currency);
+        countryRequestBody.setVersion(version);
+        countryRequestBody.setTransactionType("");
+        countryRequest.setParam(countryRequestBody);
+        apiManager.getCurrencyListDetails(countryRequest);
 
     }
 

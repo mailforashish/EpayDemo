@@ -16,6 +16,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zeeplivework.app.R;
 import com.zeeplivework.app.activity.AddBankActivity;
 import com.zeeplivework.app.dialog.BankDialog;
@@ -24,22 +25,36 @@ import com.zeeplivework.app.utils.BankSelected;
 import com.zeeplivework.app.utils.SessionManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdapter.MyViewHolder> {
     public List<RequiredFieldResult> arrayList;
     Context context;
     BankDialog bankDialog;
-    public static SortedMap<String, String> fillForm = new TreeMap<>();
     SessionManager sessionManager;
+    public static JSONObject ReceiverInfo = new JSONObject();
+    String BankName = "";
+    String LocationId = "";
+    String BankId = "";
+    String City = "";
+    String BankBranch = "";
+    String Address = "";
+    String Country = "";
 
-    public RequiredFieldAdapter(Context context, List<RequiredFieldResult> arrayList) {
+    public RequiredFieldAdapter(Context context, List<RequiredFieldResult> arrayList, String Country) {
         this.arrayList = arrayList;
         this.context = context;
+        this.Country = Country;
         sessionManager = new SessionManager(context);
+
     }
+
 
     @NonNull
     @Override
@@ -56,15 +71,32 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
             holder.et_name_input1.setVisibility(View.VISIBLE);
             holder.et_name_input1.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_next_acc, 0);
         }
+
+        if (arrayList.get(position).getValue().equals("bankName")) {
+            holder.et_name_input1.setText(BankName);
+        } else if (arrayList.get(position).getValue().equals("bankSelectId")) {
+            holder.et_name_input.setText(BankId);
+        } else if (arrayList.get(position).getValue().equals("country")) {
+            holder.et_name_input.setText(Country);
+        } else if (arrayList.get(position).getValue().equals("locationId")) {
+            holder.et_name_input.setText(LocationId);
+        } else if (arrayList.get(position).getValue().equals("bankBranchCode")) {
+            holder.et_name_input.setText(BankBranch);
+        } else if (arrayList.get(position).getValue().equals("bankId")) {
+            holder.et_name_input.setText(BankId);
+        } else if (arrayList.get(position).getValue().equals("address")) {
+            holder.et_name_input.setText(Address);
+        }
+
         holder.tv_Name.setText(capitalize(arrayList.get(position).getValue()));
         holder.et_name_input.setHint(arrayList.get(position).getValue());
 
 
     }
 
-
     @Override
     public int getItemViewType(int position) {
+
         return arrayList.size();
     }
 
@@ -72,6 +104,8 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
     public int getItemCount() {
         return arrayList.size();
     }
+
+
     public class MyViewHolder extends RecyclerView.ViewHolder implements BankSelected {
         public ConstraintLayout cl_form;
         public TextView tv_Name, tv_name_error;
@@ -91,7 +125,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
                 public void onClick(View view) {
                     if (arrayList.get(getAdapterPosition()).getValue().equals("bankName")) {
                         bankDialog = new BankDialog(view.getContext(), MyViewHolder.this);
-
                     }
                 }
             });
@@ -117,28 +150,29 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
                 position = (int) editText.getTag();
                 isAllEditTextsFilled(position, editText);
                 // Do whatever you want with position
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 if (TextUtils.isEmpty(s)) {
-                    fillForm.remove(arrayList.get(position).getValue(),  String.valueOf(s));
-                    ((AddBankActivity)context).getValueFromAdapter(arrayList.get(position).getValue(),String.valueOf(s));
+                    ReceiverInfo.remove(arrayList.get(position).getValue(), String.valueOf(s));
+                    //((AddBankActivity) context).getValueFromAdapter(arrayList.get(position).getValue(), String.valueOf(s));
                 } else {
-                    Log.e("inAdapterLog","editTxtName = "+arrayList.get(position).getValue()+" value = "+ s);
-                   fillForm.put(arrayList.get(position).getValue(), String.valueOf(s));
-                   ((AddBankActivity)context).getValueFromAdapter(arrayList.get(position).getValue(),String.valueOf(s));
+                    //Log.e("inAdapterLog", "editTxtName = " + arrayList.get(position).getValue() + " value = " + s);
+                    ReceiverInfo.put(arrayList.get(position).getValue(), String.valueOf(s));
+                    //((AddBankActivity) context).getValueFromAdapter(arrayList.get(position).getValue(), String.valueOf(s));
                 }
-                Log.e("currentIndex", "formevalue" + fillForm);
             }
         }
 
         private boolean isAllEditTextsFilled(int currentIndex, AppCompatEditText editText) {
-            Log.e("currentIndex", "valueIndex" + currentIndex);
-            Log.e("currentIndex", "editTextvalue" + editText);
-
+            //Log.e("currentIndex", "valueIndex" + currentIndex);
+            //Log.e("currentIndex", "editTextvalue" + editText);
             if (currentIndex == currentIndex) {
-                if (editText.length() >= 4) {
+                if (editText.length() >= 2) {
+                    tv_name_error.setVisibility(View.INVISIBLE);
+                } else if (et_name_input1.getText().toString().length() >= 2) {
                     tv_name_error.setVisibility(View.INVISIBLE);
                 } else {
                     tv_name_error.setVisibility(View.VISIBLE);
@@ -149,11 +183,35 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
 
         @Override
         public void getBank(boolean select, String address, String bankId, String bankName, String city, String bankBranch, String locationId) {
-            Log.e("valigysgy", "" + bankName);
+            Log.e("selectedBankName", "AdapterClass=> " + bankName);
             if (select) {
                 et_name_input1.setText(bankName);
-                sessionManager.createFormSession(address, bankId, bankName, city, bankBranch, locationId);
-                fillForm.put(arrayList.get(getAdapterPosition()).getValue(), bankName);
+                sessionManager.saveBankData(address, bankId, bankName, city, bankBranch, locationId);
+                BankName = bankName;
+                Address = address;
+                BankId = bankId;
+                City = city;
+                BankBranch = bankBranch;
+                LocationId = locationId;
+
+                /*for (int i = 0; i < arrayList.size(); i++) {
+                    if (arrayList.get(getAdapterPosition()).getValue().equals("country")) {
+                        et_name_input.setText(city);
+                    } else if (arrayList.get(getAdapterPosition()).getValue().equals("locationId")) {
+                        et_name_input.setText(locationId);
+                    } else if (arrayList.get(getAdapterPosition()).getValue().equals("bankBranchCode")) {
+                        et_name_input.setText(bankBranch);
+                    } else if (arrayList.get(getAdapterPosition()).getValue().equals("bankId")) {
+                        et_name_input.setText(bankId);
+                    } else if (arrayList.get(getAdapterPosition()).getValue().equals("address")) {
+                        et_name_input.setText(address);
+                    } else {
+
+                    }
+                }*/
+
+                ((AddBankActivity) context).getValueFromAdapter(getAdapterPosition());
+                ReceiverInfo.put(arrayList.get(getAdapterPosition()).getValue(), bankName);
                 bankDialog.dismiss();
             }
         }

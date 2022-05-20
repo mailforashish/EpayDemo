@@ -9,7 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 import com.zeeplivework.app.R;
 import com.zeeplivework.app.adapter.RequiredFieldAdapter;
 import com.zeeplivework.app.databinding.ActivityAddBankBinding;
@@ -30,6 +33,8 @@ import com.zeeplivework.app.utils.Constant;
 import com.zeeplivework.app.utils.SessionManager;
 import com.zeeplivework.app.utils.SignUtil;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.FormatFlagsConversionMismatchException;
@@ -38,10 +43,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import static com.zeeplivework.app.utils.SessionManager.ADDRESS;
 import static com.zeeplivework.app.utils.SessionManager.BANK_BRANCH;
 import static com.zeeplivework.app.utils.SessionManager.BANK_ID;
 import static com.zeeplivework.app.utils.SessionManager.BANK_NAME;
@@ -54,6 +61,28 @@ import static com.zeeplivework.app.utils.SessionManager.TRANSACTION_TYPE;
 
 public class AddBankActivity extends AppCompatActivity implements ApiResponseInterface {
     ActivityAddBankBinding binding;
+    //parameter for Create transaction
+    String SurName = "";
+    String GivName = "";
+    String MiddleName = "";
+    String Phone = "";
+    String Email = "";
+    String OtherName = "";
+    String Nationality = "";
+    String AccountNo = "";
+    String BankBranch = "";
+    String Currency = "";
+    String BankBranchCode = "";
+    String MrchantOrderNo;
+    String RegisteredName = "";
+    String TaxId = "";
+    String AccountType;
+    String IdType;
+    String IdNumber;
+    String Area = "";
+    String ZipCode;
+    String States;
+
     String sKey = "";
     String epayAccount = "test2020@epay.com";
     String category = "BANK";
@@ -62,31 +91,22 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
     String version = "V2.0.0";
     String transactionType = "C2C";
     SortedMap<String, Object> map = new TreeMap<>();
-    ApiManager apiManager;
-    List<RequiredFieldResult> list = new ArrayList<>();
-    List<RequiredFieldResult> listnew = new ArrayList<>();
-    RequiredFieldAdapter requiredFieldAdapter;
-    private List<String> searchWordList;
-    //parameter for Create transaction
-    String SurName = "";
-    String GivName = "";
-    String middleName = "";
-    String Phone = "";
+
     String Country = "";
     String LocationId = "";
     String BankName = "";
-    String bankId = "";
-    String Email = "";
-    String Area = "";
-    String otherName = "";
-    String nationality = "";
-    String accountNo = "";
-    String bankBranch = "";
-    String bankBranchName = "";
-    String address = "";
-    String city = "";
-    String currency = "";
-
+    String BankId = "";
+    String BankBranchName = "";
+    String Address = "";
+    String City = "";
+    private List<String> searchWordList;
+    ApiManager apiManager;
+    List<RequiredFieldResult> list = new ArrayList<>();
+    List<RequiredFieldResult> receiverList = new ArrayList<>();
+    RequiredFieldAdapter requiredFieldAdapter;
+    SessionManager sessionManager;
+    JSONObject SenderInfo = new JSONObject();
+    JSONObject ReceiverInfo = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,14 +116,14 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_bank);
         binding.setClickListener(new EventHandler(this));
         apiManager = new ApiManager(this, this);
+        sessionManager = new SessionManager(this);
 
         searchWordList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.searchWordsArray)));
-
-        HashMap<String, String> data = new SessionManager(getApplicationContext()).getCountryDetails();
+        HashMap<String, String> data = sessionManager.getCountryDetails();
         receiveCurrency = data.get(CURRENCY_CODE);
         countryCode = data.get(COUNTRY_CODE);
-        transactionType = data.get(TRANSACTION_TYPE);
         Country = data.get(COUNTRY_NAME);
+        transactionType = sessionManager.getTransactionType();
 
         map.put("epayAccount", epayAccount);
         map.put("category", category);
@@ -131,10 +151,8 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
 
         binding.rvAddBank.setHasFixedSize(true);
         binding.rvAddBank.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        RequiredFieldAdapter.fillForm.clear();
 
     }
-
 
     @Override
     public void isError(String errorCode) {
@@ -147,21 +165,29 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         if (ServiceCode == Constant.REQUIRED_FIELD) {
             RequiredFieldResponse rsp = (RequiredFieldResponse) response;
             Log.e("AddBank", "RequiredList=> " + new Gson().toJson(rsp.getData()));
-            list.addAll(rsp.getData());
-
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getSenderOrReceiver() == 2 && list.get(i).getRequired() == 1) {
-                    listnew.add(list.get(i));
+            try {
+                list.addAll(rsp.getData());
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getSenderOrReceiver() == 2 && list.get(i).getRequired() == 1) {
+                        receiverList.add(list.get(i));
+                    } else if (list.get(i).getSenderOrReceiver() == 1 && list.get(i).getRequired() == 1) {
+                        SenderInfo.put("_" + list.get(i).getValue(), "");
+                    }
                 }
-            }
-            for (int i = 0; i < listnew.size(); i++) {
+
+            /* for (int i = 0; i < listnew.size(); i++) {
                 for (String search : searchWordList) {
                     listnew.removeIf(item -> item.getValue().equals(search));
                 }
+            }*/
+
+                requiredFieldAdapter = new RequiredFieldAdapter(AddBankActivity.this, receiverList, Country);
+                binding.rvAddBank.setAdapter(requiredFieldAdapter);
+                requiredFieldAdapter.notifyDataSetChanged();
+            } catch (Exception e) {
+
             }
-            requiredFieldAdapter = new RequiredFieldAdapter(AddBankActivity.this, listnew);
-            binding.rvAddBank.setAdapter(requiredFieldAdapter);
-            requiredFieldAdapter.notifyDataSetChanged();
+
         }
         if (ServiceCode == Constant.CREATE_TRANSACTION) {
             CreateTransactionResponse rsp = (CreateTransactionResponse) response;
@@ -183,53 +209,9 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         }
 
         public void saveContinue() {
-
-           /* for (int i = 0; i < listnew.size(); i++) {
-                for (Map.Entry<String, String> entry : RequiredFieldAdapter.fillForm.entrySet()) {
-                    Log.e("FormValue", "AllValue=> " + entry.getKey() + ":" + RequiredFieldAdapter.fillForm.get(entry.getKey()));
-                    if (listnew.get(i).getValue().equals(entry.getKey())) {
-                        SurName = String.valueOf(entry.getValue());
-                        Log.e("surNamelOG", "SURNAME=> " + entry.getKey() + ":" + RequiredFieldAdapter.fillForm.get(entry.getKey()));
-                    } else if (listnew.get(i).getValue().equals(entry.getKey())) {
-                        GivName = String.valueOf(entry.getValue());
-                        Log.e("GivNamelOG", "GivName=> " + entry.getKey() + ":" + RequiredFieldAdapter.fillForm.get(entry.getKey()));
-                    } else if (listnew.get(i).getValue().equals(entry.getKey())) {
-                        Phone = String.valueOf(entry.getValue());
-                        Log.e("PhonelOG", "Phone=> " + entry.getKey() + ":" + RequiredFieldAdapter.fillForm.get(entry.getKey()));
-                    } else if (listnew.get(i).getValue().equals(entry.getKey())) {
-                        accountNo = String.valueOf(entry.getValue());
-                        Log.e("AccountlOG", "Account=> " + entry.getKey() + ":" + RequiredFieldAdapter.fillForm.get(entry.getKey()));
-                    }
-                }
-
-            }*/
-            // int i = 0 ;
-            /*for (Map.Entry<String, String> es : RequiredFieldAdapter.fillForm.entrySet()) {
-                if (i >= listnew.size()) {
-                    break;
-                }
-                if (RequiredFieldAdapter.fillForm.containsKey(es.getKey())) {
-                    Log.e("This does work:", "first=> " + es.getKey() + ":" + RequiredFieldAdapter.fillForm.get(es.getKey()));
-                     if (listnew.get(i).getValue().equals(es.getKey())) {
-                        SurName = String.valueOf(es.getValue());
-                    } else if (listnew.get(i).getValue().equals(es.getKey())) {
-                        GivName = String.valueOf(es.getValue());
-                        // break;
-                    } else if (listnew.get(i).getValue().equals(es.getKey())) {
-                        Account = String.valueOf(es.getValue());
-                    } else if (listnew.get(i).getValue().equals(es.getKey())) {
-                        Phone = String.valueOf(es.getValue());
-                    }
-                } else {
-                    Log.e("This does work: ", "seconds" + es.getKey() + ":" + es.getValue());
-                }
-                i++;
-            }*/
-
-            Log.e("TestingDaat", "mapsize" + RequiredFieldAdapter.fillForm.size());
-            Log.e("TestingDaat", "mapsize" + listnew.size());
-            // Log.e("TestingDaat", "SaveFormData" + data);
-            if (listnew.size() == RequiredFieldAdapter.fillForm.size()) {
+            Log.e("TestingDaat", "mapsize" + RequiredFieldAdapter.ReceiverInfo.size());
+            Log.e("TestingDaat", "mapsize" + receiverList.size());
+            if (receiverList.size() == RequiredFieldAdapter.ReceiverInfo.size()) {
                 TransferTransaction();
                 Toast.makeText(AddBankActivity.this, "Success", Toast.LENGTH_SHORT).show();
             } else {
@@ -238,8 +220,112 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         }
     }
 
-    public void getValueFromAdapter(String category, String value) {
-        switch (category) {
+
+    public void TransferTransaction() {
+        HashMap<String, String> data = new SessionManager(getApplicationContext()).getBankDetails();
+        Address = data.get(ADDRESS);
+        BankId = data.get(BANK_ID);
+        BankName = data.get(BANK_NAME);
+        City = data.get(CITY);
+        BankBranchName = data.get(BANK_BRANCH);
+        LocationId = data.get(LOCATION_ID);
+
+
+        ReceiverInfo = RequiredFieldAdapter.ReceiverInfo;
+        JSONObject jsonResult = new JSONObject();
+        try {
+            jsonResult.put("country_id", Country);
+            jsonResult.put("transaction_type", transactionType);
+            jsonResult.put("receiveCurrency", receiveCurrency);
+            jsonResult.put("senderInfo", SenderInfo);
+            jsonResult.put("receiverInfo", ReceiverInfo);
+        } catch (JsonIOException e) {
+            e.printStackTrace();
+        }
+        String msg = jsonResult.toString();
+        Log.e("AddBank", "SenderInfoData=> " + new Gson().toJson(SenderInfo));
+        Log.e("AddBank", "ReceiverInfoData=> " + new Gson().toJson(ReceiverInfo));
+        Log.e("AddBank", "MSGInfoData=> " + msg);
+
+
+
+       /*Random rand = new Random();
+        MrchantOrderNo = String.valueOf("Mrchant" + rand.nextInt(999999));
+        //Sender Param variable define here
+        SortedMap<String, Object> transMap = new TreeMap<>();
+        String epayAccount = "test2020@epay.com";
+        String category = "BANK";
+        String notifyUrl = "http://localhost/paymentApi/channel/send.do";
+        //String merchantOrderNo = MrchantOrderNo;
+        String amount = "5";
+        String receiveAmount = "";
+        String settlementCurrency = "USD";
+        //String receiveCurrency = receiveCurrency;
+        String version = "V2.0.0";
+        //String transactionType = transactionType;
+
+        //put Param value here in map for sign
+        transMap.put("epayAccount", epayAccount);
+        transMap.put("category", category);
+        transMap.put("notifyUrl", notifyUrl);
+        transMap.put("merchantOrderNo", MrchantOrderNo);
+        transMap.put("amount", amount);
+        transMap.put("receiveAmount", receiveAmount);
+        transMap.put("settlementCurrency", settlementCurrency);
+        transMap.put("receiveCurrency", receiveCurrency);
+        transMap.put("transactionType", transactionType);
+        transMap.put("version", version);*/
+
+        //transMap.put("senderInfo", SenderInfo);
+        //transMap.put("receiverInfo", RequiredFieldAdapter.ReceiverInfo);
+
+       /* Log.e("AddBank", "TransactionMapValue=> " + transMap);
+        String transKey = SignUtil.createSign(transMap, "2d00b386231806ec7e18e2d96dc043aa");
+        CreateTransactionRequest createTransactionRequest = new CreateTransactionRequest();
+        createTransactionRequest.setSign(transKey);*/
+
+      /* ReceiverInfo receiverInfo = new ReceiverInfo();
+        receiverInfo.setGivName(GivName);
+        receiverInfo.setSurName(SurName);
+        receiverInfo.setLocationId(LocationId);
+        receiverInfo.setBankId(BankId);
+        receiverInfo.setBankName(BankBranchName);
+        receiverInfo.setAccountNo(AccountNo);
+        receiverInfo.setBankBranchCode(BankName);
+        receiverInfo.setCountry(Country);
+        receiverInfo.setAddress(BankBranch);*/
+        /*CreateTransactionBody createTransactionBody = new CreateTransactionBody();
+        createTransactionBody.setEpayAccount(epayAccount);
+        createTransactionBody.setCategory(category);
+        createTransactionBody.setNotifyUrl(notifyUrl);
+        createTransactionBody.setMerchantOrderNo(MrchantOrderNo);
+        createTransactionBody.setAmount(amount);
+        createTransactionBody.setReceiveAmount(receiveAmount);
+        createTransactionBody.setSettlementCurrency(settlementCurrency);
+        createTransactionBody.setReceiveCurrency(receiveCurrency);
+        createTransactionBody.setTransactionType(transactionType);
+        createTransactionBody.setVersion(version);*/
+
+       /* ArrayList<String> listdata = new ArrayList<String>();
+        JSONObject jArray = (JSONObject) SenderInfo;
+        if (jArray != null) {
+            for (int i = 0; i < jArray.size(); i++) {
+                listdata.add(jArray.getString("SenderInfo"));
+            }
+        }*/
+
+        // createTransactionBody.setSenderInfo(senderInfo);
+        // createTransactionBody.setReceiverInfo(receiverInfo);
+        //createTransactionRequest.setParam(createTransactionBody);
+        //apiManager.createTransaction(createTransactionRequest);
+    }
+
+
+    public void getValueFromAdapter(int Pos) {
+        //String category, String value
+        requiredFieldAdapter.notifyItemRangeChanged(1, receiverList.size());
+        // requiredFieldAdapter.notifyDataSetChanged();
+      /*  switch (category) {
             case "surName":
                 SurName = value;
                 break;
@@ -247,117 +333,53 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
                 GivName = value;
                 break;
             case "middleName":
-                middleName = value;
+                MiddleName = value;
                 break;
             case "accountNo":
-                accountNo = value;
+                AccountNo = value;
+                break;
+            case "bankBranchCode":
+                BankBranchCode = value;
                 break;
             case "phone":
                 Phone = value;
                 break;
-        }
+            case "registeredName":
+                RegisteredName = value;
+                break;
+            case "taxId":
+                TaxId = value;
+                break;
+            case "accountType":
+                AccountType = value;
+                break;
+            case "idType":
+                IdType = value;
+                break;
+            case "idNumber":
+                IdNumber = value;
+                break;
+            case "area":
+                Area = value;
+                break;
+            case "zipCode":
+                ZipCode = value;
+                break;
+            case "states":
+                States = value;
+                break;
+            case "city":
+                City = value;
+                break;
+            case "address":
+                Address = value;
+                break;
+
+
+        }*/
     }
-
-    public void TransferTransaction() {
-        HashMap<String, String> data = new SessionManager(getApplicationContext()).getFormDetails();
-        LocationId = data.get(LOCATION_ID);
-        BankName = data.get(BANK_NAME);
-        bankId = data.get(BANK_ID);
-        bankBranchName = data.get(BANK_BRANCH);
-        bankBranch = data.get(BANK_BRANCH);
-
-        SortedMap<String, Object> transMap = new TreeMap<>();
-        String epayAccount = "test2020@epay.com";
-        String category = "BANK";
-        String notifyUrl = "http://localhost/paymentApi/channel/send.do";
-        String merchantOrderNo = "IN09160020";
-        String amount = "";
-        String receiveAmount = "1";
-        String settlementCurrency = "USD";
-        //String receiveCurrency = "";
-        String version = "V2.0.0";
-        String transactionType = "C2C";
-
-        transMap.put("epayAccount", epayAccount);
-        transMap.put("category", category);
-        transMap.put("notifyUrl", notifyUrl);
-        transMap.put("merchantOrderNo", merchantOrderNo);
-        transMap.put("amount", amount);
-        transMap.put("receiveAmount", receiveAmount);
-        transMap.put("settlementCurrency", settlementCurrency);
-        transMap.put("receiveCurrency", receiveCurrency);
-        transMap.put("transactionType", transactionType);
-        transMap.put("version", version);
-
-        Log.e("AddBank", "TransactionMapValue=> " + transMap);
-        String transKey = SignUtil.createSign(transMap, "2d00b386231806ec7e18e2d96dc043aa");
-        CreateTransactionRequest createTransactionRequest = new CreateTransactionRequest();
-        createTransactionRequest.setSign(transKey);
-
-        SenderInfo senderInfo = new SenderInfo();
-        senderInfo.setSurName("Joe");
-        senderInfo.setGivName("Chang");
-        senderInfo.setAccountNo("");
-        senderInfo.setIdNumber("A199267867");
-        senderInfo.setIdType("1");
-        senderInfo.setBirthday("1986-09-11");
-        senderInfo.setCountry("INDIA");
-        senderInfo.setNationality("IN");
-        senderInfo.setCity("noida");
-        senderInfo.setAddress("H 161, bsi building, noida 63");
-        senderInfo.setIdNumber("T2091272");
-        senderInfo.setBirthday("1976-02-27");
-        senderInfo.setPurposeOfRemittance("1");
-
-        ReceiverInfo receiverInfo = new ReceiverInfo();
-        receiverInfo.setSurName(SurName);
-        receiverInfo.setGivName(GivName);
-        receiverInfo.setCountry(Country);
-        receiverInfo.setIdType("1");
-        receiverInfo.setOccupation("1");
-        receiverInfo.setArea("63");
-        receiverInfo.setPhone(Phone);
-        receiverInfo.setAccountNo(accountNo);
-        receiverInfo.setNationality(countryCode);
-        receiverInfo.setAddress(bankBranch);
-
-        CreateTransactionBody createTransactionBody = new CreateTransactionBody();
-        createTransactionBody.setEpayAccount(epayAccount);
-        createTransactionBody.setCategory(category);
-        createTransactionBody.setNotifyUrl(notifyUrl);
-        createTransactionBody.setMerchantOrderNo(merchantOrderNo);
-        createTransactionBody.setAmount(amount);
-        createTransactionBody.setReceiveAmount(receiveAmount);
-        createTransactionBody.setSettlementCurrency(settlementCurrency);
-        createTransactionBody.setReceiveCurrency(receiveCurrency);
-        createTransactionBody.setTransactionType(transactionType);
-        createTransactionBody.setVersion(version);
-        createTransactionBody.setSenderInfo(senderInfo);
-        createTransactionBody.setReceiverInfo(receiverInfo);
-        createTransactionRequest.setParam(createTransactionBody);
-
-        apiManager.createTransaction(createTransactionRequest);
-
-    }
-
 }
 
 
-   /* public static String getCurrencySymbol(String countryCode) {
-        String currencySymbol = "";
-        Locale locale = null;
-        Currency currency = null;
-        try {
-            locale = new Locale("", countryCode);
-            currency = Currency.getInstance(locale);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
 
-        if (currency != null) {
-            currencySymbol = currency.getCurrencyCode();
-        }
-        Log.e("CurrencyCode", "is " + currencySymbol);
-        return currencySymbol;
-    }*/
 

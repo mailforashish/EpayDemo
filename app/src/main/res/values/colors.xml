@@ -29,5 +29,8 @@
     <color name="view3">#FFF682B0</color>
     <color name="view4">#FFFEAA76</color>
     <color name="view0">#d6d6d6</color>
+    <color name="left">#F256EC</color>
+    <color name="right">#FC9992</color>
+    <color name="center">#CBF256EC</color>
 
 </resources>

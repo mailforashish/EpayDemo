@@ -21,6 +21,7 @@ public class ProgressBarDrawable extends Drawable implements CloneableDrawable {
     public int mRadius = 0;
     public final RectF mRect = new RectF();
 
+
     private void drawBar(Canvas canvas, int i) {
         this.mPaint.setColor(i);
         this.mPaint.setStyle(Paint.Style.FILL_AND_STROKE);

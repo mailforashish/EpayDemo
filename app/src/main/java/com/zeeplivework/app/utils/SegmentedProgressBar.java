@@ -26,11 +26,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SegmentedProgressBar extends View {
+public class SegmentedProgressBar extends ProgressBar {
 
     private static final String TAG = "SegmentedProgressBar";
     private static final int FPS_IN_MILLI = 16; // 16.66 ~ 60fps

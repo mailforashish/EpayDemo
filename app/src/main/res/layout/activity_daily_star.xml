@@ -340,95 +340,23 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginRight="5dp"
-                        android:background="@drawable/ic_view_main"
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_reward_coin">
 
-                        <ProgressBar
+                        <com.zeeplivework.app.utils.SegmentedBar
                             android:id="@+id/horizontalProgressBar"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="match_parent"
                             android:layout_height="7dp"
-                            android:progress="100"
-                            android:progressDrawable="@drawable/ic_view_main" />
+                            android:progressDrawable="@drawable/ic_view_main"
+                            app:cornerRadius="20dp"
+                            app:dividerColor="@color/white"
+                            app:dividerWidth="2dp"
+                            app:divisions="4"
+                            app:isDividerEnabled="true" />
 
-                        <!--<ProgressBar
-                            android:id="@+id/progressBar2"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="0dp"
-                            android:layout_height="7dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_weight="1"
-                            android:progress="100"
-                            android:progressDrawable="@drawable/ic_view_2" />
-
-                        <ProgressBar
-                            android:id="@+id/progressBar3"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="0dp"
-                            android:layout_height="7dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_weight="1"
-                            android:progress="100"
-                            android:progressDrawable="@drawable/ic_view_3" />
-
-                        <ProgressBar
-                            android:id="@+id/progressBar4"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="0dp"
-                            android:layout_height="7dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_weight="1"
-                            android:layout_marginRight="5dp"
-                            android:progress="100"
-                            android:progressDrawable="@drawable/ic_view_4" />-->
-
-
-                        <!-- <ProgressBar
-                             android:id="@+id/horizontalProgressBar"
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content"
-                             android:max="100"
-                             style="?android:attr/progressBarStyleHorizontal"
-                             android:progress="10" />-->
-
-                        <!--<View
-                            android:id="@+id/view1"
-                            android:layout_width="0dp"
-                            android:layout_height="7dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:background="@drawable/ic_view_1" />
-
-                        <View
-                            android:id="@+id/view2"
-                            android:layout_width="0dp"
-                            android:layout_height="7dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="2dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/ic_view_2" />
-
-                        <View
-                            android:id="@+id/view3"
-                            android:layout_width="0dp"
-                            android:layout_height="7dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="2dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/ic_view_3" />
-
-                        <View
-                            android:id="@+id/view4"
-                            android:layout_width="0dp"
-                            android:layout_height="7dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/ic_view_4" />-->
 
                     </LinearLayout>
 
@@ -449,8 +377,8 @@
                         android:textSize="10sp"
                         app:drawableRightCompat="@drawable/ic_diamond_view"
                         app:layout_constraintBottom_toTopOf="@+id/layout_views"
-                       app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent" />
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
 
                     <LinearLayout
                         android:id="@+id/layout_required"
@@ -469,8 +397,8 @@
                             android:layout_weight="1"
                             android:drawablePadding="1dp"
                             android:gravity="left"
-                            android:text="Required 2M"
                             android:singleLine="true"
+                            android:text="Required 2M"
                             android:textColor="@color/text_color"
                             android:textSize="12sp"
                             android:textStyle="bold"
@@ -533,8 +461,8 @@
                         android:textColor="@color/white"
                         android:textSize="10sp"
                         app:drawableRightCompat="@drawable/ic_diamond_view"
-                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/layout_required" />
 
                     <Button

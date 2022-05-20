@@ -48,15 +48,14 @@ public class SessionManager {
     /**
      * Create country session
      */
-    public void createCountrySession(String countryName, String countryCode, String currencyCode, String transactionType) {
+    public void createCountrySession(String countryName, String countryCode, String currencyCode ) {
         editor.putString(COUNTRY_NAME, countryName);
         editor.putString(COUNTRY_CODE, countryCode);
         editor.putString(CURRENCY_CODE, currencyCode);
-        editor.putString(TRANSACTION_TYPE, transactionType);
         // commit changes
         editor.commit();
     }
-    public void createFormSession(String address, String bankId, String bankName, String city, String bankBranch, String locationId) {
+    public void saveBankData(String address, String bankId, String bankName, String city, String bankBranch, String locationId) {
         editor.putString(ADDRESS, address);
         editor.putString(BANK_ID, bankId);
         editor.putString(BANK_NAME, bankName);
@@ -75,11 +74,11 @@ public class SessionManager {
         user.put(COUNTRY_NAME, pref.getString(COUNTRY_NAME, null));
         user.put(COUNTRY_CODE, pref.getString(COUNTRY_CODE, null));
         user.put(CURRENCY_CODE, pref.getString(CURRENCY_CODE, null));
-        user.put(TRANSACTION_TYPE, pref.getString(TRANSACTION_TYPE, null));
+       // user.put(TRANSACTION_TYPE, pref.getString(TRANSACTION_TYPE, null));
         return user;
     }
 
-    public HashMap<String, String> getFormDetails() {
+    public HashMap<String, String> getBankDetails() {
         HashMap<String, String> userForm = new HashMap<String, String>();
         userForm.put(ADDRESS, pref.getString(ADDRESS, null));
         userForm.put(BANK_ID, pref.getString(BANK_ID, null));
@@ -90,6 +89,13 @@ public class SessionManager {
         return userForm;
     }
 
+    public void setTransactionType(String transactionType) {
+        editor.putString(TRANSACTION_TYPE, transactionType);
+        editor.apply();
+    }
+    public String getTransactionType() {
+        return pref.getString(TRANSACTION_TYPE, "null");
+    }
 
    /* public void setCountryName(String countryName) {
         editor.putString(COUNTRY_NAME, countryName);
@@ -112,13 +118,7 @@ public class SessionManager {
     public String getCurrencyCode() {
         return pref.getString(CURRENCY_CODE, "null");
     }
-    public void setTransactionType(String transactionType) {
-        editor.putString(TRANSACTION_TYPE, transactionType);
-        editor.apply();
-    }
-    public String getTransactionType() {
-        return pref.getString(TRANSACTION_TYPE, "null");
-    }*/
+   */
 
 
 }

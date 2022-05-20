@@ -4,47 +4,57 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class SenderInfo {
-    @SerializedName("surName")
-    @Expose
-    private String surName;
     @SerializedName("givName")
     @Expose
     private String givName;
-    @SerializedName("accountNo")
+    @SerializedName("surName")
     @Expose
-    private String accountNo;
-    @SerializedName("country")
-    @Expose
-    private String country;
-    @SerializedName("address")
-    @Expose
-    private String address;
+    private String surName;
     @SerializedName("nationality")
     @Expose
     private String nationality;
+    @SerializedName("gender")
+    @Expose
+    private String gender;
+    @SerializedName("area")
+    @Expose
+    private String area;
+    @SerializedName("phone")
+    @Expose
+    private String phone;
     @SerializedName("city")
     @Expose
     private String city;
-    @SerializedName("birthday")
+    @SerializedName("address")
     @Expose
-    private String birthday;
+    private String address;
     @SerializedName("idType")
     @Expose
     private String idType;
     @SerializedName("idNumber")
     @Expose
     private String idNumber;
+    @SerializedName("issueDate")
+    @Expose
+    private String issueDate;
+    @SerializedName("expireDate")
+    @Expose
+    private String expireDate;
+    @SerializedName("birthday")
+    @Expose
+    private String birthday;
+    @SerializedName("occupation")
+    @Expose
+    private String occupation;
+    @SerializedName("sourceOfFund")
+    @Expose
+    private Integer sourceOfFund;
+    @SerializedName("beneficiaryRelationShip")
+    @Expose
+    private String beneficiaryRelationShip;
     @SerializedName("purposeOfRemittance")
     @Expose
     private String purposeOfRemittance;
-
-    public String getSurName() {
-        return surName;
-    }
-
-    public void setSurName(String surName) {
-        this.surName = surName;
-    }
 
     public String getGivName() {
         return givName;
@@ -54,28 +64,12 @@ public class SenderInfo {
         this.givName = givName;
     }
 
-    public String getAccountNo() {
-        return accountNo;
+    public String getSurName() {
+        return surName;
     }
 
-    public void setAccountNo(String accountNo) {
-        this.accountNo = accountNo;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setSurName(String surName) {
+        this.surName = surName;
     }
 
     public String getNationality() {
@@ -86,6 +80,30 @@ public class SenderInfo {
         this.nationality = nationality;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getCity() {
         return city;
     }
@@ -94,12 +112,12 @@ public class SenderInfo {
         this.city = city;
     }
 
-    public String getBirthday() {
-        return birthday;
+    public String getAddress() {
+        return address;
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getIdType() {
@@ -118,6 +136,54 @@ public class SenderInfo {
         this.idNumber = idNumber;
     }
 
+    public String getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(String issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    public String getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(String expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
+    public Integer getSourceOfFund() {
+        return sourceOfFund;
+    }
+
+    public void setSourceOfFund(Integer sourceOfFund) {
+        this.sourceOfFund = sourceOfFund;
+    }
+
+    public String getBeneficiaryRelationShip() {
+        return beneficiaryRelationShip;
+    }
+
+    public void setBeneficiaryRelationShip(String beneficiaryRelationShip) {
+        this.beneficiaryRelationShip = beneficiaryRelationShip;
+    }
+
     public String getPurposeOfRemittance() {
         return purposeOfRemittance;
     }
@@ -125,5 +191,6 @@ public class SenderInfo {
     public void setPurposeOfRemittance(String purposeOfRemittance) {
         this.purposeOfRemittance = purposeOfRemittance;
     }
+
 
 }

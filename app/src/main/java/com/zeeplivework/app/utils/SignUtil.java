@@ -9,8 +9,6 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.zeeplivework.app.utils.SHAUtils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -18,8 +16,6 @@ import static com.alibaba.fastjson.JSON.parse;
 
 
 public class SignUtil {
-    private static final Logger logger = LoggerFactory.getLogger(SignUtil.class);
-
     /**
      * create signature
      *
@@ -41,18 +37,18 @@ public class SignUtil {
      * @return
      */
     public static String createSign(SortedMap<String, Object> param, String key) {
-        logger.info("begin param:" + param.toString());
+        Log.e("SignUtil", "begin param:> " + param.toString());
         //restart sorting
         param = sortedMap(param);
-        logger.info("sort param:" + param.toString());
+        Log.e("SignUtil", "sort param:> " + param.toString());
         //sort map
         StringBuffer sbkey = new StringBuffer();
         sbkey = sbkey.append(concatMap(param));
         sbkey = sbkey.append("&key=" + key);
-        logger.info("before param:" + sbkey.toString());
+        Log.e("SignUtil", "before param:> " + sbkey.toString());
         //MD5 encryption,character set UTF-8,Result Convert to uppercase characters
         String sign = SHAUtils.sha256(sbkey.toString()).toUpperCase();
-        logger.info("end(sha256)sign:" + sign);
+        Log.e("SignUtil", "end(sha256)sign::> " + sign);
         return sign;
     }
 
@@ -69,8 +65,8 @@ public class SignUtil {
             return false;
         }
         String mySign = createSign(parameters, key);
-        logger.info("checkSign:" + checkSign);
-        logger.info("mySign:" + mySign);
+        Log.e("SignUtil", "checkSign:> " + checkSign);
+        Log.e("mySign:", "checkSign:> " + mySign);
         if (checkSign.equalsIgnoreCase(mySign)) {
             return true;
         }
@@ -161,7 +157,6 @@ public class SignUtil {
         return sbkey.length() > 0 ? sbkey.substring(0, sbkey.length() - 1) : sbkey.toString();
     }
 
-
     /**
      * Verify that JSON is a string
      *
@@ -183,9 +178,8 @@ public class SignUtil {
         return true;
     }
 
-
     public static void main(String[] args) {
-       // String s = "{\"epayAccount\":\"api@epay.com\",\"category\":\"BANK\",\"notifyUrl\":\"\",\"merchantOrderNo\":\"202103220010\",\"amount\":\"\",\"receiveAmount\":\"3000\",\"settlementCurrency\":\"USD\",\"receiveCurrency\":\"RUB\",\"version\":\"V1.0.0\",\"senderInfo\":{\"surName\":\"tom\",\"givName\":\"cat\",\"gender\":\"M\",\"email\":\"tomcat@epay.com\",\"country\":\"CN\",\"address\":\"address\",\"city\":\"city\",\"area\":\"86\",\"phone\":\"11111111111\",\"nationality\":\"AU\",\"idType\":\"1\",\"idNumber\":\"111111\",\"issueDate\":\"1980-01-01\",\"expireDate\":\"2050-01-01\",\"birthday\":\"1970-01-01\",\"occupation\":\"1\",\"sourceOfFund\":\"1\",\"beneficiaryRelationShip\":\"1\",\"purposeOfRemittance\":\"1\"},\"receiverInfo\":{\"surName\":\"ll\",\"givName\":\"test\",\"otherName\":\"其他语言\",\"address\":\"address\",\"area\":\"86\",\"phone\":\"11111111111\",\"country\":\"RU\",\"nationality\":\"RU\",\"idType\":\"1\",\"idNumber\":\"222222\",\"locationId\":\"RURLR00001-1\",\"bankId\":\"RURLR01299-2\",\"bankName\":\"AMP Bank Limited\",\"bankBranchName\":\"AMP Bank Limited\",\"bankBranchCode\":\"\",\"accountNo\":\"42222222225222222222\"}}";
+        // String s = "{\"epayAccount\":\"api@epay.com\",\"category\":\"BANK\",\"notifyUrl\":\"\",\"merchantOrderNo\":\"202103220010\",\"amount\":\"\",\"receiveAmount\":\"3000\",\"settlementCurrency\":\"USD\",\"receiveCurrency\":\"RUB\",\"version\":\"V1.0.0\",\"senderInfo\":{\"surName\":\"tom\",\"givName\":\"cat\",\"gender\":\"M\",\"email\":\"tomcat@epay.com\",\"country\":\"CN\",\"address\":\"address\",\"city\":\"city\",\"area\":\"86\",\"phone\":\"11111111111\",\"nationality\":\"AU\",\"idType\":\"1\",\"idNumber\":\"111111\",\"issueDate\":\"1980-01-01\",\"expireDate\":\"2050-01-01\",\"birthday\":\"1970-01-01\",\"occupation\":\"1\",\"sourceOfFund\":\"1\",\"beneficiaryRelationShip\":\"1\",\"purposeOfRemittance\":\"1\"},\"receiverInfo\":{\"surName\":\"ll\",\"givName\":\"test\",\"otherName\":\"其他语言\",\"address\":\"address\",\"area\":\"86\",\"phone\":\"11111111111\",\"country\":\"RU\",\"nationality\":\"RU\",\"idType\":\"1\",\"idNumber\":\"222222\",\"locationId\":\"RURLR00001-1\",\"bankId\":\"RURLR01299-2\",\"bankName\":\"AMP Bank Limited\",\"bankBranchName\":\"AMP Bank Limited\",\"bankBranchCode\":\"\",\"accountNo\":\"42222222225222222222\"}}";
         String s1 = "{\"epayAccount\":\"api@epay.com\",\"category\":\"BANK\",\"transactionType\":\"C2C\",\"currency\":\"INR\",\"CountryCode\":\"IN\",\"pageNum\":\"1\",\"pageSize\":\"10\",\"version\":\"V2.0.0\"}}";
         System.out.println(isJSONValid(createSign(JSONObject.parseObject(s1), "2d00b386231806ec7e18e2d96dc043aa")));
 

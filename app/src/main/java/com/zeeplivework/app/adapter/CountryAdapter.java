@@ -12,16 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.zeeplivework.app.R;
 import com.zeeplivework.app.response.CountryList.CountryResult;
+import com.zeeplivework.app.response.CountryListNew;
 import com.zeeplivework.app.utils.CountrySelect;
 
 import java.util.List;
 
 public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.MyViewHolder> {
-    List<CountryResult> arrayList;
+    List<CountryListNew> arrayList;
     Context context;
     CountrySelect countrySelect;
 
-    public CountryAdapter(Context context, List<CountryResult> arrayList, CountrySelect countrySelect) {
+    public CountryAdapter(Context context, List<CountryListNew> arrayList, CountrySelect countrySelect) {
         this.arrayList = arrayList;
         this.context = context;
         this.countrySelect = countrySelect;
@@ -37,22 +38,17 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-       /* for (int i = 0; i < arrayList.get(position).getCountryList().size(); i++) {
-            holder.countryName.setText(arrayList.get(position).getCountryList().get(i).getEnName());
-            holder.countryCode.setText(arrayList.get(position).getCountryList().get(i).getCountryCode());
-            holder.currencyCode.setText(arrayList.get(position).getCurrency());
-        }*/
-        holder.countryName.setText(arrayList.get(position).getCountryList().get(0).getEnName());
-        holder.countryCode.setText(arrayList.get(position).getCountryList().get(0).getCountryCode());
-        holder.currencyCode.setText(arrayList.get(position).getCurrency());
+
+        holder.countryName.setText(arrayList.get(position).getCountry_name());
+        holder.countryCode.setText(arrayList.get(position).getCountry_code());
+        holder.currencyCode.setText(arrayList.get(position).getCurrency_code());
 
         holder.constraint_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                countrySelect.getCountry(true, arrayList.get(position).getCountryList().get(0).getEnName(),
-                        arrayList.get(position).getCountryList().get(0).getCountryCode(),
-                        arrayList.get(position).getCurrency(),
-                        arrayList.get(position).getTransactionType());
+                countrySelect.getCountry(true, arrayList.get(position).getCountry_name(),
+                        arrayList.get(position).getCountry_code(),
+                        arrayList.get(position).getCurrency_code());
             }
         });
 

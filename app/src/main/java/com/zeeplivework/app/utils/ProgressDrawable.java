@@ -3,6 +3,7 @@ package com.zeeplivework.app.utils;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -14,6 +15,7 @@ public class ProgressDrawable extends Drawable {
     private int mBackground;
     private final Paint mPaint = new Paint();
     private final RectF mSegment = new RectF();
+    private float cornerRadius = 20f;
 
     public ProgressDrawable(int fgColor, int bgColor) {
         mForeground = fgColor;
@@ -44,11 +46,13 @@ public class ProgressDrawable extends Drawable {
                 mPaint.setColor(mBackground);
                 canvas.drawRect(middle, mSegment.top, mSegment.right, mSegment.bottom, mPaint);
             } else {
-                canvas.drawRect(mSegment, mPaint);
+               canvas.drawRect(mSegment, mPaint);
             }
             mSegment.offset(mSegment.width() + gapWidth, 0);
         }
+
     }
+
 
     @Override
     public void setAlpha(int alpha) {
@@ -63,4 +67,5 @@ public class ProgressDrawable extends Drawable {
         return PixelFormat.TRANSLUCENT;
 
     }
+
 }

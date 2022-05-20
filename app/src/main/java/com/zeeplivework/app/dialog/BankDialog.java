@@ -54,9 +54,8 @@ public class BankDialog extends Dialog implements ApiResponseInterface, Paginati
     String category = "BANK";
     String currency = "COP";
     String version = "V2.0.0";
-    String transactionType = "C2C";
-    String countryCode = "CO";
-    //String pageNum = "1";
+    String transactionType = "";
+    String countryCode = "";
     String pageSize = "10";
     JSONObject parameters = new JSONObject();
     BankSelected bankSelected;
@@ -67,6 +66,7 @@ public class BankDialog extends Dialog implements ApiResponseInterface, Paginati
     private boolean isLoading = false;
     private int TOTAL_PAGES;
     private int pageNum = PAGE_START;
+    SessionManager sessionManager;
 
     public BankDialog(@NonNull Context context, BankSelected bankSelected) {
         super(context);
@@ -84,13 +84,14 @@ public class BankDialog extends Dialog implements ApiResponseInterface, Paginati
 
         binding.setClickListener(new EventHandler(getContext()));
         apiManager = new ApiManager(getContext(), this);
+        sessionManager = new SessionManager(getContext());
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         binding.rvBank.setLayoutManager(linearLayoutManager);
 
         HashMap<String, String> data = new SessionManager(getContext()).getCountryDetails();
-        transactionType = data.get(TRANSACTION_TYPE);
         currency = data.get(CURRENCY_CODE);
-        countryCode =  data.get(COUNTRY_CODE);
+        countryCode = data.get(COUNTRY_CODE);
+        transactionType = sessionManager.getTransactionType();
 
         // for get All bank list according to this api
         parameters.put("epayAccount", epayAccount);
@@ -181,21 +182,26 @@ public class BankDialog extends Dialog implements ApiResponseInterface, Paginati
     public void isSuccess(Object response, int ServiceCode) {
         if (ServiceCode == Constant.BANK_LIST) {
             BankListResponse rsp = (BankListResponse) response;
-            Log.e("BankDialog", "BankList=> " + new Gson().toJson(rsp.getData()));
-            TOTAL_PAGES = rsp.getData().getPage().getTotal();
-            bankArrayList = rsp.getData().getBankList();
-            if (bankArrayList.size() > 0) {
-                adapter = new BankAdapter(getContext(), bankSelected,this);
-                binding.rvBank.setAdapter(adapter);
-                adapter.addAll(bankArrayList);
-                Log.e("HistListDataList", new Gson().toJson(bankArrayList));
-                if (pageNum < TOTAL_PAGES) {
-                    adapter.addLoadingFooter();
-                } else {
-                    isLastPage = true;
+            try {
+                Log.e("BankDialog", "BankList=> " + new Gson().toJson(rsp.getData().getBankList()));
+                TOTAL_PAGES = rsp.getData().getPage().getTotal();
+                bankArrayList = rsp.getData().getBankList();
+                if (bankArrayList.size() > 0) {
+                    adapter = new BankAdapter(getContext(), bankSelected, this);
+                    binding.rvBank.setAdapter(adapter);
+                    adapter.addAll(bankArrayList);
+                    Log.e("HistListDataList", new Gson().toJson(bankArrayList));
+                    if (pageNum < TOTAL_PAGES) {
+                        adapter.addLoadingFooter();
+                    } else {
+                        isLastPage = true;
+                    }
+                    adapter.notifyDataSetChanged();
                 }
-                adapter.notifyDataSetChanged();
+            } catch (Exception e) {
+
             }
+
         }
         if (ServiceCode == Constant.BANK_LIST_NEXT_PAGE) {
             BankListResponse rsp = (BankListResponse) response;

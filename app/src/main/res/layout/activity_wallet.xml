@@ -133,6 +133,54 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_transactionType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/linear_transaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="0dp"
+                    android:orientation="horizontal"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp">
+
+                    <TextView
+                        android:id="@+id/tv_transactionType"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/lato_bold"
+                        android:gravity="left"
+                        android:text="Select Transaction Type"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <Spinner
+                        android:id="@+id/spinner_transactionType"
+                        android:layout_width="0dp"
+                        android:layout_height="26dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:paddingRight="15dp"
+                        android:spinnerMode="dropdown" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/linear_transaction"
+                    android:layout_margin="2dp"
+                    android:layout_marginStart="0dp"
+                    android:background="@color/grey200" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
                 android:id="@+id/rl_bank_transfer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
