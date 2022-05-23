@@ -19,21 +19,11 @@ import com.zeeplivework.app.R;
 import com.zeeplivework.app.activity.WalletActivity;
 import com.zeeplivework.app.adapter.CountryAdapter;
 import com.zeeplivework.app.databinding.CountryDialogBinding;
-import com.zeeplivework.app.response.CountryList.CountryResponse;
-import com.zeeplivework.app.response.CountryList.CountryResult;
-import com.zeeplivework.app.response.CountryList.CountryRequest;
-import com.zeeplivework.app.response.CountryList.CountryRequestBody;
 import com.zeeplivework.app.response.CountryListNew;
-import com.zeeplivework.app.retrofit.ApiManager;
-import com.zeeplivework.app.retrofit.ApiResponseInterface;
-import com.zeeplivework.app.utils.Constant;
 import com.zeeplivework.app.utils.CountrySelect;
 import com.zeeplivework.app.utils.SessionManager;
-import com.zeeplivework.app.utils.SignUtil;
-
 import java.util.ArrayList;
-import java.util.SortedMap;
-import java.util.TreeMap;
+
 
 
 public class CountryDialog extends Dialog implements CountrySelect {

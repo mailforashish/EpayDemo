@@ -18,11 +18,6 @@ import com.zeeplivework.app.adapter.RequiredFieldAdapter;
 import com.zeeplivework.app.databinding.ActivityAddBankBinding;
 import com.zeeplivework.app.response.BankList.BankRequest;
 import com.zeeplivework.app.response.BankList.BankRequestBody;
-import com.zeeplivework.app.response.CreateTransaction.CreateTransactionBody;
-import com.zeeplivework.app.response.CreateTransaction.CreateTransactionRequest;
-import com.zeeplivework.app.response.CreateTransaction.CreateTransactionResponse;
-import com.zeeplivework.app.response.CreateTransaction.ReceiverInfo;
-import com.zeeplivework.app.response.CreateTransaction.SenderInfo;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldBody;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldRequest;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResponse;
@@ -48,57 +43,18 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static com.zeeplivework.app.utils.SessionManager.ADDRESS;
-import static com.zeeplivework.app.utils.SessionManager.BANK_BRANCH;
-import static com.zeeplivework.app.utils.SessionManager.BANK_ID;
-import static com.zeeplivework.app.utils.SessionManager.BANK_NAME;
-import static com.zeeplivework.app.utils.SessionManager.CITY;
+
 import static com.zeeplivework.app.utils.SessionManager.COUNTRY_CODE;
 import static com.zeeplivework.app.utils.SessionManager.COUNTRY_NAME;
 import static com.zeeplivework.app.utils.SessionManager.CURRENCY_CODE;
-import static com.zeeplivework.app.utils.SessionManager.LOCATION_ID;
-import static com.zeeplivework.app.utils.SessionManager.TRANSACTION_TYPE;
+
 
 public class AddBankActivity extends AppCompatActivity implements ApiResponseInterface {
     ActivityAddBankBinding binding;
-    //parameter for Create transaction
-    String SurName = "";
-    String GivName = "";
-    String MiddleName = "";
-    String Phone = "";
-    String Email = "";
-    String OtherName = "";
-    String Nationality = "";
-    String AccountNo = "";
-    String BankBranch = "";
-    String Currency = "";
-    String BankBranchCode = "";
-    String MrchantOrderNo;
-    String RegisteredName = "";
-    String TaxId = "";
-    String AccountType;
-    String IdType;
-    String IdNumber;
-    String Area = "";
-    String ZipCode;
-    String States;
-
-    String sKey = "";
-    String epayAccount = "test2020@epay.com";
-    String category = "BANK";
-    String receiveCurrency = "AUD";
-    String countryCode = "AU";
-    String version = "V2.0.0";
-    String transactionType = "C2C";
-    SortedMap<String, Object> map = new TreeMap<>();
-
+    String receiveCurrency = "";
+    String countryCode = "";
+    String transactionType = "";
     String Country = "";
-    String LocationId = "";
-    String BankName = "";
-    String BankId = "";
-    String BankBranchName = "";
-    String Address = "";
-    String City = "";
     private List<String> searchWordList;
     ApiManager apiManager;
     List<RequiredFieldResult> list = new ArrayList<>();
@@ -125,32 +81,12 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         Country = data.get(COUNTRY_NAME);
         transactionType = sessionManager.getTransactionType();
 
-        map.put("epayAccount", epayAccount);
-        map.put("category", category);
-        map.put("receiveCurrency", receiveCurrency);
-        map.put("countryCode", countryCode);
-        map.put("transactionType", transactionType);
-        map.put("version", version);
-        Log.e("AddBank", "MapValue=> " + map);
+        RequiredFieldAdapter.ReceiverInfo.clear();
 
-        sKey = SignUtil.createSign(map, "2d00b386231806ec7e18e2d96dc043aa");
-        Log.e("AddBank", "RequiredKey=> " + sKey);
-        //for get required field data according to this api
-        RequiredFieldRequest requiredFieldRequest = new RequiredFieldRequest();
-        requiredFieldRequest.setSign(sKey);
-
-        RequiredFieldBody requiredFieldBody = new RequiredFieldBody();
-        requiredFieldBody.setEpayAccount(epayAccount);
-        requiredFieldBody.setCategory(category);
-        requiredFieldBody.setReceiveCurrency(receiveCurrency);
-        requiredFieldBody.setCountryCode(countryCode);
-        requiredFieldBody.setTransactionType(transactionType);
-        requiredFieldBody.setVersion(version);
-        requiredFieldRequest.setParam(requiredFieldBody);
-        apiManager.getRequiredField(requiredFieldRequest);
-
+        apiManager.getRequiredField(countryCode, receiveCurrency, transactionType);
         binding.rvAddBank.setHasFixedSize(true);
         binding.rvAddBank.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
 
     }
 
@@ -181,18 +117,17 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
                 }
             }*/
 
-                requiredFieldAdapter = new RequiredFieldAdapter(AddBankActivity.this, receiverList, Country);
+                requiredFieldAdapter = new RequiredFieldAdapter(AddBankActivity.this, receiverList, countryCode);
                 binding.rvAddBank.setAdapter(requiredFieldAdapter);
-                requiredFieldAdapter.notifyDataSetChanged();
             } catch (Exception e) {
 
             }
 
         }
-        if (ServiceCode == Constant.CREATE_TRANSACTION) {
+       /* if (ServiceCode == Constant.CREATE_TRANSACTION) {
             CreateTransactionResponse rsp = (CreateTransactionResponse) response;
             Log.e("AddBank", "TransactiData=> " + new Gson().toJson(rsp.getData()));
-        }
+        }*/
 
     }
 
@@ -209,8 +144,8 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         }
 
         public void saveContinue() {
-            Log.e("TestingDaat", "mapsize" + RequiredFieldAdapter.ReceiverInfo.size());
-            Log.e("TestingDaat", "mapsize" + receiverList.size());
+            Log.e("TestingDaat", "mapsizeFill" + RequiredFieldAdapter.ReceiverInfo.size());
+            Log.e("TestingDaat", "mapsizeList" + receiverList.size());
             if (receiverList.size() == RequiredFieldAdapter.ReceiverInfo.size()) {
                 TransferTransaction();
                 Toast.makeText(AddBankActivity.this, "Success", Toast.LENGTH_SHORT).show();
@@ -220,21 +155,11 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         }
     }
 
-
     public void TransferTransaction() {
-        HashMap<String, String> data = new SessionManager(getApplicationContext()).getBankDetails();
-        Address = data.get(ADDRESS);
-        BankId = data.get(BANK_ID);
-        BankName = data.get(BANK_NAME);
-        City = data.get(CITY);
-        BankBranchName = data.get(BANK_BRANCH);
-        LocationId = data.get(LOCATION_ID);
-
-
         ReceiverInfo = RequiredFieldAdapter.ReceiverInfo;
         JSONObject jsonResult = new JSONObject();
         try {
-            jsonResult.put("country_id", Country);
+            jsonResult.put("country_id", countryCode);
             jsonResult.put("transaction_type", transactionType);
             jsonResult.put("receiveCurrency", receiveCurrency);
             jsonResult.put("senderInfo", SenderInfo);
@@ -248,136 +173,11 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         Log.e("AddBank", "MSGInfoData=> " + msg);
 
 
-
-       /*Random rand = new Random();
-        MrchantOrderNo = String.valueOf("Mrchant" + rand.nextInt(999999));
-        //Sender Param variable define here
-        SortedMap<String, Object> transMap = new TreeMap<>();
-        String epayAccount = "test2020@epay.com";
-        String category = "BANK";
-        String notifyUrl = "http://localhost/paymentApi/channel/send.do";
-        //String merchantOrderNo = MrchantOrderNo;
-        String amount = "5";
-        String receiveAmount = "";
-        String settlementCurrency = "USD";
-        //String receiveCurrency = receiveCurrency;
-        String version = "V2.0.0";
-        //String transactionType = transactionType;
-
-        //put Param value here in map for sign
-        transMap.put("epayAccount", epayAccount);
-        transMap.put("category", category);
-        transMap.put("notifyUrl", notifyUrl);
-        transMap.put("merchantOrderNo", MrchantOrderNo);
-        transMap.put("amount", amount);
-        transMap.put("receiveAmount", receiveAmount);
-        transMap.put("settlementCurrency", settlementCurrency);
-        transMap.put("receiveCurrency", receiveCurrency);
-        transMap.put("transactionType", transactionType);
-        transMap.put("version", version);*/
-
-        //transMap.put("senderInfo", SenderInfo);
-        //transMap.put("receiverInfo", RequiredFieldAdapter.ReceiverInfo);
-
-       /* Log.e("AddBank", "TransactionMapValue=> " + transMap);
-        String transKey = SignUtil.createSign(transMap, "2d00b386231806ec7e18e2d96dc043aa");
-        CreateTransactionRequest createTransactionRequest = new CreateTransactionRequest();
-        createTransactionRequest.setSign(transKey);*/
-
-      /* ReceiverInfo receiverInfo = new ReceiverInfo();
-        receiverInfo.setGivName(GivName);
-        receiverInfo.setSurName(SurName);
-        receiverInfo.setLocationId(LocationId);
-        receiverInfo.setBankId(BankId);
-        receiverInfo.setBankName(BankBranchName);
-        receiverInfo.setAccountNo(AccountNo);
-        receiverInfo.setBankBranchCode(BankName);
-        receiverInfo.setCountry(Country);
-        receiverInfo.setAddress(BankBranch);*/
-        /*CreateTransactionBody createTransactionBody = new CreateTransactionBody();
-        createTransactionBody.setEpayAccount(epayAccount);
-        createTransactionBody.setCategory(category);
-        createTransactionBody.setNotifyUrl(notifyUrl);
-        createTransactionBody.setMerchantOrderNo(MrchantOrderNo);
-        createTransactionBody.setAmount(amount);
-        createTransactionBody.setReceiveAmount(receiveAmount);
-        createTransactionBody.setSettlementCurrency(settlementCurrency);
-        createTransactionBody.setReceiveCurrency(receiveCurrency);
-        createTransactionBody.setTransactionType(transactionType);
-        createTransactionBody.setVersion(version);*/
-
-       /* ArrayList<String> listdata = new ArrayList<String>();
-        JSONObject jArray = (JSONObject) SenderInfo;
-        if (jArray != null) {
-            for (int i = 0; i < jArray.size(); i++) {
-                listdata.add(jArray.getString("SenderInfo"));
-            }
-        }*/
-
-        // createTransactionBody.setSenderInfo(senderInfo);
-        // createTransactionBody.setReceiverInfo(receiverInfo);
         //createTransactionRequest.setParam(createTransactionBody);
         //apiManager.createTransaction(createTransactionRequest);
+
     }
 
-
-    public void getValueFromAdapter(int Pos) {
-        //String category, String value
-        requiredFieldAdapter.notifyItemRangeChanged(1, receiverList.size());
-        // requiredFieldAdapter.notifyDataSetChanged();
-      /*  switch (category) {
-            case "surName":
-                SurName = value;
-                break;
-            case "givName":
-                GivName = value;
-                break;
-            case "middleName":
-                MiddleName = value;
-                break;
-            case "accountNo":
-                AccountNo = value;
-                break;
-            case "bankBranchCode":
-                BankBranchCode = value;
-                break;
-            case "phone":
-                Phone = value;
-                break;
-            case "registeredName":
-                RegisteredName = value;
-                break;
-            case "taxId":
-                TaxId = value;
-                break;
-            case "accountType":
-                AccountType = value;
-                break;
-            case "idType":
-                IdType = value;
-                break;
-            case "idNumber":
-                IdNumber = value;
-                break;
-            case "area":
-                Area = value;
-                break;
-            case "zipCode":
-                ZipCode = value;
-                break;
-            case "states":
-                States = value;
-                break;
-            case "city":
-                City = value;
-                break;
-            case "address":
-                Address = value;
-                break;
-
-
-        }*/
-    }
 }
 
 

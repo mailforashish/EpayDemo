@@ -73,7 +73,8 @@ public class BankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         public void onClick(View view) {
                             bankSelected.getBank(true, list.get(position).getAddress(), list.get(position).getBankId(),
                                     list.get(position).getBankName(), list.get(position).getCity(),
-                                    list.get(position).getBankBranch(), list.get(position).getLocationId());
+                                    list.get(position).getBankBranch(), list.get(position).getLocationId(),
+                                    list.get(position).getCountryCode());
                         }
                     });
                     break;

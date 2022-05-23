@@ -16,44 +16,29 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.zeeplivework.app.R;
-import com.zeeplivework.app.adapter.CountryAdapter;
+
 import com.zeeplivework.app.databinding.ActivityWalletBinding;
 import com.zeeplivework.app.dialog.CountryDialog;
-import com.zeeplivework.app.response.CountryList.CountryRequest;
-import com.zeeplivework.app.response.CountryList.CountryRequestBody;
 import com.zeeplivework.app.response.CountryList.CountryResponse;
 import com.zeeplivework.app.response.CountryList.CountryResult;
 import com.zeeplivework.app.retrofit.ApiManager;
 import com.zeeplivework.app.retrofit.ApiResponseInterface;
 import com.zeeplivework.app.utils.Constant;
 import com.zeeplivework.app.utils.SessionManager;
-import com.zeeplivework.app.utils.SignUtil;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
-import static com.zeeplivework.app.utils.SessionManager.COUNTRY_CODE;
-import static com.zeeplivework.app.utils.SessionManager.CURRENCY_CODE;
-import static com.zeeplivework.app.utils.SessionManager.TRANSACTION_TYPE;
 
 public class WalletActivity extends AppCompatActivity implements ApiResponseInterface {
     ActivityWalletBinding binding;
     SessionManager sessionManager;
     ApiManager apiManager;
-    String epayAccount = "test2020@epay.com";
-    String category = "BANK";
     String currency = "";
-    String version = "V2.0.0";
     String transactionType = "";
-    String sKey = "";
-    SortedMap<String, Object> map = new TreeMap<>();
     List<String> transaction_type_list = new ArrayList<>();
     ArrayList<CountryResult> countryList = new ArrayList<>();
     String trType;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +107,6 @@ public class WalletActivity extends AppCompatActivity implements ApiResponseInte
                         Log.e("EPAYLOG", "transactionTypenew=> " + transactionType);
                         adapter.notifyDataSetChanged();
                     }
-
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
@@ -131,7 +115,6 @@ public class WalletActivity extends AppCompatActivity implements ApiResponseInte
 
             }
 
-
         }
     }
 
@@ -139,24 +122,7 @@ public class WalletActivity extends AppCompatActivity implements ApiResponseInte
         binding.tvCountryNameInput.setText(country);
         currency = currency_code;
 
-        map.put("epayAccount", epayAccount);
-        map.put("category", category);
-        map.put("currency", currency);
-        map.put("version", version);
-        map.put("transactionType", "");
-        sKey = SignUtil.createSign(map, "2d00b386231806ec7e18e2d96dc043aa");// for Testing
-        Log.e("EPAYLOG", "DialogsSignKey=> " + sKey);
-        CountryRequest countryRequest = new CountryRequest();
-        countryRequest.setSign(sKey);
-
-        CountryRequestBody countryRequestBody = new CountryRequestBody();
-        countryRequestBody.setEpayAccount(epayAccount);
-        countryRequestBody.setCategory(category);
-        countryRequestBody.setCurrency(currency);
-        countryRequestBody.setVersion(version);
-        countryRequestBody.setTransactionType("");
-        countryRequest.setParam(countryRequestBody);
-        apiManager.getCurrencyListDetails(countryRequest);
+        apiManager.getCurrencyListDetails(currency);
 
     }
 

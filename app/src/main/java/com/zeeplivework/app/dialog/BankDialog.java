@@ -12,18 +12,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.zeeplivework.app.R;
-import com.zeeplivework.app.activity.AddBankActivity;
 import com.zeeplivework.app.adapter.BankAdapter;
-import com.zeeplivework.app.adapter.RequiredFieldAdapter;
 import com.zeeplivework.app.databinding.BankDialogBinding;
 import com.zeeplivework.app.response.BankList.Bank;
 import com.zeeplivework.app.response.BankList.BankListResponse;
-import com.zeeplivework.app.response.BankList.BankRequest;
-import com.zeeplivework.app.response.BankList.BankRequestBody;
 import com.zeeplivework.app.retrofit.ApiManager;
 import com.zeeplivework.app.retrofit.ApiResponseInterface;
 import com.zeeplivework.app.utils.BankSelected;
@@ -31,7 +25,7 @@ import com.zeeplivework.app.utils.Constant;
 import com.zeeplivework.app.utils.PaginationAdapterCallback;
 import com.zeeplivework.app.utils.PaginationScrollListener;
 import com.zeeplivework.app.utils.SessionManager;
-import com.zeeplivework.app.utils.SignUtil;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +33,6 @@ import java.util.List;
 
 import static com.zeeplivework.app.utils.SessionManager.COUNTRY_CODE;
 import static com.zeeplivework.app.utils.SessionManager.CURRENCY_CODE;
-import static com.zeeplivework.app.utils.SessionManager.TRANSACTION_TYPE;
 
 
 public class BankDialog extends Dialog implements ApiResponseInterface, PaginationAdapterCallback {
@@ -49,15 +42,10 @@ public class BankDialog extends Dialog implements ApiResponseInterface, Paginati
     BankAdapter adapter;
     ApiManager apiManager;
     Context context;
-    String sKeyBank = "";
-    String epayAccount = "test2020@epay.com";
-    String category = "BANK";
-    String currency = "COP";
-    String version = "V2.0.0";
+    String currency = "";
     String transactionType = "";
     String countryCode = "";
     String pageSize = "10";
-    JSONObject parameters = new JSONObject();
     BankSelected bankSelected;
     LinearLayoutManager linearLayoutManager;
 
@@ -93,65 +81,14 @@ public class BankDialog extends Dialog implements ApiResponseInterface, Paginati
         countryCode = data.get(COUNTRY_CODE);
         transactionType = sessionManager.getTransactionType();
 
-        // for get All bank list according to this api
-        parameters.put("epayAccount", epayAccount);
-        parameters.put("category", category);
-        parameters.put("transactionType", transactionType);
-        parameters.put("currency", currency);
-        parameters.put("countryCode", countryCode);
-        parameters.put("pageNum", pageNum);
-        parameters.put("pageSize", pageSize);
-        parameters.put("version", version);
-        Log.e("AddBank", "MapBankDialog=> " + parameters);
-
-        sKeyBank = SignUtil.createSign(parameters, "2d00b386231806ec7e18e2d96dc043aa");
-        Log.e("BankDialog", "BankListKey=> " + sKeyBank);
-
-        BankRequest bankRequest = new BankRequest();
-        bankRequest.setSign(sKeyBank);
-        BankRequestBody bankRequestBody = new BankRequestBody();
-        bankRequestBody.setEpayAccount(epayAccount);
-        bankRequestBody.setCategory(category);
-        bankRequestBody.setTransactionType(transactionType);
-        bankRequestBody.setCurrency(currency);
-        bankRequestBody.setCountryCode(countryCode);
-        bankRequestBody.setPageNum(String.valueOf(pageNum));
-        bankRequestBody.setPageSize(pageSize);
-        bankRequestBody.setVersion(version);
-        bankRequest.setParam(bankRequestBody);
-        apiManager.getBankListDetails(bankRequest);
+        apiManager.getBankListDetails(countryCode, currency, transactionType);
 
         binding.rvBank.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
             protected void loadMoreItems() {
                 isLoading = true;
                 pageNum += 1;
-                //showProgress();
-                // mocking network delay for API call
-
-                parameters.put("epayAccount", epayAccount);
-                parameters.put("category", category);
-                parameters.put("transactionType", transactionType);
-                parameters.put("currency", currency);
-                parameters.put("countryCode", countryCode);
-                parameters.put("pageNum", pageNum);
-                parameters.put("pageSize", pageSize);
-                parameters.put("version", version);
-                sKeyBank = SignUtil.createSign(parameters, "2d00b386231806ec7e18e2d96dc043aa");
-                BankRequest bankRequest = new BankRequest();
-                bankRequest.setSign(sKeyBank);
-                BankRequestBody bankRequestBody = new BankRequestBody();
-                bankRequestBody.setEpayAccount(epayAccount);
-                bankRequestBody.setCategory(category);
-                bankRequestBody.setTransactionType(transactionType);
-                bankRequestBody.setCurrency(currency);
-                bankRequestBody.setCountryCode(countryCode);
-                bankRequestBody.setPageNum(String.valueOf(pageNum));
-                bankRequestBody.setPageSize(pageSize);
-                bankRequestBody.setVersion(version);
-                bankRequest.setParam(bankRequestBody);
-
-                new Handler().postDelayed(() -> apiManager.getBankListNextPage(bankRequest), 500);
+                new Handler().postDelayed(() -> apiManager.getBankListNextPage(countryCode, currency, transactionType), 500);
             }
 
             @Override
