@@ -19,19 +19,10 @@
             android:name=".activity.AddBankActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.HomeActivity" />
         <activity
             android:name=".activity.DiamondActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".epay.PaymentActivity"
-            android:label="@string/title_activity_payment"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity
-            android:name=".epay.CreatePaymentActivity"
-            android:label="@string/title_activity_create_payment"
-            android:screenOrientation="portrait" />
+
         <activity android:name=".activity.TabActivity" />
         <activity android:name=".activity.DailyStarActivity"
             android:screenOrientation="portrait"/>

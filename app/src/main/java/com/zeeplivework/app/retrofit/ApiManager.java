@@ -3,6 +3,7 @@ package com.zeeplivework.app.retrofit;
 import android.content.Context;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSONArray;
 import com.google.gson.Gson;
 import com.zeeplivework.app.dialog.MyProgressDialog;
 import com.zeeplivework.app.response.BankList.BankListResponse;
@@ -106,6 +107,27 @@ public class ApiManager {
             }
         });
     }
+
+
+
+
+   /* public void createTransaction(JSONArray data) {
+        Call<Object> call = apiService.createTransaction("application/json", data);
+        Log.e("createTransactionLog", "" + new Gson().toJson(call.request().toString()));
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                Log.e("createTransactionDetail", new Gson().toJson(response.body()));
+                if (response.isSuccessful() && response.body() != null) {
+                    mApiResponseInterface.isSuccess(response.body(), Constant.CREATE_TRANSACTION);
+                }
+            }
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Log.e("createTransactionError", "createTransactionError=> " + t);
+            }
+        });
+    }*/
 
 
     public void showDialog() {

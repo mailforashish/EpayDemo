@@ -22,8 +22,8 @@ import com.zeeplivework.app.databinding.CountryDialogBinding;
 import com.zeeplivework.app.response.CountryListNew;
 import com.zeeplivework.app.utils.CountrySelect;
 import com.zeeplivework.app.utils.SessionManager;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 
 
 public class CountryDialog extends Dialog implements CountrySelect {
@@ -81,7 +81,6 @@ public class CountryDialog extends Dialog implements CountrySelect {
     }
 
     private void setData() {
-
         CountryListNew list1 = new CountryListNew("INDIA", "IN", "INR", "C2C");
         countryListNews.add(list1);
         list1 = new CountryListNew("Argentina", "AR", "ARS", "C2C");
@@ -94,11 +93,25 @@ public class CountryDialog extends Dialog implements CountrySelect {
         countryListNews.add(list1);
         list1 = new CountryListNew("Colombia", "CO", "COP", "C2C");
         countryListNews.add(list1);
+        list1 = new CountryListNew("Canada", "CA", "CAD", "C2C");
+        countryListNews.add(list1);
+        list1 = new CountryListNew("Fiji", "FJ", "FJD", "C2C");
+        countryListNews.add(list1);
+        list1 = new CountryListNew("Jordan", "JO", "JOD", "C2C");
+        countryListNews.add(list1);
         list1 = new CountryListNew("Indonesia", "ID", "IDR", "C2C");
         countryListNews.add(list1);
         list1 = new CountryListNew("Nepal", "NP", "NPR", "C2C");
         countryListNews.add(list1);
+        list1 = new CountryListNew("New Zealand", "NZ", "NZD", "C2C");
+        countryListNews.add(list1);
+        list1 = new CountryListNew("Nigeria", "NG", "NGN", "C2C");
+        countryListNews.add(list1);
         list1 = new CountryListNew("Pakistan", "PK", "PKR", "C2C");
+        countryListNews.add(list1);
+        list1 = new CountryListNew("Kuwait", "KW", "KWD", "C2C");
+        countryListNews.add(list1);
+        list1 = new CountryListNew("Kenya", "KE", "KES", "C2C");
         countryListNews.add(list1);
         list1 = new CountryListNew("Peru", "PE", "PEN", "C2C");
         countryListNews.add(list1);
@@ -106,11 +119,15 @@ public class CountryDialog extends Dialog implements CountrySelect {
         countryListNews.add(list1);
         list1 = new CountryListNew("Singapore", "SG", "SGD", "C2C");
         countryListNews.add(list1);
+        list1 = new CountryListNew("South Africa", "ZA", "ZAR", "C2C");
+        countryListNews.add(list1);
         list1 = new CountryListNew("Thailand", "TH", "THB", "C2C");
         countryListNews.add(list1);
-        list1 = new CountryListNew("Vietnam", "VN", "VND", "C2C");
-        countryListNews.add(list1);
         list1 = new CountryListNew("Turkey", "TR", "TRY", "C2C");
+        countryListNews.add(list1);
+        list1 = new CountryListNew("United Arab Emirates", "AE", "AED", "C2C");
+        countryListNews.add(list1);
+        list1 = new CountryListNew("Vietnam", "VN", "VND", "C2C");
         countryListNews.add(list1);
 
 

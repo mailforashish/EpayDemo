@@ -16,28 +16,16 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.Gson;
 import com.zeeplivework.app.R;
-import com.zeeplivework.app.activity.AddBankActivity;
+
 import com.zeeplivework.app.dialog.BankDialog;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResult;
 import com.zeeplivework.app.utils.BankSelected;
 import com.zeeplivework.app.utils.JsonParse;
-import com.zeeplivework.app.utils.SHAUtils;
 import com.zeeplivework.app.utils.SessionManager;
-
-import org.json.JSONException;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdapter.MyViewHolder> {
     public List<RequiredFieldResult> arrayList;
@@ -74,7 +62,7 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
         holder.et_name_input.setTag(position);
         holder.et_name_input.setFocusable(true);
 
-        if (arrayList.get(position).getValue().equals("bankId")) {
+        if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("Bank ID")) {
             holder.et_name_input1.setVisibility(View.VISIBLE);
             holder.et_name_input1.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_next_acc, 0);
         }
@@ -82,28 +70,20 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
             holder.et_name_input.setText(CountryCode);
         }
 
-        if (arrayList.get(position).getValue().equals("bankSelectId")) {
-            holder.et_name_input.setText(BankID);
-        } else if (arrayList.get(position).getValue().equals("locationId")) {
+        if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("location ID")) {
             holder.et_name_input.setText(LocationId);
-        } else if (arrayList.get(position).getValue().equals("bankBranchCode")) {
-            holder.et_name_input.setText(BankBranch);
-        } else if (arrayList.get(position).getValue().equals("bankName")) {
+        } else if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("Bank Name")) {
             holder.et_name_input.setText(BankName);
-        } else if (arrayList.get(position).getValue().equals("address")) {
+        } else if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).trim().equalsIgnoreCase("Bank Branch Code")) {
+            holder.et_name_input.setText(BankBranch);
+        } else if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("Address")) {
             holder.et_name_input.setText(Address);
-        } else if (arrayList.get(position).getValue().equals("nationality")) {
+        } else if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("Nationality")) {
             holder.et_name_input.setText(CountryCode);
         }
-
-
-        //String sign = SHAUtils.sha256(sbkey.toString()).toUpperCase();
-        String parseValue = JsonParse.jsonDecode(arrayList.get(position).getShowName());
-        //holder.tv_Name.setText(capitalize(arrayList.get(position).getShowName()));
-        holder.tv_Name.setText(parseValue);
-        holder.et_name_input.setHint(parseValue);
+        holder.tv_Name.setText(JsonParse.jsonDecode(arrayList.get(position).getShowName()));
+        holder.et_name_input.setHint(JsonParse.jsonDecode(arrayList.get(position).getShowName()));
     }
-
 
 
     @Override
@@ -135,7 +115,7 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
             et_name_input1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (arrayList.get(getAdapterPosition()).getValue().equals("bankId")) {
+                    if (JsonParse.jsonDecode(arrayList.get(getAdapterPosition()).getShowName()).equalsIgnoreCase("Bank ID")) {
                         bankDialog = new BankDialog(view.getContext(), MyViewHolder.this);
                     }
                 }

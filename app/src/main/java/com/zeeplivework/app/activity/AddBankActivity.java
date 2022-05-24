@@ -16,33 +16,17 @@ import com.google.gson.JsonIOException;
 import com.zeeplivework.app.R;
 import com.zeeplivework.app.adapter.RequiredFieldAdapter;
 import com.zeeplivework.app.databinding.ActivityAddBankBinding;
-import com.zeeplivework.app.response.BankList.BankRequest;
-import com.zeeplivework.app.response.BankList.BankRequestBody;
-import com.zeeplivework.app.response.RequiredField.RequiredFieldBody;
-import com.zeeplivework.app.response.RequiredField.RequiredFieldRequest;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResponse;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResult;
 import com.zeeplivework.app.retrofit.ApiManager;
 import com.zeeplivework.app.retrofit.ApiResponseInterface;
 import com.zeeplivework.app.utils.Constant;
 import com.zeeplivework.app.utils.SessionManager;
-import com.zeeplivework.app.utils.SignUtil;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.FormatFlagsConversionMismatchException;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 
 import static com.zeeplivework.app.utils.SessionManager.COUNTRY_CODE;
 import static com.zeeplivework.app.utils.SessionManager.COUNTRY_NAME;
@@ -51,11 +35,11 @@ import static com.zeeplivework.app.utils.SessionManager.CURRENCY_CODE;
 
 public class AddBankActivity extends AppCompatActivity implements ApiResponseInterface {
     ActivityAddBankBinding binding;
-    String receiveCurrency = "";
-    String countryCode = "";
-    String transactionType = "";
-    String Country = "";
-    private List<String> searchWordList;
+    private String receiveCurrency = "";
+    private String countryCode = "";
+    private String transactionType = "";
+    private String Country = "";
+
     ApiManager apiManager;
     List<RequiredFieldResult> list = new ArrayList<>();
     List<RequiredFieldResult> receiverList = new ArrayList<>();
@@ -74,19 +58,15 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         apiManager = new ApiManager(this, this);
         sessionManager = new SessionManager(this);
 
-        searchWordList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.searchWordsArray)));
         HashMap<String, String> data = sessionManager.getCountryDetails();
         receiveCurrency = data.get(CURRENCY_CODE);
         countryCode = data.get(COUNTRY_CODE);
         Country = data.get(COUNTRY_NAME);
         transactionType = sessionManager.getTransactionType();
-
         RequiredFieldAdapter.ReceiverInfo.clear();
-
         apiManager.getRequiredField(countryCode, receiveCurrency, transactionType);
         binding.rvAddBank.setHasFixedSize(true);
         binding.rvAddBank.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
 
     }
 
@@ -110,12 +90,6 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
                         SenderInfo.put("_" + list.get(i).getValue(), "");
                     }
                 }
-
-            /* for (int i = 0; i < listnew.size(); i++) {
-                for (String search : searchWordList) {
-                    listnew.removeIf(item -> item.getValue().equals(search));
-                }
-            }*/
 
                 requiredFieldAdapter = new RequiredFieldAdapter(AddBankActivity.this, receiverList, countryCode);
                 binding.rvAddBank.setAdapter(requiredFieldAdapter);
@@ -159,7 +133,7 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         ReceiverInfo = RequiredFieldAdapter.ReceiverInfo;
         JSONObject jsonResult = new JSONObject();
         try {
-            jsonResult.put("country_id", countryCode);
+            jsonResult.put("country_id", Country);
             jsonResult.put("transaction_type", transactionType);
             jsonResult.put("receiveCurrency", receiveCurrency);
             jsonResult.put("senderInfo", SenderInfo);
@@ -168,15 +142,20 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
             e.printStackTrace();
         }
         String msg = jsonResult.toString();
-        Log.e("AddBank", "SenderInfoData=> " + new Gson().toJson(SenderInfo));
-        Log.e("AddBank", "ReceiverInfoData=> " + new Gson().toJson(ReceiverInfo));
         Log.e("AddBank", "MSGInfoData=> " + msg);
 
-
-        //createTransactionRequest.setParam(createTransactionBody);
-        //apiManager.createTransaction(createTransactionRequest);
-
+        JSONArray array = new JSONArray();
+        if (jsonResult != null) {
+            if (jsonResult instanceof Collection) {
+                array.addAll((Collection<?>) jsonResult);
+            } else {
+                array.add(jsonResult);
+            }
+        }
+        Log.e("AddBank", "MSGIArray=> " + array);
+        // apiManager.createTransaction(array);
     }
+
 
 }
 
