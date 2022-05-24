@@ -51,8 +51,6 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_bank);
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_bank);
         binding.setClickListener(new EventHandler(this));
         apiManager = new ApiManager(this, this);
@@ -90,17 +88,14 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
                         SenderInfo.put("_" + list.get(i).getValue(), "");
                     }
                 }
-
                 requiredFieldAdapter = new RequiredFieldAdapter(AddBankActivity.this, receiverList, countryCode);
                 binding.rvAddBank.setAdapter(requiredFieldAdapter);
             } catch (Exception e) {
-
             }
-
         }
        /* if (ServiceCode == Constant.CREATE_TRANSACTION) {
-            CreateTransactionResponse rsp = (CreateTransactionResponse) response;
-            Log.e("AddBank", "TransactiData=> " + new Gson().toJson(rsp.getData()));
+            Object rsp = (Object) response;
+            Log.e("AddBank", "TransactiData=> " + new Gson().toJson(rsp));
         }*/
 
     }

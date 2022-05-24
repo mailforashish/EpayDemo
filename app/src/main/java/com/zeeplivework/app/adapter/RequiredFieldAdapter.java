@@ -1,7 +1,11 @@
 package com.zeeplivework.app.adapter;
 
 import android.content.Context;
+import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,6 +28,7 @@ import com.zeeplivework.app.response.RequiredField.RequiredFieldResult;
 import com.zeeplivework.app.utils.BankSelected;
 import com.zeeplivework.app.utils.JsonParse;
 import com.zeeplivework.app.utils.SessionManager;
+
 import java.util.List;
 
 
@@ -40,6 +45,17 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
     String BankBranch = "";
     String Address = "";
     String CountryCode = "";
+
+    private String blockCharacterSet = "~#^|$%&!\\/!@#$%^&*(){}_[]|\\?/<>,.:-'';§£¥.+\\ ";
+    public InputFilter filter = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            if (source != null && blockCharacterSet.contains(("" + source))) {
+                return "";
+            }
+            return null;
+        }
+    };
 
     public RequiredFieldAdapter(Context context, List<RequiredFieldResult> arrayList, String CountryCode) {
         this.arrayList = arrayList;
@@ -68,6 +84,13 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
         }
         if (arrayList.get(position).getValue().equals("country")) {
             holder.et_name_input.setText(CountryCode);
+        }
+        if (arrayList.get(position).getValue().equalsIgnoreCase("accountNo")) {
+            holder.et_name_input.setInputType(InputType.TYPE_CLASS_PHONE);
+            InputFilter filter_account = new InputFilter.LengthFilter(50);
+            holder.et_name_input.setFilters(new InputFilter[]{filter, filter_account});
+        } else {
+            holder.et_name_input.setInputType(InputType.TYPE_CLASS_TEXT);
         }
 
         if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("location ID")) {
@@ -142,7 +165,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
                 position = (int) editText.getTag();
                 isAllEditTextsFilled(position, editText);
                 // Do whatever you want with position
-
             }
 
             @Override
@@ -151,8 +173,8 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
                     ReceiverInfo.remove(arrayList.get(position).getValue(), String.valueOf(s));
                 } else {
                     ReceiverInfo.put(arrayList.get(position).getValue(), String.valueOf(s));
-
                 }
+
             }
         }
 
