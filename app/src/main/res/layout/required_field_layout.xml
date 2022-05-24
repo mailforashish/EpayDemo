@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_form"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_Name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:text="Name*"
+        android:textColor="@color/color_header_text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_name_input"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/selector_address_rectangle"
+        android:fontFamily="@font/lato_semibold"
+        android:imeOptions="actionNext"
+        android:inputType="textCapSentences"
+        android:maxLines="1"
+        android:gravity="center_vertical"
+        android:textColor="@color/color_header_text"
+        android:textSize="14sp"
+        android:paddingRight="5dp"
+        android:paddingLeft="15dp"
+        android:hint="Enter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Name" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/et_name_input1"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/selector_address_rectangle"
+        android:fontFamily="@font/lato_semibold"
+        android:gravity="center_vertical"
+        android:hint="Select Your Bank ID"
+        android:singleLine="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="5dp"
+        android:textColor="@color/color_header_text"
+        android:textColorHint="#506D85"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Name" />
+
+    <TextView
+        android:id="@+id/tv_name_error"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:text="can not be null"
+        android:textColor="#f05965"
+        android:textSize="12sp"
+        android:visibility="invisible"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_name_input" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
