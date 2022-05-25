@@ -13,6 +13,7 @@
         android:id="@+id/iv_positions"
         android:layout_width="40dp"
         android:layout_height="50dp"
+        android:scaleType="fitCenter"
         android:background="@drawable/ic_pos1"
         android:gravity="center"
         android:textColor="@color/light_font"
@@ -45,7 +46,7 @@
         android:lineSpacingExtra="-2dp"
         android:text="Your name"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/user_image"
         app:layout_constraintTop_toTopOf="@+id/user_image" />
 
