@@ -136,7 +136,7 @@
                     android:gravity="center|center_horizontal"
                     android:orientation="horizontal"
                     android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
+                    android:paddingTop="15dp"
                     android:paddingRight="10dp"
                     android:paddingBottom="5dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -234,23 +234,34 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <ImageView
+                android:id="@+id/promotion_image"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="15dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_bg_top"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraint_top" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraint_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-60dp"
-                android:background="@drawable/ic_background_new"
+                android:layout_marginTop="-20dp"
+                android:background="@drawable/ic_bg_bottom"
                 android:paddingTop="10dp"
                 android:paddingBottom="20dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/frame_view">
+                app:layout_constraintTop_toBottomOf="@+id/promotion_image">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_reward"
                     android:layout_width="235dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="55dp"
+                    android:layout_marginTop="0dp"
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/ic_dual_reward"
                     android:foreground="?attr/selectableItemBackground"
@@ -340,22 +351,29 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginRight="5dp"
+                        android:background="@drawable/ic_view_main"
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_reward_coin">
 
-                        <com.zeeplivework.app.utils.SegmentedBar
+                        <!-- <com.zeeplivework.app.utils.SegmentedBar
+                             android:id="@+id/horizontalProgressBar"
+                             style="?android:attr/progressBarStyleHorizontal"
+                             android:layout_width="match_parent"
+                             android:layout_height="7dp"
+                             android:progressDrawable="@drawable/ic_view_main"
+                             app:cornerRadius="20dp"
+                             app:dividerColor="@color/white"
+                             app:dividerWidth="2dp"
+                             app:divisions="4"
+                             app:isDividerEnabled="true" />-->
+
+                        <ProgressBar
                             android:id="@+id/horizontalProgressBar"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="7dp"
-                            android:progressDrawable="@drawable/ic_view_main"
-                            app:cornerRadius="20dp"
-                            app:dividerColor="@color/white"
-                            app:dividerWidth="2dp"
-                            app:divisions="4"
-                            app:isDividerEnabled="true" />
+                            android:layout_height="7dp" />
 
 
                     </LinearLayout>

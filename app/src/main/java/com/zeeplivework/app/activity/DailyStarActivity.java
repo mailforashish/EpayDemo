@@ -9,9 +9,11 @@ import android.content.Context;
 import android.graphics.Point;
 
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.zeeplivework.app.R;
 import com.zeeplivework.app.adapter.DailyAdapter;
@@ -19,6 +21,7 @@ import com.zeeplivework.app.adapter.WeeklyAdapter;
 import com.zeeplivework.app.databinding.ActivityDailyStarBinding;
 import com.zeeplivework.app.response.DailyList;
 import com.zeeplivework.app.utils.BaseActivity;
+import com.zeeplivework.app.utils.ProgressDrawable;
 import com.zeeplivework.app.utils.SegmentedBar;
 
 import java.util.ArrayList;
@@ -30,10 +33,11 @@ public class DailyStarActivity extends BaseActivity {
     WeeklyAdapter weeklyAdapter;
     List<DailyList> list = new ArrayList<>();
     private int progressStatus = 0;
-    private int currentStatus = 100;
+    private int currentStatus = 80;
     private Handler handler = new Handler();
-    SegmentedBar horizontalProgressBar;
-    ArrayList<Integer> arrayList = new ArrayList<>();
+   // SegmentedBar horizontalProgressBar;
+    ProgressBar horizontalProgressBar;
+    //ArrayList<Integer> arrayList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,8 +47,8 @@ public class DailyStarActivity extends BaseActivity {
         binding.setClickListener(new EventHandler(this));
 
         horizontalProgressBar =  findViewById(R.id.horizontalProgressBar);
-       /* Drawable d = new ProgressDrawable(0xFFFEAA76, 0xd6d6d6);
-        horizontalProgressBar.setProgressDrawable(d);*/
+        Drawable d = new ProgressDrawable(0xFFFEAA76, 0xd6d6d6);
+        horizontalProgressBar.setProgressDrawable(d);
 
         binding.recyclerViewToday.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         dailyAdapter = new DailyAdapter(this, list);
@@ -70,7 +74,7 @@ public class DailyStarActivity extends BaseActivity {
             public void run() {
                 while (progressStatus < currentStatus) {
                     progressStatus += 1;
-                    if (progressStatus == 25) {
+                   /* if (progressStatus == 25) {
                         arrayList.add(0);
                         horizontalProgressBar.setEnabledDivisions(arrayList);
                     } else if (progressStatus == 50) {
@@ -82,7 +86,7 @@ public class DailyStarActivity extends BaseActivity {
                     } else if (progressStatus == 100) {
                         arrayList.add(3);
                         horizontalProgressBar.setEnabledDivisions(arrayList);
-                    }
+                    }*/
 
                     handler.post(new Runnable() {
                         public void run() {
