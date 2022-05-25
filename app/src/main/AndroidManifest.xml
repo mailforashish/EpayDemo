@@ -24,10 +24,10 @@
             android:screenOrientation="portrait" />
 
         <activity android:name=".activity.TabActivity" />
-        <activity android:name=".activity.WalletActivity"
+        <activity android:name=".activity.DailyStarActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.DailyStarActivity"
+            android:name=".activity.WalletActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

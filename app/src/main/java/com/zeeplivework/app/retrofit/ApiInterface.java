@@ -2,11 +2,11 @@ package com.zeeplivework.app.retrofit;
 
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.zeeplivework.app.response.BankList.BankListResponse;
 import com.zeeplivework.app.response.CountryList.CountryResponse;
+import com.zeeplivework.app.response.CreateTransaction.CreateTransactionResponse;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResponse;
-
-import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -36,10 +36,9 @@ public interface ApiInterface {
                                        @Field("transactionType") String transactionType);
 
 
-   /* @POST("createTransaction")
-    Call<Object> createTransaction(@Header("Accept") String accept,
-                                             @Body JSONArray jsonObject);*/
-
+    @POST("createtransactionepay")
+    Call<CreateTransactionResponse> createTransaction(@Header("Accept") String accept,
+                                                      @Body JSONObject jsonObject);
 
 }
 

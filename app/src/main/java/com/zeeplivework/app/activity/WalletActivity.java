@@ -70,6 +70,7 @@ public class WalletActivity extends AppCompatActivity implements ApiResponseInte
                 Toast.makeText(WalletActivity.this, "Please Select Country", Toast.LENGTH_SHORT).show();
             } else {
                 startActivity(new Intent(WalletActivity.this, AddBankActivity.class));
+                finishAffinity();
             }
 
         }

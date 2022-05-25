@@ -85,13 +85,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
         if (arrayList.get(position).getValue().equals("country")) {
             holder.et_name_input.setText(CountryCode);
         }
-        if (arrayList.get(position).getValue().equalsIgnoreCase("accountNo")) {
-            holder.et_name_input.setInputType(InputType.TYPE_CLASS_PHONE);
-            InputFilter filter_account = new InputFilter.LengthFilter(50);
-            holder.et_name_input.setFilters(new InputFilter[]{filter, filter_account});
-        } else {
-            holder.et_name_input.setInputType(InputType.TYPE_CLASS_TEXT);
-        }
 
         if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("location ID")) {
             holder.et_name_input.setText(LocationId);
@@ -170,8 +163,10 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
             @Override
             public void afterTextChanged(Editable s) {
                 if (TextUtils.isEmpty(s)) {
-                    ReceiverInfo.remove(arrayList.get(position).getValue(), String.valueOf(s));
+                    ReceiverInfo.remove(arrayList.get(position).getValue());
+                    Log.e("ReceiverInfo", "AdapterClassEf=> " + ReceiverInfo);
                 } else {
+                    Log.e("ReceiverInfo", "AdapterClassElse=> " + ReceiverInfo);
                     ReceiverInfo.put(arrayList.get(position).getValue(), String.valueOf(s));
                 }
 

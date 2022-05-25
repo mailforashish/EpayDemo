@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Context;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
 
 
@@ -13,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.zeeplivework.app.R;
@@ -47,7 +50,7 @@ public class DailyStarActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_daily_star);
         binding.setClickListener(new EventHandler(this));
 
-        horizontalProgressBar =  findViewById(R.id.horizontalProgressBar);
+        horizontalProgressBar = findViewById(R.id.horizontalProgressBar);
         Drawable d = new ProgressDrawable(0xFFFEAA76, 0xd6d6d6);
         horizontalProgressBar.setProgressDrawable(d);
 
@@ -123,53 +126,62 @@ public class DailyStarActivity extends BaseActivity {
         }
 
         public void backPage() {
+            startActivity(new Intent(DailyStarActivity.this, WalletActivity.class));
             onBackPressed();
         }
 
         public void pressTvOne() {
+            unSelectedLevel();
             binding.tv1.setBackgroundResource(R.drawable.text_1_bg);
             binding.tv1.setTextColor(getResources().getColor(R.color.white));
-            binding.tv2.setBackgroundColor(getResources().getColor(R.color.transparent));
-            binding.tv2.setTextColor(getResources().getColor(R.color.text_color));
-            binding.tv3.setBackgroundColor(getResources().getColor(R.color.transparent));
-            binding.tv3.setTextColor(getResources().getColor(R.color.text_color));
-            binding.tv4.setBackgroundColor(getResources().getColor(R.color.transparent));
-            binding.tv4.setTextColor(getResources().getColor(R.color.text_color));
-
         }
 
         public void pressTvTwo() {
+            unSelectedLevel();
             binding.tv2.setBackgroundResource(R.drawable.text_2_bg);
             binding.tv2.setTextColor(getResources().getColor(R.color.white));
-            binding.tv1.setBackgroundColor(getResources().getColor(R.color.transparent));
-            binding.tv1.setTextColor(getResources().getColor(R.color.text_color));
-            binding.tv3.setBackgroundColor(getResources().getColor(R.color.transparent));
-            binding.tv3.setTextColor(getResources().getColor(R.color.text_color));
-            binding.tv4.setBackgroundColor(getResources().getColor(R.color.transparent));
-            binding.tv4.setTextColor(getResources().getColor(R.color.text_color));
-
         }
 
         public void pressThree() {
+            unSelectedLevel();
             binding.tv3.setBackgroundResource(R.drawable.text_3_bg);
             binding.tv3.setTextColor(getResources().getColor(R.color.white));
-            binding.tv2.setBackgroundColor(getResources().getColor(R.color.transparent));
-            binding.tv2.setTextColor(getResources().getColor(R.color.text_color));
-            binding.tv1.setBackgroundColor(getResources().getColor(R.color.transparent));
-            binding.tv1.setTextColor(getResources().getColor(R.color.text_color));
-            binding.tv4.setBackgroundColor(getResources().getColor(R.color.transparent));
-            binding.tv4.setTextColor(getResources().getColor(R.color.text_color));
         }
 
         public void pressTvFour() {
+            unSelectedLevel();
             binding.tv4.setBackgroundResource(R.drawable.text_4_bg);
             binding.tv4.setTextColor(getResources().getColor(R.color.white));
-            binding.tv1.setBackgroundColor(getResources().getColor(R.color.transparent));
-            binding.tv1.setTextColor(getResources().getColor(R.color.text_color));
-            binding.tv2.setBackgroundColor(getResources().getColor(R.color.transparent));
-            binding.tv2.setTextColor(getResources().getColor(R.color.text_color));
-            binding.tv3.setBackgroundColor(getResources().getColor(R.color.transparent));
-            binding.tv3.setTextColor(getResources().getColor(R.color.text_color));
+        }
+
+        public void countyOne() {
+            unSelectCountry();
+            binding.countryOne.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_bg));
+            binding.countryOne.setTextColor(Color.WHITE);
+        }
+
+        public void countyTwo() {
+            unSelectCountry();
+            binding.countryTwo.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_bg));
+            binding.countryTwo.setTextColor(Color.WHITE);
+        }
+
+        public void countyThree() {
+            unSelectCountry();
+            binding.countryThree.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_bg));
+            binding.countryThree.setTextColor(Color.WHITE);
+        }
+
+        public void countyFour() {
+            unSelectCountry();
+            binding.countryFour.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_bg));
+            binding.countryFour.setTextColor(Color.WHITE);
+        }
+
+        public void countyFive() {
+            unSelectCountry();
+            binding.countyFive.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_bg));
+            binding.countyFive.setTextColor(Color.WHITE);
         }
     }
 
@@ -191,6 +203,31 @@ public class DailyStarActivity extends BaseActivity {
         dailyAdapter.notifyDataSetChanged();
         weeklyAdapter.notifyDataSetChanged();
 
+    }
+
+    private void unSelectCountry() {
+        binding.countryOne.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_unselected));
+        binding.countryOne.setTextColor(Color.BLACK);
+        binding.countryTwo.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_unselected));
+        binding.countryTwo.setTextColor(Color.BLACK);
+        binding.countryThree.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_unselected));
+        binding.countryThree.setTextColor(Color.BLACK);
+        binding.countryFour.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_unselected));
+        binding.countryFour.setTextColor(Color.BLACK);
+        binding.countyFive.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_unselected));
+        binding.countyFive.setTextColor(Color.BLACK);
+
+
+    }
+    private void unSelectedLevel(){
+        binding.tv1.setBackgroundColor(getResources().getColor(R.color.transparent));
+        binding.tv1.setTextColor(getResources().getColor(R.color.text_color));
+        binding.tv2.setBackgroundColor(getResources().getColor(R.color.transparent));
+        binding.tv2.setTextColor(getResources().getColor(R.color.text_color));
+        binding.tv3.setBackgroundColor(getResources().getColor(R.color.transparent));
+        binding.tv3.setTextColor(getResources().getColor(R.color.text_color));
+        binding.tv4.setBackgroundColor(getResources().getColor(R.color.transparent));
+        binding.tv4.setTextColor(getResources().getColor(R.color.text_color));
     }
 
 

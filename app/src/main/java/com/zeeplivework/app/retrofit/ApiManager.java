@@ -2,12 +2,16 @@ package com.zeeplivework.app.retrofit;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
+import com.zeeplivework.app.activity.AddBankActivity;
 import com.zeeplivework.app.dialog.MyProgressDialog;
 import com.zeeplivework.app.response.BankList.BankListResponse;
 import com.zeeplivework.app.response.CountryList.CountryResponse;
+import com.zeeplivework.app.response.CreateTransaction.CreateTransactionResponse;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResponse;
 import com.zeeplivework.app.utils.Constant;
 
@@ -111,23 +115,27 @@ public class ApiManager {
 
 
 
-   /* public void createTransaction(JSONArray data) {
-        Call<Object> call = apiService.createTransaction("application/json", data);
-        Log.e("createTransactionLog", "" + new Gson().toJson(call.request().toString()));
-        call.enqueue(new Callback<Object>() {
+    public void createTransaction(JSONObject data) {
+        Call<CreateTransactionResponse> call = apiService.createTransaction("application/json", data);
+        //Log.e("createTransactionLog", "" + new Gson().toJson(call.request().toString()));
+        call.enqueue(new Callback<CreateTransactionResponse>() {
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                Log.e("createTransactionDetail", new Gson().toJson(response.body()));
-                if (response.isSuccessful() && response.body() != null) {
+            public void onResponse(Call<CreateTransactionResponse> call, Response<CreateTransactionResponse> response) {
+                Log.e("createTransactionDetail", new Gson().toJson(response.body().getResult()));
+                if (response.body().getSuccess()) {
                     mApiResponseInterface.isSuccess(response.body(), Constant.CREATE_TRANSACTION);
+                    Toast.makeText(mContext, new Gson().toJson(response.body().getResult()), Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(mContext, new Gson().toJson(response.body().getError()), Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(Call<CreateTransactionResponse> call, Throwable t) {
                 Log.e("createTransactionError", "createTransactionError=> " + t);
+                Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }*/
+    }
 
 
     public void showDialog() {
