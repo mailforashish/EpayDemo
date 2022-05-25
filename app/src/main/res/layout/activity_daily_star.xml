@@ -235,12 +235,12 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
-                android:id="@+id/promotion_image"
+                android:id="@+id/iv_curve"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="15dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_bg_top"
+                android:src="@drawable/ic_bg_top_curve"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraint_top" />
@@ -254,7 +254,7 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="20dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/promotion_image">
+                app:layout_constraintTop_toBottomOf="@+id/iv_curve">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_reward"
@@ -375,7 +375,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="7dp" />
 
-
                     </LinearLayout>
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -383,7 +382,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/ic_top_bar2"
+                        android:background="@drawable/ic_top_bar"
                         android:fontFamily="@font/lato_semibold"
                         android:foreground="?attr/selectableItemBackground"
                         android:gravity="center"

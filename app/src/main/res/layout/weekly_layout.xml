@@ -28,7 +28,7 @@
             android:layout_height="108dp"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginTop="130dp"
-            android:background="@drawable/ic_c"
+            android:background="@drawable/ic_stage"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

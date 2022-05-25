@@ -35,8 +35,9 @@ public class DailyStarActivity extends BaseActivity {
     private int progressStatus = 0;
     private int currentStatus = 80;
     private Handler handler = new Handler();
-   // SegmentedBar horizontalProgressBar;
+
     ProgressBar horizontalProgressBar;
+    //SegmentedBar horizontalProgressBar;
     //ArrayList<Integer> arrayList = new ArrayList<>();
 
     @Override
@@ -87,7 +88,6 @@ public class DailyStarActivity extends BaseActivity {
                         arrayList.add(3);
                         horizontalProgressBar.setEnabledDivisions(arrayList);
                     }*/
-
                     handler.post(new Runnable() {
                         public void run() {
                             horizontalProgressBar.setProgress(progressStatus);
