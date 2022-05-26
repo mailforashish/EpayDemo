@@ -73,7 +73,6 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
     @Override
     public void isError(String errorCode) {
         Log.e("AddBank", "BankListError=> " + errorCode);
-        //Toast.makeText(AddBankActivity.this, String.valueOf(errorCode), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -102,16 +101,14 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
                 if (rsp.getResult().equals("success")) {
                     startActivity(new Intent(AddBankActivity.this, DailyStarActivity.class));
                     finishAffinity();
-                }else {
+                } else {
                     startActivity(new Intent(AddBankActivity.this, WalletActivity.class));
                     finishAffinity();
                 }
                 Log.e("AddBank", "TransactionData=> " + new Gson().toJson(rsp.getResult()));
             }
         }
-
     }
-
 
     public class EventHandler {
         Context mContext;
@@ -152,16 +149,6 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         //String msg = jsonResult.toString();
         Log.e("AddBank", "MSGInfoData=> " + jsonResult);
         apiManager.createTransaction(jsonResult);
-
-         /*JSONArray array = new JSONArray();
-        if (jsonResult != null) {
-            if (jsonResult instanceof Collection) {
-                array.addAll((Collection<?>) jsonResult);
-            } else {
-                array.add(jsonResult);
-            }
-        }
-        Log.e("AddBank", "MSGIArray=> " + array);*/
     }
 
     @Override

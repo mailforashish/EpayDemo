@@ -148,7 +148,7 @@
                         android:layout_height="35dp"
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/ic_country_bg"
+                        android:background="@drawable/ic_country_selected"
                         android:drawablePadding="4dp"
                         android:foreground="?attr/selectableItemBackground"
                         android:gravity="center_vertical"

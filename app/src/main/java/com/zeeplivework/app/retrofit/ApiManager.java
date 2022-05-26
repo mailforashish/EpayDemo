@@ -37,11 +37,11 @@ public class ApiManager {
 
     public void getCurrencyListDetails(String currency) {
         Call<CountryResponse> call = apiService.getCurrencyList("application/json", currency);
-        Log.e("CountryRequestLog", "" + new Gson().toJson(call.request().toString()));
+        //Log.e("CountryRequestLog", "" + new Gson().toJson(call.request().toString()));
         call.enqueue(new Callback<CountryResponse>() {
             @Override
             public void onResponse(Call<CountryResponse> call, Response<CountryResponse> response) {
-                Log.e("EPAYLOG", "getCurrencyListDetail=> " + new Gson().toJson(response.body()));
+               // Log.e("EPAYLOG", "getCurrencyListDetail=> " + new Gson().toJson(response.body()));
                 if (response.isSuccessful() && response.body() != null) {
                     mApiResponseInterface.isSuccess(response.body(), Constant.CURRENCY_LIST);
                 }
@@ -56,11 +56,11 @@ public class ApiManager {
 
     public void getRequiredField(String countryCode, String receiveCurrency, String transactionType) {
         Call<RequiredFieldResponse> call = apiService.getRequiredField("application/json", countryCode, receiveCurrency, transactionType);
-        Log.e("FieldRequestLog", "" + new Gson().toJson(call.request().toString()));
+        //Log.e("FieldRequestLog", "" + new Gson().toJson(call.request().toString()));
         call.enqueue(new Callback<RequiredFieldResponse>() {
             @Override
             public void onResponse(Call<RequiredFieldResponse> call, Response<RequiredFieldResponse> response) {
-                Log.e("getFieldListDetail", new Gson().toJson(response.body()));
+                //Log.e("getFieldListDetail", new Gson().toJson(response.body()));
                 if (response.isSuccessful() && response.body() != null) {
                     mApiResponseInterface.isSuccess(response.body(), Constant.REQUIRED_FIELD);
                 }
@@ -75,11 +75,11 @@ public class ApiManager {
 
     public void getBankListDetails(String countryCode, String currency, String transactionType) {
         Call<BankListResponse> call = apiService.getBankList("application/json", countryCode, currency, transactionType);
-        Log.e("BankRequestLog", "" + new Gson().toJson(call.request().toString()));
+       // Log.e("BankRequestLog", "" + new Gson().toJson(call.request().toString()));
         call.enqueue(new Callback<BankListResponse>() {
             @Override
             public void onResponse(Call<BankListResponse> call, Response<BankListResponse> response) {
-                Log.e("getBankListDetail", new Gson().toJson(response.body()));
+                //Log.e("getBankListDetail", new Gson().toJson(response.body()));
                 if (response.isSuccessful() && response.body() != null) {
                     mApiResponseInterface.isSuccess(response.body(), Constant.BANK_LIST);
                 }
@@ -95,11 +95,11 @@ public class ApiManager {
 
     public void getBankListNextPage(String countryCode, String currency, String transactionType) {
         Call<BankListResponse> call = apiService.getBankList("application/json", countryCode, currency, transactionType);
-        Log.e("BankRequestLog", "" + new Gson().toJson(call.request().toString()));
+       // Log.e("BankRequestLog", "" + new Gson().toJson(call.request().toString()));
         call.enqueue(new Callback<BankListResponse>() {
             @Override
             public void onResponse(Call<BankListResponse> call, Response<BankListResponse> response) {
-                Log.e("getBankListDetail", new Gson().toJson(response.body()));
+                //Log.e("getBankListDetail", new Gson().toJson(response.body()));
                 if (response.isSuccessful() && response.body() != null) {
                     mApiResponseInterface.isSuccess(response.body(), Constant.BANK_LIST_NEXT_PAGE);
                 }

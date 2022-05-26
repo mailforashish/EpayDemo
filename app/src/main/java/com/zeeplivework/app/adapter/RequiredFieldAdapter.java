@@ -46,17 +46,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
     String Address = "";
     String CountryCode = "";
 
-    private String blockCharacterSet = "~#^|$%&!\\/!@#$%^&*(){}_[]|\\?/<>,.:-'';§£¥.+\\ ";
-    public InputFilter filter = new InputFilter() {
-        @Override
-        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-            if (source != null && blockCharacterSet.contains(("" + source))) {
-                return "";
-            }
-            return null;
-        }
-    };
-
     public RequiredFieldAdapter(Context context, List<RequiredFieldResult> arrayList, String CountryCode) {
         this.arrayList = arrayList;
         this.context = context;
@@ -166,14 +155,15 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
                     ReceiverInfo.remove(arrayList.get(position).getValue());
                     Log.e("ReceiverInfo", "AdapterClassEf=> " + ReceiverInfo);
                 } else {
-                    Log.e("ReceiverInfo", "AdapterClassElse=> " + ReceiverInfo);
                     ReceiverInfo.put(arrayList.get(position).getValue(), String.valueOf(s));
+                    Log.e("ReceiverInfo", "AdapterClassElse=> " + ReceiverInfo);
                 }
 
             }
         }
 
         private boolean isAllEditTextsFilled(int currentIndex, AppCompatEditText editText) {
+
             if (currentIndex == currentIndex) {
                 if (editText.length() >= 2) {
                     tv_name_error.setVisibility(View.INVISIBLE);
@@ -198,11 +188,9 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
                 City = city;
                 BankBranch = bankBranch;
                 LocationId = locationId;
-
                 ReceiverInfo.put(arrayList.get(getAdapterPosition()).getValue(), bankId);
                 notifyDataSetChanged();
                 bankDialog.dismiss();
-
             }
         }
     }

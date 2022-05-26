@@ -15,7 +15,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.zeeplivework.app.R;
@@ -25,7 +24,6 @@ import com.zeeplivework.app.databinding.ActivityDailyStarBinding;
 import com.zeeplivework.app.response.DailyList;
 import com.zeeplivework.app.utils.BaseActivity;
 import com.zeeplivework.app.utils.ProgressDrawable;
-import com.zeeplivework.app.utils.SegmentedBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,31 +154,31 @@ public class DailyStarActivity extends BaseActivity {
 
         public void countyOne() {
             unSelectCountry();
-            binding.countryOne.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_bg));
+            binding.countryOne.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_selected));
             binding.countryOne.setTextColor(Color.WHITE);
         }
 
         public void countyTwo() {
             unSelectCountry();
-            binding.countryTwo.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_bg));
+            binding.countryTwo.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_selected));
             binding.countryTwo.setTextColor(Color.WHITE);
         }
 
         public void countyThree() {
             unSelectCountry();
-            binding.countryThree.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_bg));
+            binding.countryThree.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_selected));
             binding.countryThree.setTextColor(Color.WHITE);
         }
 
         public void countyFour() {
             unSelectCountry();
-            binding.countryFour.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_bg));
+            binding.countryFour.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_selected));
             binding.countryFour.setTextColor(Color.WHITE);
         }
 
         public void countyFive() {
             unSelectCountry();
-            binding.countyFive.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_bg));
+            binding.countyFive.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_country_selected));
             binding.countyFive.setTextColor(Color.WHITE);
         }
     }
