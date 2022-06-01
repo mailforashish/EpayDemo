@@ -19,8 +19,7 @@
         android:paddingBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_rank">
-
+        app:layout_constraintTop_toBottomOf="@+id/tv_date">
 
         <LinearLayout
             android:id="@+id/linear_weekly"
@@ -49,20 +48,20 @@
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/lato_bold"
                     android:gravity="center_horizontal"
-                    android:text="2"
                     android:shadowColor="@color/text_shadow"
                     android:shadowDx="-2"
                     android:shadowDy="-2"
                     android:shadowRadius="2"
+                    android:text="2"
                     android:textColor="@color/white"
                     android:textSize="26sp" />
 
                 <TextView
+                    android:id="@+id/tv_coins_user_2"
                     android:layout_width="58dp"
-                    android:layout_height="22dp"
-                    android:layout_below="@+id/tv_two"
-                    android:layout_centerInParent="true"
+                    android:layout_height="20dp"
                     android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
                     android:background="@drawable/ic_weekly_coin_two"
                     android:fontFamily="@font/lato_semibold"
                     android:gravity="center"
@@ -87,24 +86,25 @@
                     android:layout_alignParentTop="true"
                     android:fontFamily="@font/lato_bold"
                     android:gravity="center_horizontal"
-                    android:text="1"
                     android:shadowColor="@color/text_shadow"
                     android:shadowDx="-2"
                     android:shadowDy="-2"
                     android:shadowRadius="2"
+                    android:text="1"
                     android:textColor="#DEB510"
                     android:textSize="26sp" />
 
                 <TextView
+                    android:id="@+id/tv_coins_user_1"
                     android:layout_width="58dp"
                     android:layout_height="22dp"
-                    android:layout_centerInParent="true"
                     android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
                     android:background="@drawable/ic_weekly_coin_two"
                     android:fontFamily="@font/lato_semibold"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="11,500K"
+                    android:text="13,500K"
                     android:textColor="@color/white"
                     android:textSize="10sp" />
             </RelativeLayout>
@@ -124,20 +124,20 @@
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/lato_bold"
                     android:gravity="center_horizontal"
-                    android:text="3"
                     android:shadowColor="@color/text_shadow"
                     android:shadowDx="-2"
                     android:shadowDy="-2"
                     android:shadowRadius="2"
+                    android:text="3"
                     android:textColor="#F27D46"
                     android:textSize="26sp" />
 
                 <TextView
+                    android:id="@+id/tv_coins_user_3"
                     android:layout_width="58dp"
-                    android:layout_height="22dp"
-                    android:layout_below="@+id/tv_three"
-                    android:layout_centerInParent="true"
+                    android:layout_height="20dp"
                     android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
                     android:background="@drawable/ic_weekly_coin_two"
                     android:fontFamily="@font/lato_semibold"
                     android:gravity="center"
@@ -146,7 +146,6 @@
                     android:textColor="@color/white"
                     android:textSize="10sp" />
             </RelativeLayout>
-
 
         </LinearLayout>
 
@@ -169,7 +168,7 @@
                 android:layout_weight="1">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/user_image_2"
+                    android:id="@+id/iv_top_2"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_gravity="center"
@@ -188,22 +187,21 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/frame_new_2" />
 
-
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_coins_user_2"
+                    android:id="@+id/tv_diamond_user_2"
                     android:layout_width="80dp"
                     android:layout_height="22dp"
                     android:layout_gravity="bottom|center_horizontal|center_vertical"
                     android:background="@drawable/ic_coin_bg"
+                    android:fontFamily="@font/lato_medium"
                     android:gravity="center_horizontal|center_vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="1000"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:singleLine="true"
+                    android:text="10,00000"
                     android:textColor="@color/white"
                     android:textSize="12sp"
-                    android:textStyle="bold"
                     app:drawableRightCompat="@drawable/ic_diamond_view" />
-
 
             </FrameLayout>
 
@@ -215,7 +213,7 @@
                 android:layout_weight="1">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/user_image_1"
+                    android:id="@+id/iv_top_1"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_gravity="center"
@@ -235,19 +233,20 @@
                     android:src="@drawable/frame_new_1" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_coins_user_1"
+                    android:id="@+id/tv_diamond_user_1"
                     android:layout_width="85dp"
                     android:layout_height="22dp"
-                    android:layout_marginTop="118dp"
                     android:layout_gravity="bottom|center_horizontal|center_vertical"
+                    android:layout_marginTop="118dp"
                     android:background="@drawable/ic_coin_bg"
+                    android:fontFamily="@font/lato_medium"
                     android:gravity="center_horizontal|center_vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="1000"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:singleLine="true"
+                    android:text="30,00,000"
                     android:textColor="@color/white"
                     android:textSize="12sp"
-                    android:textStyle="bold"
                     app:drawableRightCompat="@drawable/ic_diamond_view" />
             </FrameLayout>
 
@@ -259,7 +258,7 @@
                 android:layout_weight="1">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/user_image_3"
+                    android:id="@+id/iv_top_3"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_gravity="center"
@@ -279,29 +278,29 @@
                     android:src="@drawable/frame_new_3" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_coins_user_3"
+                    android:id="@+id/tv_diamond_user_3"
                     android:layout_width="80dp"
                     android:layout_height="22dp"
                     android:layout_gravity="bottom|center_horizontal|center_vertical"
                     android:background="@drawable/ic_coin_bg"
+                    android:fontFamily="@font/lato_medium"
                     android:gravity="center_horizontal|center_vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="1000"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:singleLine="true"
+                    android:text="10,00000"
                     android:textColor="@color/white"
                     android:textSize="12sp"
-                    android:textStyle="bold"
                     app:drawableRightCompat="@drawable/ic_diamond_view" />
 
             </FrameLayout>
 
         </LinearLayout>
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_rank"
+        android:id="@+id/tv_date"
         android:layout_width="170dp"
         android:layout_height="45dp"
         android:layout_marginTop="10dp"

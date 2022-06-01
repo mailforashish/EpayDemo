@@ -1,7 +1,6 @@
 package com.zeeplivework.app.response;
 
 public class CountryListNew {
-
     String country_name;
     String country_code;
     String currency_code;

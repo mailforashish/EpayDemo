@@ -1,17 +1,16 @@
 package com.zeeplivework.app.adapter;
 
 import android.content.Context;
-import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
-import android.text.InputFilter;
-import android.text.InputType;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,9 +25,11 @@ import com.zeeplivework.app.R;
 import com.zeeplivework.app.dialog.BankDialog;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResult;
 import com.zeeplivework.app.utils.BankSelected;
+import com.zeeplivework.app.utils.IDFiller;
 import com.zeeplivework.app.utils.JsonParse;
 import com.zeeplivework.app.utils.SessionManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -45,6 +46,7 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
     String BankBranch = "";
     String Address = "";
     String CountryCode = "";
+    ArrayAdapter<String> adapter = null;
 
     public RequiredFieldAdapter(Context context, List<RequiredFieldResult> arrayList, String CountryCode) {
         this.arrayList = arrayList;
@@ -53,7 +55,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
         sessionManager = new SessionManager(context);
 
     }
-
 
     @NonNull
     @Override
@@ -73,23 +74,45 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
         }
         if (arrayList.get(position).getValue().equals("country")) {
             holder.et_name_input.setText(CountryCode);
+            holder.et_name_input.setEnabled(false);
         }
 
         if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("location ID")) {
             holder.et_name_input.setText(LocationId);
+            holder.et_name_input.setEnabled(false);
         } else if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("Bank Name")) {
             holder.et_name_input.setText(BankName);
+            holder.et_name_input.setEnabled(false);
         } else if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).trim().equalsIgnoreCase("Bank Branch Code")) {
             holder.et_name_input.setText(BankBranch);
+            holder.et_name_input.setEnabled(false);
         } else if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("Address")) {
             holder.et_name_input.setText(Address);
+            holder.et_name_input.setEnabled(false);
         } else if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("Nationality")) {
             holder.et_name_input.setText(CountryCode);
+            holder.et_name_input.setEnabled(false);
         }
+
+        if (arrayList.get(position).getValue().equals("idType")) {
+            holder.spinner_idType.setVisibility(View.VISIBLE);
+            holder.et_name_input.setVisibility(View.GONE);
+            FillIDTypeData(holder.spinner_idType, CountryCode, position);
+        }
+        holder.spinner_idType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                Object item = parent.getItemAtPosition(pos);
+                String idTypeSelected = holder.spinner_idType.getSelectedItem().toString();
+                ReceiverInfo.put(arrayList.get(position).getValue(), idTypeSelected);
+                adapter.notifyDataSetChanged();
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         holder.tv_Name.setText(JsonParse.jsonDecode(arrayList.get(position).getShowName()));
         holder.et_name_input.setHint(JsonParse.jsonDecode(arrayList.get(position).getShowName()));
     }
-
 
     @Override
     public int getItemViewType(int position) {
@@ -102,12 +125,12 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
         return arrayList.size();
     }
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder implements BankSelected {
         public ConstraintLayout cl_form;
         public TextView tv_Name, tv_name_error;
         public AppCompatEditText et_name_input;
         public AppCompatTextView et_name_input1;
+        public Spinner spinner_idType;
 
         public MyViewHolder(View view) {
             super(view);
@@ -116,7 +139,7 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
             et_name_input = view.findViewById(R.id.et_name_input);
             tv_name_error = view.findViewById(R.id.tv_name_error);
             et_name_input1 = view.findViewById(R.id.et_name_input1);
-
+            spinner_idType = view.findViewById(R.id.spinner_idType);
             et_name_input1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -195,10 +218,39 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
         }
     }
 
-    public static String capitalize(String str) {
+    private void FillIDTypeData(Spinner spinner, String val, int pos) {
+        ArrayList<String> IDList = new ArrayList<>();
+        if (val.equals("BR")) {
+            IDList = IDFiller.FillIdTypeBrazil();
+        } else if (val.equals("MY")) {
+            IDList = IDFiller.FillIdTypeMalaysia();
+        } else if (val.equals("CO")) {
+            IDList = IDFiller.FillIdTypeColombia();
+        } else if (val.equals("BD")) {
+            IDList = IDFiller.FillIdTypeBangladesh();
+        } else if (val.equals("PH")) {
+            IDList = IDFiller.FillIdTypePhilippines();
+        } else if (val.equals("VN")) {
+            IDList = IDFiller.FillIdTypeVietnam();
+        } else if (val.equals("ID")) {
+            IDList = IDFiller.FillIdTypeIndonesia();
+        }
+        adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, IDList);
+        spinner.setAdapter(adapter);
+        if (spinner != null && spinner.getSelectedItem() != null) {
+            String idValue = spinner.getSelectedItem().toString();
+            Log.e("selectedID", "Spinnervalue=> " + idValue);
+            ReceiverInfo.put(arrayList.get(pos).getValue(), idValue);
+        } else {
+            Log.e("selectedID", "Spinnervalue=> " + "Novalue");
+        }
+    }
+
+   /* public static String capitalize(String str) {
         if (str == null || str.isEmpty()) {
             return str;
         }
         return str.substring(0, 1).toUpperCase() + str.substring(1);
-    }
+    }*/
+
 }

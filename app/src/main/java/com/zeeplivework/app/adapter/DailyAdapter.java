@@ -57,16 +57,16 @@ public class DailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             } else if (position == 2) {
                 holder.iv_positions.setImageResource(R.mipmap.bronze_medal_3);
                 holder.iv_positions.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_pos3));
-            }else if (position == 3)  {
+            } else if (position == 3) {
                 holder.iv_positions.setImageResource(R.mipmap.pos_4);
                 holder.iv_positions.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_defoult));
-            }else if (position == 4)  {
+            } else if (position == 4) {
                 holder.iv_positions.setImageResource(R.mipmap.pos_5);
                 holder.iv_positions.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_defoult));
-            }else if (position == 5)  {
+            } else if (position == 5) {
                 holder.iv_positions.setImageResource(R.mipmap.pos_6);
                 holder.iv_positions.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_defoult));
-            }else if (position == 6)  {
+            } else if (position == 6) {
                 holder.iv_positions.setImageResource(R.mipmap.pos_7);
                 holder.iv_positions.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_defoult));
             }

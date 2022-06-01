@@ -97,15 +97,19 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         }
         if (ServiceCode == Constant.CREATE_TRANSACTION) {
             CreateTransactionResponse rsp = (CreateTransactionResponse) response;
-            if (rsp != null) {
-                if (rsp.getResult().equals("success")) {
-                    startActivity(new Intent(AddBankActivity.this, DailyStarActivity.class));
-                    finishAffinity();
-                } else {
-                    startActivity(new Intent(AddBankActivity.this, WalletActivity.class));
-                    finishAffinity();
+            try {
+                if (rsp != null) {
+                    if (rsp.getResult().equals("success")) {
+                        startActivity(new Intent(AddBankActivity.this, DailyStarActivity.class));
+                        finishAffinity();
+                    } else {
+                        startActivity(new Intent(AddBankActivity.this, WalletActivity.class));
+                        finishAffinity();
+                    }
+                    Log.e("AddBank", "TransactionData=> " + new Gson().toJson(rsp.getResult()));
                 }
-                Log.e("AddBank", "TransactionData=> " + new Gson().toJson(rsp.getResult()));
+            } catch (Exception e) {
+                Log.e("AddBank", "TransactionDataError=> " + e.getMessage());
             }
         }
     }
@@ -127,7 +131,7 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
             //Log.e("TestingDaat", "mapsizeList" + receiverList.size());
             if (receiverList.size() == RequiredFieldAdapter.ReceiverInfo.size()) {
                 TransferTransaction();
-                //Toast.makeText(AddBankActivity.this, "Success", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(AddBankActivity.this, "Success", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(AddBankActivity.this, "Fill Required Field", Toast.LENGTH_SHORT).show();
             }
@@ -158,7 +162,3 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         finishAffinity();
     }
 }
-
-
-
-

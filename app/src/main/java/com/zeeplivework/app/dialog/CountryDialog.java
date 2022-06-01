@@ -17,21 +17,28 @@ import com.google.gson.Gson;
 import com.zeeplivework.app.R;
 
 import com.zeeplivework.app.activity.WalletActivity;
+import com.zeeplivework.app.adapter.BankAdapter;
 import com.zeeplivework.app.adapter.CountryAdapter;
 import com.zeeplivework.app.databinding.CountryDialogBinding;
+import com.zeeplivework.app.response.BankList.BankListResponse;
 import com.zeeplivework.app.response.CountryListNew;
+import com.zeeplivework.app.response.CountryNew.CountryResponseNew;
+import com.zeeplivework.app.response.CountryNew.CountryResultNew;
+import com.zeeplivework.app.retrofit.ApiManager;
+import com.zeeplivework.app.retrofit.ApiResponseInterface;
 import com.zeeplivework.app.utils.CountrySelect;
 import com.zeeplivework.app.utils.SessionManager;
 
 import java.util.ArrayList;
 
 
-public class CountryDialog extends Dialog implements CountrySelect {
+public class CountryDialog extends Dialog implements ApiResponseInterface, CountrySelect {
     CountryDialogBinding binding;
-    ArrayList<CountryListNew> countryListNews = new ArrayList<>();
+    ArrayList<CountryResultNew> countryListNews = new ArrayList<>();
     CountryAdapter adapter;
     Context context;
     SessionManager sessionManager;
+    ApiManager apiManager;
 
     public CountryDialog(@NonNull Context context) {
         super(context);
@@ -47,12 +54,10 @@ public class CountryDialog extends Dialog implements CountrySelect {
         this.setCancelable(true);
 
         binding.setClickListener(new EventHandler(getContext()));
+        apiManager = new ApiManager(getContext(), this);
         sessionManager = new SessionManager(getContext());
         binding.rvCountry.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        adapter = new CountryAdapter(context, countryListNews, this);
-        binding.rvCountry.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        setData();
+        apiManager.getCountryList();
         show();
     }
 
@@ -65,7 +70,6 @@ public class CountryDialog extends Dialog implements CountrySelect {
             dismiss();
         }
     }
-
 
     public class EventHandler {
         Context mContext;
@@ -80,56 +84,26 @@ public class CountryDialog extends Dialog implements CountrySelect {
 
     }
 
-    private void setData() {
-        CountryListNew list1 = new CountryListNew("INDIA", "IN", "INR", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Argentina", "AR", "ARS", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Australia", "AU", "AUD", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Brazil", "BR", "BRL", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Bangladesh", "BD", "BDT", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Colombia", "CO", "COP", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Canada", "CA", "CAD", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Fiji", "FJ", "FJD", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Jordan", "JO", "JOD", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Indonesia", "ID", "IDR", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Nepal", "NP", "NPR", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("New Zealand", "NZ", "NZD", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Nigeria", "NG", "NGN", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Pakistan", "PK", "PKR", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Kuwait", "KW", "KWD", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Kenya", "KE", "KES", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Peru", "PE", "PEN", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Srilanka", "LK", "LKR", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Singapore", "SG", "SGD", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("South Africa", "ZA", "ZAR", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Thailand", "TH", "THB", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Turkey", "TR", "TRY", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("United Arab Emirates", "AE", "AED", "C2C");
-        countryListNews.add(list1);
-        list1 = new CountryListNew("Vietnam", "VN", "VND", "C2C");
-        countryListNews.add(list1);
+    @Override
+    public void isError(String errorCode) {
 
+    }
+
+    @Override
+    public void isSuccess(Object response, int ServiceCode) {
+        CountryResponseNew rsp = (CountryResponseNew) response;
+
+        try {
+            Log.e("CountryDialog", "CountryList=> " + new Gson().toJson(rsp.getResult()));
+            countryListNews.addAll(rsp.getResult());
+            if (countryListNews.size() > 0) {
+                adapter = new CountryAdapter(context, countryListNews, this);
+                binding.rvCountry.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        } catch (Exception e) {
+
+        }
 
     }
 

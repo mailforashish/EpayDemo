@@ -1,13 +1,22 @@
 package com.zeeplivework.app.utils;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+
+import androidx.core.content.ContextCompat;
+
+import com.zeeplivework.app.R;
+
+import java.util.Arrays;
 
 public class ProgressDrawable extends Drawable {
     private static final int NUM_SEGMENTS = 4;
@@ -44,7 +53,6 @@ public class ProgressDrawable extends Drawable {
                 float middle = mSegment.left + NUM_SEGMENTS * segmentWidth * (level - loLevel);
                 canvas.drawRect(mSegment.left, mSegment.top, middle, mSegment.bottom, mPaint);
                 mPaint.setColor(mBackground);
-                canvas.drawRect(middle, mSegment.top, mSegment.right, mSegment.bottom, mPaint);
             } else {
                canvas.drawRect(mSegment, mPaint);
             }

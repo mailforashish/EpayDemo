@@ -4,11 +4,13 @@ public class DailyList {
     int image;
     String User_Name;
     String coins;
+    String date;
 
-    public DailyList(int image, String user_Name, String coins) {
+    public DailyList(int image, String user_Name, String coins, String date) {
         this.image = image;
         User_Name = user_Name;
         this.coins = coins;
+        this.date = date;
     }
 
     public int getImage() {
@@ -33,5 +35,13 @@ public class DailyList {
 
     public void setCoins(String coins) {
         this.coins = coins;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

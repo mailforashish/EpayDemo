@@ -14,7 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
         <activity
             android:name=".activity.AddBankActivity"
             android:screenOrientation="portrait" />
@@ -22,12 +21,12 @@
         <activity
             android:name=".activity.DiamondActivity"
             android:screenOrientation="portrait" />
-
         <activity android:name=".activity.TabActivity" />
-        <activity android:name=".activity.WalletActivity"
-            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.DailyStarActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WalletActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

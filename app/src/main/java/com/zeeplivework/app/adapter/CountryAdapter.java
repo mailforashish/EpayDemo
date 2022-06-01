@@ -11,18 +11,17 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zeeplivework.app.R;
-import com.zeeplivework.app.response.CountryList.CountryResult;
-import com.zeeplivework.app.response.CountryListNew;
+import com.zeeplivework.app.response.CountryNew.CountryResultNew;
 import com.zeeplivework.app.utils.CountrySelect;
 
 import java.util.List;
 
 public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.MyViewHolder> {
-    List<CountryListNew> arrayList;
+    List<CountryResultNew> arrayList;
     Context context;
     CountrySelect countrySelect;
 
-    public CountryAdapter(Context context, List<CountryListNew> arrayList, CountrySelect countrySelect) {
+    public CountryAdapter(Context context, List<CountryResultNew> arrayList, CountrySelect countrySelect) {
         this.arrayList = arrayList;
         this.context = context;
         this.countrySelect = countrySelect;
@@ -39,20 +38,18 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.countryName.setText(arrayList.get(position).getCountry_name());
-        holder.countryCode.setText(arrayList.get(position).getCountry_code());
-        holder.currencyCode.setText(arrayList.get(position).getCurrency_code());
+        holder.countryName.setText(arrayList.get(position).getCountryName());
+        holder.countryCode.setText(arrayList.get(position).getCountryCodeEpay());
+        holder.currencyCode.setText(arrayList.get(position).getCountryCurrencyEpay());
 
         holder.constraint_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                countrySelect.getCountry(true, arrayList.get(position).getCountry_name(),
-                        arrayList.get(position).getCountry_code(),
-                        arrayList.get(position).getCurrency_code());
+                countrySelect.getCountry(true, arrayList.get(position).getCountryName(),
+                        arrayList.get(position).getCountryCodeEpay(),
+                        arrayList.get(position).getCountryCurrencyEpay());
             }
         });
-
-
     }
 
     @Override

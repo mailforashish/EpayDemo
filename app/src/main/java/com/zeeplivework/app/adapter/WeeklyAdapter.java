@@ -43,7 +43,18 @@ public class WeeklyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder hld, int position) {
         try {
             final myViewHolder holder = (myViewHolder) hld;
-            holder.user_image_1.setImageResource(list.get(position).getImage());
+            holder.tv_date.setText(list.get(position).getDate());
+            holder.iv_top_1.setImageResource(list.get(position).getImage());
+            holder.iv_top_2.setImageResource(list.get(position).getImage());
+            holder.iv_top_3.setImageResource(list.get(position).getImage());
+
+            holder.tv_diamond_user_1.setText("30,00,000");
+            holder.tv_diamond_user_2.setText("10,00,000");
+            holder.tv_diamond_user_3.setText("10,00,000");
+
+            holder.tv_coins_user_1.setText(numberCalculationKMGTPE(152000));
+            holder.tv_coins_user_2.setText(numberCalculationKMGTPE(149000));
+            holder.tv_coins_user_3.setText(numberCalculationKMGTPE(127000));
 
         } catch (Exception e) {
         }
@@ -52,12 +63,19 @@ public class WeeklyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class myViewHolder extends RecyclerView.ViewHolder {
 
-        AppCompatTextView tv_coins_user_1, tv_coins_user_2, tv_coins_user_3;
-        CircleImageView user_image_1;
+        public AppCompatTextView tv_diamond_user_1, tv_diamond_user_2, tv_diamond_user_3, tv_date;
+        public TextView tv_coins_user_1, tv_coins_user_2, tv_coins_user_3;
+        public CircleImageView iv_top_1, iv_top_2, iv_top_3;
 
         public myViewHolder(View itemView) {
             super(itemView);
-            user_image_1 = itemView.findViewById(R.id.user_image_1);
+            tv_date = itemView.findViewById(R.id.tv_date);
+            iv_top_1 = itemView.findViewById(R.id.iv_top_1);
+            iv_top_2 = itemView.findViewById(R.id.iv_top_2);
+            iv_top_3 = itemView.findViewById(R.id.iv_top_3);
+            tv_diamond_user_1 = itemView.findViewById(R.id.tv_diamond_user_1);
+            tv_diamond_user_2 = itemView.findViewById(R.id.tv_diamond_user_2);
+            tv_diamond_user_3 = itemView.findViewById(R.id.tv_diamond_user_3);
             tv_coins_user_1 = itemView.findViewById(R.id.tv_coins_user_1);
             tv_coins_user_2 = itemView.findViewById(R.id.tv_coins_user_2);
             tv_coins_user_3 = itemView.findViewById(R.id.tv_coins_user_3);
@@ -70,5 +88,11 @@ public class WeeklyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return list == null ? 0 : list.size();
     }
 
+    private String numberCalculationKMGTPE(long number) {
+        if (number < 1000)
+            return "" + number + "K";
+        int exp = (int) (Math.log(number) / Math.log(1000));
 
+        return String.format("%.1f %c", number / Math.pow(1000, exp), "KMGTPE".charAt(exp - 1));
+    }
 }

@@ -117,12 +117,10 @@ public class WalletActivity extends AppCompatActivity implements ApiResponseInte
 
         }
     }
-
     public void setCountry(String country, String currency_code) {
         binding.tvCountryNameInput.setText(country);
         currency = currency_code;
         apiManager.getCurrencyListDetails(currency);
-
     }
 
 

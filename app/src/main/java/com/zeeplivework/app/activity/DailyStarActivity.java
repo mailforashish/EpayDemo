@@ -96,7 +96,7 @@ public class DailyStarActivity extends BaseActivity {
                             Log.e("valueofProgress", "" + String.valueOf(val));
                             int textViewX = val - (binding.tvTopBar.getWidth() / 2);
                             int textViewX1 = val - (binding.tvBottomBar.getWidth() / 2);
-                            int finalX = binding.tvTopBar.getWidth() + textViewX > maxX ? (maxX - binding.tvTopBar.getWidth() - 16) : textViewX + 16 - 56 /*your margin*/;
+                            int finalX = binding.tvTopBar.getWidth() + textViewX > maxX ? (maxX - binding.tvTopBar.getWidth() - 16) : textViewX + 16 - 38 /*your margin*/;
                             int finalX1 = binding.tvBottomBar.getWidth() + textViewX1 > maxX ? (maxX - binding.tvBottomBar.getWidth() - 46) : textViewX1 + 16 - 56 /*your margin*/;
                             binding.tvTopBar.setX(finalX < 0 ? 16/*your margin*/ : finalX);
                             binding.tvBottomBar.setX(finalX1 < 0 ? 16  /*your margin*/ : finalX1);
@@ -184,19 +184,19 @@ public class DailyStarActivity extends BaseActivity {
     }
 
     public void setData() {
-        DailyList list1 = new DailyList(R.drawable.female, "Archana", "Won 6,189,107");
+        DailyList list1 = new DailyList(R.drawable.female, "Archana", "Won 6,189,107", "2022.05.02");
         list.add(list1);
-        list1 = new DailyList(R.drawable.female, "Pooja", "Won 4,189,107");
+        list1 = new DailyList(R.drawable.female, "Pooja", "Won 4,189,107", "2022.04.02");
         list.add(list1);
-        list1 = new DailyList(R.drawable.female, "Neha", "Won 3,189,107");
+        list1 = new DailyList(R.drawable.female, "Neha", "Won 3,189,107", "2022.03.02");
         list.add(list1);
-        list1 = new DailyList(R.drawable.female, "Marry Smith", "Won 2,159,107");
+        list1 = new DailyList(R.drawable.female, "Marry Smith", "Won 2,159,107", "2022.02.02");
         list.add(list1);
-        list1 = new DailyList(R.drawable.female, "Joshana Fernadis", "Won 1,149,107");
+        list1 = new DailyList(R.drawable.female, "Joshana Fernadis", "Won 1,149,107", "2022.01.02");
         list.add(list1);
-        list1 = new DailyList(R.drawable.female, "Malika", "Won 1,129,107");
+        list1 = new DailyList(R.drawable.female, "Malika", "Won 1,129,107", "2021.12.02");
         list.add(list1);
-        list1 = new DailyList(R.drawable.female, "Priya Singh", "Won 1,119,107");
+        list1 = new DailyList(R.drawable.female, "Priya Singh", "Won 1,119,107", "2021.11.02");
         list.add(list1);
         dailyAdapter.notifyDataSetChanged();
         weeklyAdapter.notifyDataSetChanged();
@@ -217,7 +217,8 @@ public class DailyStarActivity extends BaseActivity {
 
 
     }
-    private void unSelectedLevel(){
+
+    private void unSelectedLevel() {
         binding.tv1.setBackgroundColor(getResources().getColor(R.color.transparent));
         binding.tv1.setTextColor(getResources().getColor(R.color.text_color));
         binding.tv2.setBackgroundColor(getResources().getColor(R.color.transparent));

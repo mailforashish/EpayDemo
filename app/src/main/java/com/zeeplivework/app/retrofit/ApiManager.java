@@ -11,6 +11,7 @@ import com.zeeplivework.app.activity.AddBankActivity;
 import com.zeeplivework.app.dialog.MyProgressDialog;
 import com.zeeplivework.app.response.BankList.BankListResponse;
 import com.zeeplivework.app.response.CountryList.CountryResponse;
+import com.zeeplivework.app.response.CountryNew.CountryResponseNew;
 import com.zeeplivework.app.response.CreateTransaction.CreateTransactionResponse;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResponse;
 import com.zeeplivework.app.utils.Constant;
@@ -34,6 +35,24 @@ public class ApiManager {
 
     }
 
+    public void getCountryList() {
+        Call<CountryResponseNew> call = apiService.getCountry("application/json");
+        call.enqueue(new Callback<CountryResponseNew>() {
+            @Override
+            public void onResponse(Call<CountryResponseNew> call, Response<CountryResponseNew> response) {
+                // Log.e("EPAYLOG", "getCurrencyListDetail=> " + new Gson().toJson(response.body()));
+                if (response.isSuccessful() && response.body() != null) {
+                    mApiResponseInterface.isSuccess(response.body(), Constant.COUNTRY_LIST);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CountryResponseNew> call, Throwable t) {
+                Log.e("EPAYLOG", "getCountryError=> " + t);
+            }
+        });
+    }
+
 
     public void getCurrencyListDetails(String currency) {
         Call<CountryResponse> call = apiService.getCurrencyList("application/json", currency);
@@ -41,7 +60,7 @@ public class ApiManager {
         call.enqueue(new Callback<CountryResponse>() {
             @Override
             public void onResponse(Call<CountryResponse> call, Response<CountryResponse> response) {
-               // Log.e("EPAYLOG", "getCurrencyListDetail=> " + new Gson().toJson(response.body()));
+                // Log.e("EPAYLOG", "getCurrencyListDetail=> " + new Gson().toJson(response.body()));
                 if (response.isSuccessful() && response.body() != null) {
                     mApiResponseInterface.isSuccess(response.body(), Constant.CURRENCY_LIST);
                 }
@@ -75,7 +94,7 @@ public class ApiManager {
 
     public void getBankListDetails(String countryCode, String currency, String transactionType) {
         Call<BankListResponse> call = apiService.getBankList("application/json", countryCode, currency, transactionType);
-       // Log.e("BankRequestLog", "" + new Gson().toJson(call.request().toString()));
+        // Log.e("BankRequestLog", "" + new Gson().toJson(call.request().toString()));
         call.enqueue(new Callback<BankListResponse>() {
             @Override
             public void onResponse(Call<BankListResponse> call, Response<BankListResponse> response) {
@@ -95,7 +114,7 @@ public class ApiManager {
 
     public void getBankListNextPage(String countryCode, String currency, String transactionType) {
         Call<BankListResponse> call = apiService.getBankList("application/json", countryCode, currency, transactionType);
-       // Log.e("BankRequestLog", "" + new Gson().toJson(call.request().toString()));
+        // Log.e("BankRequestLog", "" + new Gson().toJson(call.request().toString()));
         call.enqueue(new Callback<BankListResponse>() {
             @Override
             public void onResponse(Call<BankListResponse> call, Response<BankListResponse> response) {
@@ -113,8 +132,6 @@ public class ApiManager {
     }
 
 
-
-
     public void createTransaction(JSONObject data) {
         Call<CreateTransactionResponse> call = apiService.createTransaction("application/json", data);
         //Log.e("createTransactionLog", "" + new Gson().toJson(call.request().toString()));
@@ -125,10 +142,11 @@ public class ApiManager {
                 if (response.body().getSuccess()) {
                     mApiResponseInterface.isSuccess(response.body(), Constant.CREATE_TRANSACTION);
                     Toast.makeText(mContext, new Gson().toJson(response.body().getResult()), Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     Toast.makeText(mContext, new Gson().toJson(response.body().getError()), Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<CreateTransactionResponse> call, Throwable t) {
                 Log.e("createTransactionError", "createTransactionError=> " + t);
