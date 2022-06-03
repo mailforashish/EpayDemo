@@ -30,6 +30,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
 import static com.zeeplivework.app.utils.SessionManager.COUNTRY_CODE;
 import static com.zeeplivework.app.utils.SessionManager.COUNTRY_NAME;
 import static com.zeeplivework.app.utils.SessionManager.CURRENCY_CODE;
@@ -80,7 +81,8 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         list.clear();
         if (ServiceCode == Constant.REQUIRED_FIELD) {
             RequiredFieldResponse rsp = (RequiredFieldResponse) response;
-            Log.e("AddBank", "RequiredList=> " + new Gson().toJson(rsp.getData()));
+            //Log.e("AddBank", "RequiredList=> " + new Gson().toJson(rsp.getData()));
+            LogPrint(new Gson().toJson(rsp.getData()));
             try {
                 list.addAll(rsp.getData());
                 for (int i = 0; i < list.size(); i++) {
@@ -94,6 +96,7 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
                 binding.rvAddBank.setAdapter(requiredFieldAdapter);
             } catch (Exception e) {
             }
+
         }
         if (ServiceCode == Constant.CREATE_TRANSACTION) {
             CreateTransactionResponse rsp = (CreateTransactionResponse) response;
@@ -127,11 +130,11 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         }
 
         public void saveContinue() {
-            // Log.e("TestingDaat", "mapsizeFill" + RequiredFieldAdapter.ReceiverInfo.size());
+            //Log.e("TestingDaat", "mapsizeFill" + RequiredFieldAdapter.ReceiverInfo.size());
             //Log.e("TestingDaat", "mapsizeList" + receiverList.size());
             if (receiverList.size() == RequiredFieldAdapter.ReceiverInfo.size()) {
                 TransferTransaction();
-               // Toast.makeText(AddBankActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(AddBankActivity.this, "Success", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(AddBankActivity.this, "Fill Required Field", Toast.LENGTH_SHORT).show();
             }
@@ -161,4 +164,16 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         startActivity(new Intent(AddBankActivity.this, WalletActivity.class));
         finishAffinity();
     }
+
+    public void LogPrint(String message) {
+        int maxLogSize = 1000;
+        for (int i = 0; i <= message.length() / maxLogSize; i++) {
+            int start = i * maxLogSize;
+            int end = (i + 1) * maxLogSize;
+            end = end > message.length() ? message.length() : end;
+            Log.v(TAG, message.substring(start, end));
+        }
+    }
+
+
 }

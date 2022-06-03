@@ -55,10 +55,5 @@ public class IDFiller {
         return IDFiller.dataList;
     }
 
-    public static ArrayList<String> FillAccountType() {
-        (IDFiller.dataList = new ArrayList<String>()).add("SAVING");
-        IDFiller.dataList.add("CHECKING");
-        return IDFiller.dataList;
-    }
 
 }

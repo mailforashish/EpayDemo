@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,12 +18,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zeeplivework.app.R;
-
 import com.zeeplivework.app.dialog.BankDialog;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResult;
 import com.zeeplivework.app.utils.BankSelected;
@@ -53,7 +55,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
         this.context = context;
         this.CountryCode = CountryCode;
         sessionManager = new SessionManager(context);
-
     }
 
     @NonNull
@@ -74,24 +75,47 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
         }
         if (arrayList.get(position).getValue().equals("country")) {
             holder.et_name_input.setText(CountryCode);
-            holder.et_name_input.setEnabled(false);
+            HideView(holder.tv_Name, holder.et_name_input, holder.tv_name_error);
         }
 
         if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("location ID")) {
             holder.et_name_input.setText(LocationId);
-            holder.et_name_input.setEnabled(false);
+            HideView(holder.tv_Name, holder.et_name_input, holder.tv_name_error);
+            //holder.et_name_input.setEnabled(false);
         } else if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("Bank Name")) {
             holder.et_name_input.setText(BankName);
-            holder.et_name_input.setEnabled(false);
-        } else if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).trim().equalsIgnoreCase("Bank Branch Code")) {
+            HideView(holder.tv_Name, holder.et_name_input, holder.tv_name_error);
+        } else if (arrayList.get(position).getValue().trim().equalsIgnoreCase("bankBranchCode")) {
             holder.et_name_input.setText(BankBranch);
             holder.et_name_input.setEnabled(false);
         } else if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("Address")) {
             holder.et_name_input.setText(Address);
-            holder.et_name_input.setEnabled(false);
+            HideView(holder.tv_Name, holder.et_name_input, holder.tv_name_error);
         } else if (JsonParse.jsonDecode(arrayList.get(position).getShowName()).equalsIgnoreCase("Nationality")) {
             holder.et_name_input.setText(CountryCode);
-            holder.et_name_input.setEnabled(false);
+            HideView(holder.tv_Name, holder.et_name_input, holder.tv_name_error);
+        } else if (arrayList.get(position).getValue().equalsIgnoreCase("bankBranchName")) {
+            holder.et_name_input.setText(BankBranch);
+            HideView(holder.tv_Name, holder.et_name_input, holder.tv_name_error);
+        } else if (arrayList.get(position).getValue().equals("accountType")) {
+            holder.et_name_input.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0);
+            holder.et_name_input.setFocusable(false);
+            holder.et_name_input.setOnClickListener((View view) -> {
+                PopupMenu popup = new PopupMenu(context, view);
+                if (CountryCode.equals("BR")) {
+                    popup.getMenu().add("SAVING");
+                    popup.getMenu().add("CHECKING");
+                } else if (CountryCode.equals("IN")) {
+                    popup.getMenu().add("Current account");
+                    popup.getMenu().add("Savings account");
+                    popup.getMenu().add("Salary account");
+                }
+                popup.setOnMenuItemClickListener(item -> {
+                    holder.et_name_input.setText(item.getTitle());
+                    return false;
+                });
+                popup.show();
+            });
         }
 
         if (arrayList.get(position).getValue().equals("idType")) {
@@ -106,12 +130,11 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
                 ReceiverInfo.put(arrayList.get(position).getValue(), idTypeSelected);
                 adapter.notifyDataSetChanged();
             }
-
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
         holder.tv_Name.setText(JsonParse.jsonDecode(arrayList.get(position).getShowName()));
-        holder.et_name_input.setHint(JsonParse.jsonDecode(arrayList.get(position).getShowName()));
+        holder.et_name_input.setHint(capitalize(arrayList.get(position).getValue()));
     }
 
     @Override
@@ -150,7 +173,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
             });
             MyTextWatcher textWatcher = new MyTextWatcher(et_name_input);
             et_name_input.addTextChangedListener(textWatcher);
-
         }
 
         public class MyTextWatcher implements TextWatcher {
@@ -181,7 +203,6 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
                     ReceiverInfo.put(arrayList.get(position).getValue(), String.valueOf(s));
                     Log.e("ReceiverInfo", "AdapterClassElse=> " + ReceiverInfo);
                 }
-
             }
         }
 
@@ -246,11 +267,18 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
         }
     }
 
-   /* public static String capitalize(String str) {
+    public void HideView(TextView tv_Name, AppCompatEditText et_name_input, TextView tv_name_error) {
+        tv_Name.setVisibility(View.GONE);
+        et_name_input.setVisibility(View.GONE);
+        tv_name_error.setVisibility(View.GONE);
+    }
+
+    public static String capitalize(String str) {
         if (str == null || str.isEmpty()) {
             return str;
         }
         return str.substring(0, 1).toUpperCase() + str.substring(1);
-    }*/
+    }
+
 
 }
