@@ -23,6 +23,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
 import com.zeeplivework.app.R;
 import com.zeeplivework.app.dialog.BankDialog;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResult;
@@ -105,10 +106,11 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
                 if (CountryCode.equals("BR")) {
                     popup.getMenu().add("SAVING");
                     popup.getMenu().add("CHECKING");
-                } else if (CountryCode.equals("IN")) {
-                    popup.getMenu().add("Current account");
-                    popup.getMenu().add("Savings account");
-                    popup.getMenu().add("Salary account");
+                } else if (CountryCode.equals("CO")) {
+                    popup.getMenu().add("OTHERS");
+                    popup.getMenu().add("DEPOSIT");
+                    popup.getMenu().add("SAVINGS");
+                    popup.getMenu().add("CHECKING");
                 }
                 popup.setOnMenuItemClickListener(item -> {
                     holder.et_name_input.setText(item.getTitle());
@@ -126,13 +128,16 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
         holder.spinner_idType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 Object item = parent.getItemAtPosition(pos);
+                Log.e("AddBank", "TransactionSpinnerpos=> " + String.valueOf(pos));
                 String idTypeSelected = holder.spinner_idType.getSelectedItem().toString();
-                ReceiverInfo.put(arrayList.get(position).getValue(), idTypeSelected);
+                ReceiverInfo.put(arrayList.get(position).getValue(), "1");
                 adapter.notifyDataSetChanged();
             }
+
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
         holder.tv_Name.setText(JsonParse.jsonDecode(arrayList.get(position).getShowName()));
         holder.et_name_input.setHint(capitalize(arrayList.get(position).getValue()));
     }
@@ -147,6 +152,7 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
     public int getItemCount() {
         return arrayList.size();
     }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements BankSelected {
         public ConstraintLayout cl_form;
@@ -255,13 +261,15 @@ public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdap
             IDList = IDFiller.FillIdTypeVietnam();
         } else if (val.equals("ID")) {
             IDList = IDFiller.FillIdTypeIndonesia();
+        } else if (val.equals("NP")) {
+            IDList = IDFiller.FillIdTypeNepal();
         }
         adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, IDList);
         spinner.setAdapter(adapter);
         if (spinner != null && spinner.getSelectedItem() != null) {
             String idValue = spinner.getSelectedItem().toString();
             Log.e("selectedID", "Spinnervalue=> " + idValue);
-            ReceiverInfo.put(arrayList.get(pos).getValue(), idValue);
+            ReceiverInfo.put(arrayList.get(pos).getValue(), "1");
         } else {
             Log.e("selectedID", "Spinnervalue=> " + "Novalue");
         }

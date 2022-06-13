@@ -55,5 +55,12 @@ public class IDFiller {
         return IDFiller.dataList;
     }
 
+    public static ArrayList<String> FillIdTypeNepal() {
+        (IDFiller.dataList = new ArrayList<String>()).add("Foreign Passport");
+        IDFiller.dataList.add("National ID");
+        IDFiller.dataList.add("Identity number");
+        return IDFiller.dataList;
+    }
+
 
 }
