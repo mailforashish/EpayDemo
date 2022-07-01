@@ -122,61 +122,12 @@ public class SessionManager {
         return pref.getString(TRANSACTION_TYPE, "null");
     }
 
-
-    public void set(String key, String value) {
-        if (pref != null) {
-            SharedPreferences.Editor prefsEditor = pref.edit();
-            prefsEditor.putString(key, value);
-            prefsEditor.commit();
-        }
-    }
-    public <T> void saveFormInLocal(String key, JSONObject list) {
-        Gson gson = new Gson();
-        String json = gson.toJson(list);
-        set(key, json);
-    }
-
-    public List<RequiredFieldResult> getFromInLocal(String key) {
-        if (pref != null) {
-            Gson gson = new Gson();
-            ArrayList<RequiredFieldResult> formList;
-            String string = pref.getString(key, null);
-            Type type = new TypeToken<ArrayList<RequiredFieldResult>>() {
-            }.getType();
-            formList = gson.fromJson(string, type);
-            return formList;
-        }
-        return null;
-    }
-
     public String getUserToken() {
         return pref.getString(TOKEN_ID, null);
     }
 
-    public void setPreFill(String preFill) {
-        editor.putString(FORM, preFill);
-        editor.apply();
-    }
-    public String getPreFill() {
-        return pref.getString(FORM, "null");
-    }
+
    /*
-     public RequiredFieldResult getFromInLocal(String key) {
-        if (pref != null) {
-            Gson gson = new Gson();
-            RequiredFieldResult formList;
-            String string = pref.getString(key, null);
-            Type type = new TypeToken<RequiredFieldResult>() {
-            }.getType();
-            formList = gson.fromJson(string, type);
-            return formList;
-        }
-        return null;
-    }
-
-
-
-
 
     public void setCountryCode(String countryCode) {
         editor.putString(COUNTRY_CODE, countryCode);

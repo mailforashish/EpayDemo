@@ -32,7 +32,7 @@ import com.zeeplivework.app.utils.SessionManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 public class RequiredFieldAdapter extends RecyclerView.Adapter<RequiredFieldAdapter.MyViewHolder> {
     public List<RequiredFieldResult> arrayList;

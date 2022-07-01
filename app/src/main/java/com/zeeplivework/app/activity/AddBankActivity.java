@@ -24,8 +24,7 @@ import com.zeeplivework.app.retrofit.ApiManager;
 import com.zeeplivework.app.retrofit.ApiResponseInterface;
 import com.zeeplivework.app.utils.Constant;
 import com.zeeplivework.app.utils.SessionManager;
-import com.zeeplivework.app.utils.Utility;
-
+import com.zeeplivework.app.utils.JsonToMapConverter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +36,7 @@ import static com.zeeplivework.app.utils.SessionManager.AREA_CODE;
 import static com.zeeplivework.app.utils.SessionManager.COUNTRY_CODE;
 import static com.zeeplivework.app.utils.SessionManager.COUNTRY_NAME;
 import static com.zeeplivework.app.utils.SessionManager.CURRENCY_CODE;
-//import org.json.JSONObject;
+
 
 public class AddBankActivity extends AppCompatActivity implements ApiResponseInterface {
     ActivityAddBankBinding binding;
@@ -96,7 +95,7 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
             if (rsp.getResult().getEpayReceiverInfo() != null) {
                 try {
                     preFillData = rsp.getResult().getEpayReceiverInfo();
-                    FormMap = new HashMap<>(Utility.jsonToMap(preFillData));
+                    FormMap = new HashMap<>(JsonToMapConverter.jsonToMap(preFillData));
                     Log.e("rspLog", FormMap.toString());
                 } catch (Exception e) {
 
@@ -178,7 +177,6 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
 
     public void TransferTransaction() {
         ReceiverInfo = RequiredFieldAdapter.ReceiverInfo;
-        // sessionManager.saveFormInLocal("form", ReceiverInfo);
         JSONObject jsonResult = new JSONObject();
         try {
             jsonResult.put("country_id", Country);
