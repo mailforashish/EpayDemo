@@ -13,8 +13,11 @@ import com.zeeplivework.app.response.BankList.BankListResponse;
 import com.zeeplivework.app.response.CountryList.CountryResponse;
 import com.zeeplivework.app.response.CountryNew.CountryResponseNew;
 import com.zeeplivework.app.response.CreateTransaction.CreateTransactionResponse;
+import com.zeeplivework.app.response.LoginResponse;
+import com.zeeplivework.app.response.Prefill.PrefillResponse;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResponse;
 import com.zeeplivework.app.utils.Constant;
+import com.zeeplivework.app.utils.SessionManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,14 +29,46 @@ public class ApiManager {
     private MyProgressDialog dialog;
     private ApiResponseInterface mApiResponseInterface;
     private ApiInterface apiService;
+    private String authToken;
 
     public ApiManager(Context context, ApiResponseInterface apiResponseInterface) {
         this.mContext = context;
         this.mApiResponseInterface = apiResponseInterface;
         apiService = ApiClient.getRetrofitInstance().create(ApiInterface.class);
         dialog = new MyProgressDialog(mContext);
+        authToken = Constant.BEARER + new SessionManager(context).getUserToken();
 
     }
+
+    public void login(String username, String password) {
+        Call<LoginResponse> call = apiService.loginUser(username, password);
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                Log.e("loginResponce", new Gson().toJson(response.body()));
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().isSuccess()) {
+                        mApiResponseInterface.isSuccess(response.body(), Constant.LOGIN);
+
+                    } else {
+                        mApiResponseInterface.isError(response.body().getError());
+                    }
+                } else if (response.code() == 401) {
+                    //Log.e("errorResponce", response.body().getError());
+                    Toast.makeText(mContext, "Wrong Password", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                //Log.e("loginResponceError", t.getMessage());
+                Toast.makeText(mContext, "Network Error", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
+
 
     public void getCountryList() {
         Call<CountryResponseNew> call = apiService.getCountry("application/json");
@@ -155,7 +190,29 @@ public class ApiManager {
         });
     }
 
+    public void getPrefill() {
+        Call<PrefillResponse> call = apiService.getPrefillData(authToken, "application/json");
+        call.enqueue(new Callback<PrefillResponse>() {
+            @Override
+            public void onResponse(Call<PrefillResponse> call, Response<PrefillResponse> response) {
+                Log.e("EPAYLOG", "PrefillDataDetail=> " + new Gson().toJson(response.body()));
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getSuccess()) {
+                        mApiResponseInterface.isSuccess(response.body(), Constant.PRE_FILL);
+                    } else {
+                        mApiResponseInterface.isError(response.body().getError());
+                    }
+                } else if (response.code() == 401) {
+                    Toast.makeText(mContext, "Unauthorized", Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<PrefillResponse> call, Throwable t) {
+                Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
     public void showDialog() {
         try {
             if (dialog != null && !dialog.isShowing()) {

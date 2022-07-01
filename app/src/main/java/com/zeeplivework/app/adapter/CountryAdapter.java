@@ -45,7 +45,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.MyViewHo
         holder.constraint_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                countrySelect.getCountry(true, arrayList.get(position).getCountryName(),
+                countrySelect.getCountry(true, arrayList.get(position).getCountryCode(), arrayList.get(position).getCountryName(),
                         arrayList.get(position).getCountryCodeEpay(),
                         arrayList.get(position).getCountryCurrencyEpay());
             }

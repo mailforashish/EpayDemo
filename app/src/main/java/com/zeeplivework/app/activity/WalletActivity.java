@@ -24,6 +24,7 @@ import com.zeeplivework.app.retrofit.ApiManager;
 import com.zeeplivework.app.retrofit.ApiResponseInterface;
 import com.zeeplivework.app.utils.Constant;
 import com.zeeplivework.app.utils.SessionManager;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,7 @@ public class WalletActivity extends AppCompatActivity implements ApiResponseInte
     List<String> transaction_type_list = new ArrayList<>();
     ArrayList<CountryResult> countryList = new ArrayList<>();
     String trType;
+    String ColombiaCountry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +95,12 @@ public class WalletActivity extends AppCompatActivity implements ApiResponseInte
                 for (int i = 0; i < countryList.size(); i++) {
                     transaction_type_list.add(countryList.get(i).getTransactionType());
                 }
-
+                if (ColombiaCountry.equals("Colombia")) {
+                    transaction_type_list.remove(0);
+                }
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_transaction, transaction_type_list);
                 binding.spinnerTransactionType.setAdapter(adapter);
+
                 binding.spinnerTransactionType.setDropDownVerticalOffset(22);
 
                 binding.spinnerTransactionType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -107,6 +112,7 @@ public class WalletActivity extends AppCompatActivity implements ApiResponseInte
                         Log.e("EPAYLOG", "transactionTypenew=> " + transactionType);
                         adapter.notifyDataSetChanged();
                     }
+
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
@@ -117,10 +123,13 @@ public class WalletActivity extends AppCompatActivity implements ApiResponseInte
 
         }
     }
+
     public void setCountry(String country, String currency_code) {
         binding.tvCountryNameInput.setText(country);
         currency = currency_code;
+        ColombiaCountry = country;
         apiManager.getCurrencyListDetails(currency);
+
     }
 
 

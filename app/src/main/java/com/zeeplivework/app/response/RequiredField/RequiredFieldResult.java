@@ -13,7 +13,6 @@ public class RequiredFieldResult {
     @SerializedName("currency")
     @Expose
     private String currency;
-
     @SerializedName("showName")
     @Expose
     private String showName;

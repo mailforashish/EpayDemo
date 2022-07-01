@@ -21,11 +21,14 @@ import com.zeeplivework.app.adapter.BankAdapter;
 import com.zeeplivework.app.adapter.CountryAdapter;
 import com.zeeplivework.app.databinding.CountryDialogBinding;
 import com.zeeplivework.app.response.BankList.BankListResponse;
+import com.zeeplivework.app.response.CountryList.CountryResponse;
 import com.zeeplivework.app.response.CountryListNew;
 import com.zeeplivework.app.response.CountryNew.CountryResponseNew;
 import com.zeeplivework.app.response.CountryNew.CountryResultNew;
+import com.zeeplivework.app.response.LoginResponse;
 import com.zeeplivework.app.retrofit.ApiManager;
 import com.zeeplivework.app.retrofit.ApiResponseInterface;
+import com.zeeplivework.app.utils.Constant;
 import com.zeeplivework.app.utils.CountrySelect;
 import com.zeeplivework.app.utils.SessionManager;
 
@@ -58,15 +61,17 @@ public class CountryDialog extends Dialog implements ApiResponseInterface, Count
         sessionManager = new SessionManager(getContext());
         binding.rvCountry.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         apiManager.getCountryList();
+
         show();
     }
 
     @Override
-    public void getCountry(boolean select, String country_name, String country_code, String currency_code) {
+    public void getCountry(boolean select, String area_code, String country_name, String country_code, String currency_code) {
         Log.e("Epay", "SelectedValue=> " + country_name + "\n" + country_code + "\n" + currency_code);
         if (select) {
             ((WalletActivity) context).setCountry(country_name, currency_code);
-            sessionManager.createCountrySession(country_name, country_code, currency_code);
+            sessionManager.createCountrySession(area_code, country_name, country_code, currency_code);
+            apiManager.login("arpana123@gmail.com", "1234567890");
             dismiss();
         }
     }
@@ -91,18 +96,23 @@ public class CountryDialog extends Dialog implements ApiResponseInterface, Count
 
     @Override
     public void isSuccess(Object response, int ServiceCode) {
-        CountryResponseNew rsp = (CountryResponseNew) response;
+        if (ServiceCode == Constant.COUNTRY_LIST) {
+            CountryResponseNew rsp = (CountryResponseNew) response;
+            try {
+                Log.e("CountryDialog", "CountryList=> " + new Gson().toJson(rsp.getResult()));
+                countryListNews.addAll(rsp.getResult());
+                if (countryListNews.size() > 0) {
+                    adapter = new CountryAdapter(context, countryListNews, this);
+                    binding.rvCountry.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+            } catch (Exception e) {
 
-        try {
-            Log.e("CountryDialog", "CountryList=> " + new Gson().toJson(rsp.getResult()));
-            countryListNews.addAll(rsp.getResult());
-            if (countryListNews.size() > 0) {
-                adapter = new CountryAdapter(context, countryListNews, this);
-                binding.rvCountry.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
             }
-        } catch (Exception e) {
-
+        }
+        if (ServiceCode == Constant.LOGIN) {
+            LoginResponse rsp = (LoginResponse) response;
+            new SessionManager(getContext()).createLoginSession(rsp);
         }
 
     }

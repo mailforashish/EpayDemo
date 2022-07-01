@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -18,38 +17,47 @@ import com.zeeplivework.app.R;
 import com.zeeplivework.app.adapter.RequiredFieldAdapter;
 import com.zeeplivework.app.databinding.ActivityAddBankBinding;
 import com.zeeplivework.app.response.CreateTransaction.CreateTransactionResponse;
+import com.zeeplivework.app.response.Prefill.PrefillResponse;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResponse;
 import com.zeeplivework.app.response.RequiredField.RequiredFieldResult;
 import com.zeeplivework.app.retrofit.ApiManager;
 import com.zeeplivework.app.retrofit.ApiResponseInterface;
 import com.zeeplivework.app.utils.Constant;
 import com.zeeplivework.app.utils.SessionManager;
+import com.zeeplivework.app.utils.Utility;
+
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.content.ContentValues.TAG;
+import static com.zeeplivework.app.utils.SessionManager.AREA_CODE;
 import static com.zeeplivework.app.utils.SessionManager.COUNTRY_CODE;
 import static com.zeeplivework.app.utils.SessionManager.COUNTRY_NAME;
 import static com.zeeplivework.app.utils.SessionManager.CURRENCY_CODE;
-
+//import org.json.JSONObject;
 
 public class AddBankActivity extends AppCompatActivity implements ApiResponseInterface {
     ActivityAddBankBinding binding;
     private String receiveCurrency = "";
     private String countryCode = "";
+    private String areaCode = "";
     private String transactionType = "";
     private String Country = "";
 
     ApiManager apiManager;
     List<RequiredFieldResult> list = new ArrayList<>();
     List<RequiredFieldResult> receiverList = new ArrayList<>();
+
     RequiredFieldAdapter requiredFieldAdapter;
     SessionManager sessionManager;
     JSONObject SenderInfo = new JSONObject();
     JSONObject ReceiverInfo = new JSONObject();
+    public String preFillData;
+    HashMap<String, Object> FormMap;
+    String MatchVal = "NO";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +71,12 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         receiveCurrency = data.get(CURRENCY_CODE);
         countryCode = data.get(COUNTRY_CODE);
         Country = data.get(COUNTRY_NAME);
+        areaCode = data.get(AREA_CODE);
         transactionType = sessionManager.getTransactionType();
         RequiredFieldAdapter.ReceiverInfo.clear();
+        apiManager.getPrefill();
         apiManager.getRequiredField(countryCode, receiveCurrency, transactionType);
+
         binding.rvAddBank.setHasFixedSize(true);
         binding.rvAddBank.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
@@ -79,6 +90,22 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
     @Override
     public void isSuccess(Object response, int ServiceCode) {
         list.clear();
+        if (ServiceCode == Constant.PRE_FILL) {
+            PrefillResponse rsp = (PrefillResponse) response;
+            Log.e("AddBank", "RequiredList=> " + new Gson().toJson(rsp.getResult().getEpayReceiverInfo()));
+            if (rsp.getResult().getEpayReceiverInfo() != null) {
+                try {
+                    preFillData = rsp.getResult().getEpayReceiverInfo();
+                    FormMap = new HashMap<>(Utility.jsonToMap(preFillData));
+                    Log.e("rspLog", FormMap.toString());
+                } catch (Exception e) {
+
+                }
+
+            }
+
+
+        }
         if (ServiceCode == Constant.REQUIRED_FIELD) {
             RequiredFieldResponse rsp = (RequiredFieldResponse) response;
             //Log.e("AddBank", "RequiredList=> " + new Gson().toJson(rsp.getData()));
@@ -92,8 +119,15 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
                         SenderInfo.put("_" + list.get(i).getValue(), "");
                     }
                 }
-                requiredFieldAdapter = new RequiredFieldAdapter(AddBankActivity.this, receiverList, countryCode);
+                for (Map.Entry map : FormMap.entrySet()) {
+                    if (countryCode.equals(map.getValue())) {
+                        //Log.e("VALUE: ", "MatchValue " + map.getValue());
+                        MatchVal = "YES";
+                    }
+                }
+                requiredFieldAdapter = new RequiredFieldAdapter(AddBankActivity.this, receiverList, MatchVal, FormMap, countryCode, areaCode);
                 binding.rvAddBank.setAdapter(requiredFieldAdapter);
+
             } catch (Exception e) {
             }
 
@@ -115,6 +149,7 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
                 Log.e("AddBank", "TransactionDataError=> " + e.getMessage());
             }
         }
+
     }
 
     public class EventHandler {
@@ -133,8 +168,8 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
             //Log.e("TestingDaat", "mapsizeFill" + RequiredFieldAdapter.ReceiverInfo.size());
             //Log.e("TestingDaat", "mapsizeList" + receiverList.size());
             if (receiverList.size() == RequiredFieldAdapter.ReceiverInfo.size()) {
-                TransferTransaction();
-                // Toast.makeText(AddBankActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                //TransferTransaction();
+                //Toast.makeText(AddBankActivity.this, "Success", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(AddBankActivity.this, "Fill Required Field", Toast.LENGTH_SHORT).show();
             }
@@ -143,6 +178,7 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
 
     public void TransferTransaction() {
         ReceiverInfo = RequiredFieldAdapter.ReceiverInfo;
+        // sessionManager.saveFormInLocal("form", ReceiverInfo);
         JSONObject jsonResult = new JSONObject();
         try {
             jsonResult.put("country_id", Country);
@@ -155,6 +191,8 @@ public class AddBankActivity extends AppCompatActivity implements ApiResponseInt
         }
         //String msg = jsonResult.toString();
         Log.e("AddBank", "MSGInfoData=> " + jsonResult);
+        //Log.e("AddBank", "FORMLIST=> " + sessionManager.getFromInLocal("form"));
+
         apiManager.createTransaction(jsonResult);
     }
 
